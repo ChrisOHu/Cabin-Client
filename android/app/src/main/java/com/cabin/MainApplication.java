@@ -1,4 +1,4 @@
-package com.rise;
+package com.cabin;
 
 import android.app.Application;
 import android.util.Log;

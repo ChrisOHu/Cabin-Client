@@ -1,4 +1,4 @@
-rootProject.name = 'rise'
+rootProject.name = 'cabin'
 
 include ':app'
 include ':react-native-maps'

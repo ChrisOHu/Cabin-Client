@@ -12,10 +12,10 @@
   },
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "9440EA90-6AED-4148-8E18-243875CD2119",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
-    "44A2810C8D6597F402EB1670A9904BA0CD2830AA" : "RiSE\/",
-    "5800466D1D613FC9757AEC0D4A1E3067BA273F6D" : "RiSE\/modules\/react-native-image-crop-picker\/",
-    "24314753B1C272763527C1928F985ADC64E7FB94" : "RiSE\/modules\/react-native-uploader\/",
-    "982F2B779967C605A0F0E7146F311BDFB3EEAF1C" : "RiSE\/modules\/NativeBase\/",
+    "44A2810C8D6597F402EB1670A9904BA0CD2830AA" : "..\/IncV2\/RiSE",
+    "5800466D1D613FC9757AEC0D4A1E3067BA273F6D" : "..\/IncV2\/RiSE\/modules\/react-native-image-crop-picker",
+    "24314753B1C272763527C1928F985ADC64E7FB94" : "..\/IncV2\/RiSE\/modules\/react-native-uploader",
+    "982F2B779967C605A0F0E7146F311BDFB3EEAF1C" : "..\/IncV2\/RiSE\/modules\/NativeBase",
     "34DEECAF49FBF385E0E593B2619F07077A394A04" : "RiSE\/modules\/shoutem\/ui\/"
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "rise",

@@ -1,4 +1,4 @@
-package com.rise;
+package com.cabin;
 
 import com.facebook.react.ReactActivity;
 import com.cmcewen.blurview.BlurViewPackage;
@@ -30,7 +30,7 @@ public class MainActivity extends ReactActivity {
      */
     @Override
     protected String getMainComponentName() {
-        return "rise";
+        return "cabin";
     }
 
     /**
