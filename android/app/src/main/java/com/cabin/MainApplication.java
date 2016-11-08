@@ -4,9 +4,10 @@ import android.app.Application;
 import android.util.Log;
 
 import com.facebook.react.ReactApplication;
+import com.burlap.filetransfer.FileTransferPackage;
+import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import com.airbnb.android.react.maps.MapsPackage;
 import com.microsoft.codepush.react.CodePush;
-import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import com.react.rnspinkit.RNSpinkitPackage;
 import com.cboy.rn.splashscreen.SplashScreenReactPackage;
@@ -37,9 +38,10 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new RNSpinkitPackage(),
            new MainReactPackage(),
+            new FileTransferPackage(),
+            new PickerPackage(),
             new MapsPackage(),
             new CodePush("_xhxqrft6XsFcbkeYOoH-U5Us-_wN1cJKQhAb", getApplicationContext(), BuildConfig.DEBUG),
-            new PickerPackage(),
             new PickerPackage(),
             new SplashScreenReactPackage()
       );
