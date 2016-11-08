@@ -1,12 +1,12 @@
 [submodule "react-native-uploader"]
-    path = modules/react-native-uploader
+    path = ~/Projects/Node/react-native-uploader
     url = git@github.com:ChrisOHu/react-native-uploader.git
 
 [submodule "react-native-image-crop-picker"]
-    path = modules/react-native-image-crop-picker
+    path = ~/Projects/Node/react-native-image-crop-picker
     url = git@github.com:ChrisOHu/react-native-image-crop-picker.git
 
 [submodule "NativeBase"]
-    path = modules/NativeBase
+    path = ~/Projects/Node/NativeBase
     url = git@github.com:ChrisOHu/NativeBase.git
 
