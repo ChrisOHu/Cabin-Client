@@ -3,8 +3,8 @@ source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '8.1'
 use_frameworks!
 
-target 'rise' do
-  # Pods for rise
+target 'Cabin' do
+  # Pods for Cabin
   pod 'React', :path => '../node_modules/react-native', :subspecs => [
     'Core',
     'RCTText',
@@ -26,7 +26,7 @@ target 'rise' do
   pod 'QBImagePickerController'
   pod 'GoogleMaps'
 
-  #target 'riseTests' do
+  #target 'CabinTests' do
   #  inherit! :search_paths
   #  # Pods for testing
   #end

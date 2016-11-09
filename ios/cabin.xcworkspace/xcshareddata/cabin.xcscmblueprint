@@ -4,23 +4,21 @@
 
   },
   "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
-    "44A2810C8D6597F402EB1670A9904BA0CD2830AA" : 0,
-    "5800466D1D613FC9757AEC0D4A1E3067BA273F6D" : 0,
-    "24314753B1C272763527C1928F985ADC64E7FB94" : 0,
+    "44A2810C8D6597F402EB1670A9904BA0CD2830AA" : 9223372036854775807,
+    "5800466D1D613FC9757AEC0D4A1E3067BA273F6D" : 9223372036854775807,
     "982F2B779967C605A0F0E7146F311BDFB3EEAF1C" : 9223372036854775807,
-    "34DEECAF49FBF385E0E593B2619F07077A394A04" : 0
+    "24314753B1C272763527C1928F985ADC64E7FB94" : 9223372036854775807
   },
-  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "9440EA90-6AED-4148-8E18-243875CD2119",
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "759D258B-1F59-4930-9DFC-ED5E2D7049FC",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
     "44A2810C8D6597F402EB1670A9904BA0CD2830AA" : "Cabin\/",
     "5800466D1D613FC9757AEC0D4A1E3067BA273F6D" : "..\/Node\/react-native-image-crop-picker",
-    "24314753B1C272763527C1928F985ADC64E7FB94" : "..\/Node\/react-native-uploader",
     "982F2B779967C605A0F0E7146F311BDFB3EEAF1C" : "..\/Node\/native-base",
-    "34DEECAF49FBF385E0E593B2619F07077A394A04" : "RiSE\/modules\/shoutem\/ui\/"
+    "24314753B1C272763527C1928F985ADC64E7FB94" : "..\/Node\/react-native-uploader"
   },
-  "DVTSourceControlWorkspaceBlueprintNameKey" : "rise",
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "Cabin",
   "DVTSourceControlWorkspaceBlueprintVersion" : 204,
-  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "ios\/rise.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "ios\/Cabin.xcworkspace",
   "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
     {
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:ChrisOHu\/react-native-uploader.git",
@@ -28,12 +26,7 @@
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "24314753B1C272763527C1928F985ADC64E7FB94"
     },
     {
-      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/shoutem\/ui.git",
-      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
-      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "34DEECAF49FBF385E0E593B2619F07077A394A04"
-    },
-    {
-      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "gitlab.com:huhuaishun\/rise.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "gitlab.com:huhuaishun\/cabin.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "44A2810C8D6597F402EB1670A9904BA0CD2830AA"
     },
@@ -43,7 +36,7 @@
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "5800466D1D613FC9757AEC0D4A1E3067BA273F6D"
     },
     {
-      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/GeekyAnts\/NativeBase.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:ChrisOHu\/NativeBase.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "982F2B779967C605A0F0E7146F311BDFB3EEAF1C"
     }

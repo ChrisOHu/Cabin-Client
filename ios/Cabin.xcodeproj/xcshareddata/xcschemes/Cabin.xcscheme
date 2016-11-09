@@ -29,8 +29,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "rise.xctest"
-               BlueprintName = "riseTests"
+               BuildableName = "CabinTests.xctest"
+               BlueprintName = "CabinTests"
                ReferencedContainer = "container:Cabin.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -47,8 +47,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "rise.xctest"
-               BlueprintName = "riseTests"
+               BuildableName = "CabinTests.xctest"
+               BlueprintName = "CabinTests"
                ReferencedContainer = "container:Cabin.xcodeproj">
             </BuildableReference>
          </TestableReference>

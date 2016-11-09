@@ -1,38 +1,38 @@
 PODS:
-  - GoogleMaps (2.1.0):
-    - GoogleMaps/Maps (= 2.1.0)
-  - GoogleMaps/Base (2.1.0)
-  - GoogleMaps/Maps (2.1.0):
-    - GoogleMaps/Base (= 2.1.0)
+  - GoogleMaps (2.1.1):
+    - GoogleMaps/Maps (= 2.1.1)
+  - GoogleMaps/Base (2.1.1)
+  - GoogleMaps/Maps (2.1.1):
+    - GoogleMaps/Base
   - QBImagePickerController (3.4.0)
-  - React/ART (0.35.0):
+  - React/ART (0.36.1):
     - React/Core
-  - React/Core (0.35.0)
-  - React/RCTActionSheet (0.35.0):
+  - React/Core (0.36.1)
+  - React/RCTActionSheet (0.36.1):
     - React/Core
-  - React/RCTAnimation (0.35.0):
+  - React/RCTAnimation (0.36.1):
     - React/Core
-  - React/RCTCameraRoll (0.35.0):
+  - React/RCTCameraRoll (0.36.1):
     - React/Core
     - React/RCTImage
-  - React/RCTGeolocation (0.35.0):
+  - React/RCTGeolocation (0.36.1):
     - React/Core
-  - React/RCTImage (0.35.0):
+  - React/RCTImage (0.36.1):
     - React/Core
     - React/RCTNetwork
-  - React/RCTLinkingIOS (0.35.0):
+  - React/RCTLinkingIOS (0.36.1):
     - React/Core
-  - React/RCTNetwork (0.35.0):
+  - React/RCTNetwork (0.36.1):
     - React/Core
-  - React/RCTPushNotification (0.35.0):
+  - React/RCTPushNotification (0.36.1):
     - React/Core
-  - React/RCTSettings (0.35.0):
+  - React/RCTSettings (0.36.1):
     - React/Core
-  - React/RCTText (0.35.0):
+  - React/RCTText (0.36.1):
     - React/Core
-  - React/RCTVibration (0.35.0):
+  - React/RCTVibration (0.36.1):
     - React/Core
-  - React/RCTWebSocket (0.35.0):
+  - React/RCTWebSocket (0.36.1):
     - React/Core
   - RSKImageCropper (1.5.1)
 
@@ -60,11 +60,11 @@ EXTERNAL SOURCES:
     :path: ../node_modules/react-native
 
 SPEC CHECKSUMS:
-  GoogleMaps: 06589b9a38097bce0cd6e90f0fd9b5e4b4a9344c
+  GoogleMaps: a5b5bbe47734e2443bde781a6aa64e69fdb6d785
   QBImagePickerController: d54cf93db6decf26baf6ed3472f336ef35cae022
-  React: d80af5410aa500d0cb1bce2cc4493a584cf2ec92
+  React: d75161dea5db43c144b3753f628118b083ba049b
   RSKImageCropper: edd65fedb3734332818deb139906d6b7f54b8a44
 
-PODFILE CHECKSUM: 56bf4afd20b32b07ab0a4237fc3fd15222202bab
+PODFILE CHECKSUM: 1744d3957fbe6022804d2761d0fcec2a208ba86e
 
 COCOAPODS: 1.1.0.rc.3
