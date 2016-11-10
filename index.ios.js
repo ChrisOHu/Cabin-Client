@@ -7,5 +7,5 @@ import {
 import App from './app/App'
 
 
-AppRegistry.registerComponent('cabin', () => App)
+AppRegistry.registerComponent('Cabin', () => App)
 
