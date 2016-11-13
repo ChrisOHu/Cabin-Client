@@ -72,9 +72,23 @@ class CabinFab extends Component {
   }
 
   render() {
+    const {
+      rules,
+      loggedIn,
+      ...rest
+    } = this.props
+
     return (
-      <ActionButton buttonColor="#87ceeb">
+      <ActionButton buttonColor="#87ceeb"
+        position="left"
+        size={42}
+        spacing={10}
+        offsetX={20}
+        offsetY={50}
+        {...rest} >
+
         { this._getActions() }
+
       </ActionButton>
     );
   }
@@ -84,7 +98,7 @@ const styles = StyleSheet.create({
   actionButtonIcon: {
     fontSize: 20,
     height: 22,
-    color: 'white',
+    color: 'white'
   }
 });
 

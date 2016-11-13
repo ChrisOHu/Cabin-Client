@@ -71,6 +71,7 @@ class Navigator extends Component {
     const routes = navi[routesKey]
 
     let showTabBar = navi.app.index > 0
+    let showFab = navi.app.index > 0
 
     return (
       <View style={{flex: 1, backgroundColor: theme.sceneBgColor}}>
@@ -86,7 +87,7 @@ class Navigator extends Component {
 
         {this._renderTabBar()}
 
-        <CabinFab />
+        {this._renderFab()}
 
       </View>
     );
@@ -111,6 +112,15 @@ class Navigator extends Component {
             </Button>
           </FooterTab>
         </Footer>
+      )
+    } else {
+      return null
+    }
+  }
+  _renderFab() {
+    if (this.props.navi.app.index == 1) {
+      return (
+        <CabinFab />
       )
     } else {
       return null
