@@ -54,6 +54,12 @@ class HomesMap extends Component {
           }
         }
       ],
+      currentRegion: {
+        latitude: 37.78825,
+        longitude: -122.4324,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421
+      },
       initialRegion: {
         latitude: 37.78825,
         longitude: -122.4324,
@@ -63,18 +69,54 @@ class HomesMap extends Component {
     }
   }
 
+  componentDidMount() {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        /**
+         * {
+         *   "coords": {
+         *      "speed":-1,
+         *      "longitude": -122.406417,
+         *      "latitude": 37.785834,
+         *      "accuracy": 5,
+         *      "heading":-1,
+         *      "altitude":0,
+         *      "altitudeAccuracy": -1
+         *   },
+         *   "timestamp": 1478764885161.709
+         * }
+         */
+        console.log(JSON.stringify(position))
+
+        const region = {
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421
+        }
+
+        this.refs.mapView.animateToRegion({ region, duration: 600 })
+        this.setState({ region })
+      },
+      (error) => alert(JSON.stringify(error)),
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+    )
+  }
+
   render() {
     return (
       <NbView style={styles.content} >
 
-        <SearchBar transparent lightTheme round placeholder="Search..."
+        <SearchBar transparent lightTheme round placeholder="Search for homes..."
           containerStyle={styles.searchBar}
           onSubmitEditing={() => alert('Searching...')}
         />
 
         <MapView
+          ref="mapView"
           style={styles.map}
           initialRegion={this.state.initialRegion}
+          region={this.state.currentRegion}
         >
           {this.state.homes.map((marker, index) => (
             <MapView.Marker

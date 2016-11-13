@@ -21,6 +21,7 @@ import {
 
 import { connect } from 'react-redux'
 
+import CabinFab from './components/CabinFab'
 import { renderHeader, renderScene } from './components/navigations'
 
 import {
@@ -84,6 +85,8 @@ class Navigator extends Component {
         />
 
         {this._renderTabBar()}
+
+        <CabinFab />
 
       </View>
     );

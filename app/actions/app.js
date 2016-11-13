@@ -1,7 +1,4 @@
-import setUpFeathers from './feathers'
-import getGlobals from '../globals'
-
-const globals = getGlobals()
+import globals from '../globals'
 
 export const CONNECT_REQUEST = 'CONNECT_REQUEST'
 export const CONNECTED       = 'CONNECTED'
@@ -10,8 +7,6 @@ export const DISCONNECTED    = 'DISCONNECTED'
 export function connect() {
   return (dispatch) => {
     dispatch(connectRequest())
-
-    setUpFeathers()
 
     dispatch(connected())
   }

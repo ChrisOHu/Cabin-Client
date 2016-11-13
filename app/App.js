@@ -20,6 +20,7 @@ import { version } from './env.js'
 import Navigator from './Navigator'
 import { init as initI18N } from './i18n'
 import configureStore from './store'
+import setupFeathers from './feathers'
 
 const store = configureStore()
 
@@ -47,7 +48,8 @@ class App extends Component {
   }
 
   componentDidMount() {
-    initI18N();
+    initI18N()
+    setupFeathers()
 
     AppState.addEventListener('change', this.handleAppStateChange);
 

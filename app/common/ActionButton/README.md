@@ -29,7 +29,8 @@ import ActionButton from 'react-native-action-button';
 _The following Basic example can be found in `example/Basic`._
 
 ```js
-import React, { Component, StyleSheet, View } from 'react-native';
+import React, { Component } from 'react';
+import { StyleSheet, View } from 'react-native';
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -77,6 +78,8 @@ Also this example uses `react-native-vector-icons` for the button Icons.
 />
 ```
 
+### Show/hide the FAB on scroll
+Take a look at [this gist](https://gist.github.com/mmazzarolo/cfd467436f9d110e94a685b06eb3900f) for showing and hiding the floating action button depending on the scroll direction.
 
 ### Configuration
 
@@ -85,7 +88,7 @@ Also this example uses `react-native-vector-icons` for the button Icons.
 | ------------- |:-------------:|:------------:       | ----------- |
 | active        | boolean       | false               | action buttons visible or not
 | autoInactive  | boolean       | true                | Auto hide ActionButtons when ActionButton.Item is pressed.
-| type          | string        | "float"             | either `float` (bigger btns) or `tab` (smaller btns) + position changes
+| hideShadow    | boolean       | false               | use this to hide the default elevation and boxShadow
 | position      | string        | "right" / "center"  | one of: `left` `center` and `right`
 | bgColor       | string        | "transparent"       | background color when ActionButtons are visible
 | buttonColor   | string        | "rgba(0,0,0,1)"     | background color of the +Button **(must be rgba value!)**
@@ -102,6 +105,8 @@ Also this example uses `react-native-vector-icons` for the button Icons.
 | text          | string        | null                | use this to set a different text on the button
 | buttonStyle   | style         | null                | use this to set the textstyle of the button's text
 | onReset       | function      | null                | use this to set the callback that will be called after the button reset's it's items
+| verticalOrientation | string  | "up"                | direction action buttons should expand.  One of: `up` or `down`
+| backgroundTappable | boolean  | false               | make background tappable in active state of ActionButton
 
 ##### ActionButton.Item:
 | Property      | Type          | Default             | Description |
@@ -111,3 +116,6 @@ Also this example uses `react-native-vector-icons` for the button Icons.
 | buttonColor   | string        | same as + button    | background color of the Button
 | titleColor    | string        | "#444"              | color of title
 | titleBgColor  | string        | "white"             | background color of title
+| textContainerStyle  | style   | null                | use this to set the textstyle of the button's item text container
+| textStyle     | style         | null                | use this to set the textstyle of the button's item text
+| spaceBetween  | number        | 15                  | use this to set the space between the Button and the text container
