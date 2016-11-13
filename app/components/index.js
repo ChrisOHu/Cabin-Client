@@ -1,6 +1,5 @@
 export { default as Intro } from './Intro'
 export { default as Login } from './Login'
-export { default as LoginModal } from './LoginModal'
 export { default as Home } from './Home'
 export { default as HomesMap } from './homes/HomesMap'
 export { default as Painters } from './painters/Painters'

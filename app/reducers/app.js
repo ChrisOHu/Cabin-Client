@@ -4,7 +4,12 @@ import {
   DISCONNECTED
 } from '../actions/app'
 
-export default function(state = { connecting: true, connected: false }, action) {
+const initialState = {
+  connecting: false,
+  connected: false
+}
+
+export default function(state = initialState, action) {
   switch (action.type) {
     case CONNECT_REQUEST:
       return Object.assign({}, state, {connecting: true})

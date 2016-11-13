@@ -10,12 +10,18 @@ import {
 } from 'react-native'
 import t from 'counterpart'
 import Icon from 'react-native-vector-icons/Ionicons'
+import { connect } from 'react-redux'
+
 import ActionButton from '../common/ActionButton'
+import {
+  push, pop, naviToLaunch, naviToHome, naviToTab
+} from '../actions/navigations'
 
 class CabinFab extends Component {
   static propTypes = {
     rules: T.array, // of ['host', 'designer']
-    loggedIn: T.bool
+    loggedIn: T.bool,
+    naviToLaunch: T.func.isRequired
   }
   static defaultProps = {
     rules: [],
@@ -62,7 +68,7 @@ class CabinFab extends Component {
 
     if (!loggedIn) {
       ret.push(
-          <ActionButton.Item key="cabinFabItem-login" buttonColor='#87ceeb' title={t('login')} onPress={() => {}}>
+          <ActionButton.Item key="cabinFabItem-login" buttonColor='#87ceeb' title={t('login')} onPress={() => this.props.naviToLaunch()}>
             <Icon name="ios-paw" style={styles.actionButtonIcon} />
           </ActionButton.Item>
       )
@@ -102,5 +108,19 @@ const styles = StyleSheet.create({
   }
 });
 
-export default CabinFab
+const mapStateToProps = (state, ownProps) => {
+  return {}
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    naviToLaunch : () => dispatch(naviToLaunch())
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CabinFab)
+
 
