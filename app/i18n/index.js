@@ -1,5 +1,7 @@
 import { Platform } from 'react-native'
 import counterpart from 'counterpart'
+import En from './en'
+import Zh from './zh'
 
 export function init() {
   /**
@@ -33,13 +35,14 @@ export function setLocale(locale, init) {
   let translates
   switch (locale) {
     case 'zh':
-      translations = require('./zh')
+      translations = Zh
       break
     case 'en':
     default:
-      translations = require('./en')
+      translations = En
       break
   }
+  console.debug(translations)
 
   // First reset current locale's translations
   counterpart.registerTranslations(counterpart.getLocale(), null)

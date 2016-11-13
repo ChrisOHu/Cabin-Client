@@ -1,5 +1,5 @@
 const Zh = {
 }
 
-export default Zh;
+export default Zh
 

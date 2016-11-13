@@ -8,5 +8,5 @@ const En = {
   postDesign: 'Post A Design'
 }
 
-export default En;
+export default En
 

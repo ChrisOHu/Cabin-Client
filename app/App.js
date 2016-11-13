@@ -31,6 +31,9 @@ class App extends Component {
   constructor(props) {
     super(props);
 
+    initI18N()
+    setupFeathers()
+
     this._backButtonHandlers = [];
 
     this.state = {
@@ -48,8 +51,6 @@ class App extends Component {
   }
 
   componentDidMount() {
-    initI18N()
-    setupFeathers()
 
     AppState.addEventListener('change', this.handleAppStateChange);
 
