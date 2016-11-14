@@ -28,7 +28,6 @@ export function init() {
 }
 
 export function setLocale(locale, init) {
-  console.debug('setLocale: ' + locale)
 
   if (!init && locale == counterpart.getLocale()) return
 
@@ -42,7 +41,6 @@ export function setLocale(locale, init) {
       translations = En
       break
   }
-  console.debug(translations)
 
   // First reset current locale's translations
   counterpart.registerTranslations(counterpart.getLocale(), null)

@@ -1,6 +1,7 @@
-import globals from '../globals'
+import t from 'counterpart'
+import { getInstance } from '../feathers'
 
-const { feathers } = globals()
+const feathers = getInstance()
 
 export const REGISTER_REQUEST = "REGISTER_REQUEST"
 export const REGISTER_SUCCESS = "REGISTER_SUCCESS"
@@ -14,55 +15,77 @@ export const LOGOUT_REQUEST   = "LOGOUT_REQUEST"
 export const LOGOUT_SUCCESS   = "LOGOUT_SUCCESS"
 export const LOGOUT_FAILURE   = "LOGOUT_FAILURE"
 
-export function register({email, phone, password}) {
+export function register({phone, password}) {
   return (dispatch) => {
-    dispatch(registerRequest({email, phone, password}))
+    dispatch(registerRequest())
 
     feathers.service('users')
-      .create({email, phone, password})
+      .create({phone, password})
       .then((result) => {
+        console.log('register success =>')
+        console.log(JSON.stringify(result))
         return feathers.authenticate({
           type: 'local',
-          email: email,
           phone: phone,
           password: password
         })
       })
       .then((result) => {
-        //app.get('token')
-        dispatch(registerSuccess())
+        console.log('authenticate success =>')
+        console.log(JSON.stringify(result))
+        // app.get('token')
+        dispatch(registerSuccess(result))
       })
       .catch((err) => {
-        dispatch(registerFailure(err))
+        /**
+         * The Feathers.Error Object JSONified
+         *
+         * {
+         *   "name": "NotAuthenticated",
+         *   "message": "Invalid login.",
+         *   "code": 401,
+         *   "className": "not-authenticated",
+         *   "errors": {}
+         * }
+         *
+         * see feathers docs' errors section
+         */
+        // TODO: handle error cases: network, user doesn't exist, password incorrect, .etc
+        console.log('register error =>')
+        console.log(JSON.stringify(err))
+        dispatch(registerFailure(t("opsError")))
       })
   }
 }
 function registerRequest() { return { type: REGISTER_REQUEST } }
-function registerSuccess() { return { type: REGISTER_SUCCESS } }
-function registerFailure() { return { type: REGISTER_FAILURE } }
+function registerSuccess(user)  { return { type: REGISTER_SUCCESS, user } }
+function registerFailure(error) { return { type: REGISTER_FAILURE, error } }
 
-export function login({email, phone, password}) {
+export function login({phone, password}) {
   return (dispatch) => {
     dispatch(loginRequest())
 
     feathers.authenticate({
       type: 'local',
-      email: email,
       phone: phone,
       password: password
     })
       .then((result) => {
-        //app.get('token')
-        dispatch(loginSuccess())
+        console.log('login success =>')
+        console.log(JSON.stringify(result))
+        // app.get('token')
+        dispatch(loginSuccess(result))
       })
       .catch((err) => {
-        dispatch(loginFailure(err))
+        console.log('login error =>')
+        console.log(JSON.stringify(err))
+        dispatch(loginFailure(t("checkPhonePwd")))
       })
   }
 }
 function loginRequest() { return { type: LOGIN_REQUEST } }
-function loginSuccess() { return { type: LOGIN_SUCCESS } }
-function loginFailure() { return { type: LOGIN_FAILURE } }
+function loginSuccess(user) { return { type: LOGIN_SUCCESS, user } }
+function loginFailure(error) { return { type: LOGIN_FAILURE, error } }
 
 export function logout() {
   return (dispatch) => {
@@ -70,14 +93,18 @@ export function logout() {
 
     feathers.logout()
       .then((result) => {
+        console.log('logout success =>')
+        console.log(JSON.stringify(result))
         dispatch(logoutSuccess())
       })
       .catch((err) => {
+        console.log('logout error =>')
+        console.log(JSON.stringify(err))
         dispatch(logoutFailure(err))
       })
   }
 }
 function logoutRequest() { return { type: LOGOUT_REQUEST } }
 function logoutSuccess() { return { type: LOGOUT_SUCCESS } }
-function logoutFailure() { return { type: LOGOUT_FAILURE } }
+function logoutFailure(error) { return { type: LOGOUT_FAILURE, error } }
 

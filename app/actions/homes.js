@@ -1,6 +1,3 @@
-import globals from '../globals'
-
-const { feathers } = globals()
 
 export const SEARCH_REQUEST = 'homes.SEARCH_REQUEST'
 export const SEARCH_SUCCESS = 'homes.SEARCH_SUCCESS'

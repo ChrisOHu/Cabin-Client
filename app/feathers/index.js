@@ -3,19 +3,25 @@ import feathers from 'feathers/client'
 import hooks from 'feathers-hooks'
 import authentication from 'feathers-authentication/client'
 import rest from 'feathers-rest/client'
-import globals from '~/app/globals'
 import configs from '~/configs'
 
-export default function setup() {
+let instance
 
-  globals().feathers = feathers()
+export default function setup() {
+  instance = feathers()
     .configure(rest(configs.server).fetch(fetch))
     .configure(hooks())
     // Use AsyncStorage to store our login toke
     .configure(authentication({
       storage: AsyncStorage
     }))
+}
 
-  return globals().feathers
+export function getInstance() {
+  if (!instance) {
+    setup()
+  }
+
+  return instance
 }
 

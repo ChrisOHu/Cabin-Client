@@ -1,4 +1,3 @@
-import globals from '../globals'
 
 export const CONNECT_REQUEST = 'CONNECT_REQUEST'
 export const CONNECTED       = 'CONNECTED'

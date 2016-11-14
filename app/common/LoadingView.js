@@ -1,97 +1,73 @@
-var React = require('react');
-var ReactNative = require('react-native');
-
-
-var {
-  AppRegistry,
-  StyleSheet,
+import React, {
+  Component,
+  PropTypes as T
+} from 'react'
+import {
   View,
-  TouchableOpacity,
-  Text
-} = ReactNative;
+  Text,
+  StyleSheet,
+  Dimensions
+} from 'react-native'
 
-var Spinner = require('react-native-spinkit');
+import Spinner from 'react-native-spinkit'
 
-var Example = React.createClass({
+const window = Dimensions.get('window')
 
-  getInitialState() {
-    return {
-      index: 0,
-      types: ['CircleFlip', 'Bounce', 'Wave', 'WanderingCubes', 'Pulse', 'ChasingDots', 'ThreeBounce', 'Circle', '9CubeGrid', 'WordPress', 'FadingCircle', 'FadingCircleAlt', 'Arc', 'ArcAlt'],
-      size: 100,
-      color: "#FFFFFF",
-      isVisible: true
-    }
-  },
+class LoadingView extends Component {
+  static propTypes = {
+    style: T.object,
+    visible: T.bool,
+    size: T.number,
+    type: T.string,
+    color: T.string
+  }
+  static defaultProps = {
+    visible: false,
+    text: 'taking you to the moon ...',
+    size: 100,
+    type: 'Circle',
+    color: '#fffafa'
+  }
 
-  next() {
-    if (this.state.index++ >= this.state.types.length)
-      this.setState({index: 0})
-    else
-      this.setState({index: this.state.index++})
-  },
-
-  increaseSize() {
-    this.setState({size: this.state.size + 10});
-  },
-
-  changeColor() {
-    this.setState({color: '#'+Math.floor(Math.random()*16777215).toString(16)});
-  },
-
-  changeVisibility() {
-    this.setState({isVisible: !this.state.isVisible});
-  },
+  constructor(props) {
+    super(props)
+  }
 
   render() {
-    var type = this.state.types[this.state.index];
+    const {
+      style, text, visible, size, color, type, ...rest
+    } = this.props
+
+    if (!visible) return null
 
     return (
-      <View style={styles.container}>
-        <Spinner style={styles.spinner} isVisible={this.state.isVisible} size={this.state.size} type={type} color={this.state.color}/>
-
-        <Text style={styles.text}>Type: {type}</Text>
-
-        <TouchableOpacity style={styles.btn} onPress={this.next}>
-          <Text style={styles.text}>Next</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.btn} onPress={this.increaseSize}>
-          <Text style={styles.text}>Increase size</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.btn} onPress={this.changeColor}>
-          <Text style={styles.text}>Change color</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.btn} onPress={this.changeVisibility}>
-          <Text style={styles.text}>Change visibility</Text>
-        </TouchableOpacity>
+      <View style={[styles.container, style]} >
+        <Spinner style={styles.spinner}
+          size={size}
+          type={type}
+          color={color}
+        />
       </View>
-    );
+    )
   }
+}
 
-});
-
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: window.width,
+    height: window.height,
     alignItems: 'center',
-    backgroundColor: '#d35400',
+    backgroundColor: 'rgba(128, 128, 128, 0.33)'
   },
-
   spinner: {
-    marginBottom: 50
-  },
-
-  btn: {
-    marginTop: 20
-  },
-
-  text: {
-    color: "white"
+    alignSelf: 'center',
+    marginTop: 0.2 * window.height
   }
-});
+})
 
-AppRegistry.registerComponent('Example', () => Example);
+export default LoadingView
+ 

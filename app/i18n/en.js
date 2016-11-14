@@ -9,7 +9,9 @@ const En = {
   dontHaveAccount: "Don't have an account? Register",
   haveAnAccount: "Have an account? Login",
   phoneIsEmpty: 'phone is empty',
-  pwdIsEmpty: 'password is empty'
+  pwdIsEmpty: 'password is empty',
+  opsError: "Ops, error :(",
+  checkPhonePwd: "Please check your phone/password"
 }
 
 export default En

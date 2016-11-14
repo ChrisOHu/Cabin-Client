@@ -29,6 +29,8 @@ import t from 'counterpart'
 
 import { KeyboardAwareScrollView } from '~/app/common/KeyboardAwareViews'
 import ParallaxScrollView from '~/app/common/ParallaxScrollView'
+import LoadingView from '~/app/common/LoadingView'
+import Toast, {DURATION} from '~/app/common/Toast'
 
 import {
   naviToHome
@@ -52,7 +54,7 @@ class Login extends Component {
       isLoggingIn: T.bool,
       isLoggingOut: T.bool,
       user: T.object,
-      error: T.object
+      error: T.string
     }).isRequired,
     naviToHome: T.func.isRequired,
     register: T.func.isRequired,
@@ -65,76 +67,77 @@ class Login extends Component {
     this.state = {
       phone: '',
       password: '',
-      visibleHeight: Dimensions.get('window').height,
-      scroll: false,
-      intent: 'login'
+      intent: 'login',
+      toastMessage: ''
     };
   }
 
   componentWillMount () {
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.user.error != this.props.user.error) {
+      this.setState({toastMessage: nextProps.user.error})
+    }
+
+    if (nextProps.user.user) {
+      this.props.naviToHome()
+    }
+  }
+
   render() {
-    const { theme } = this.props
+    const { theme, user, error } = this.props
     const { intent } = this.state
 
     let btnName     = intent == 'login' ? t('login') : t('register')
     let optionText  = intent == 'login' ? t('dontHaveAccount') : t('haveAnAccount')
 
     return (
-      <ParallaxScrollView
-        style={styles.root}
-        contentContainerStyle={[{flex: 1, backgroundColor: theme.sceneBgColor }]} 
-        backgroundColor="transparent"
-        renderScrollComponent={ props => <KeyboardAwareScrollView {...props} /> }
-        renderBackground={() => {
-          {/*return <Image source={require('./assets/logo.png')} resizeMode='contain' style={styles.logo} />*/}
-          return (
-            <View style={[styles.header, { backgroundColor: theme.sceneBgColor }]} >
-              <Text style={{color: 'skyblue', lineHeight: 40, fontSize: 36, fontWeight: 'bold'}}>{`</>`}</Text>
+      <NbView theme={theme} style={[styles.content, { padding: theme.contentPadding, backgroundColor: theme.sceneBgColor }]} >
+
+        <View style={[styles.topImg, { backgroundColor: theme.sceneBgColor }]} >
+          <Text style={{color: 'skyblue', lineHeight: 40, fontSize: 36, fontWeight: 'bold'}}>{`</>`}</Text>
+        </View>
+
+        <InputGroup borderType="underline" error={!!this.state.phoneErrorMsg} >
+          <Icon name="ios-call" style={{color: 'black'}} /> 
+          <Input ref="inputPhone"
+            placeholder={this.state.phoneErrorMsg || 'Phone'} returnKeyType="next"
+            onSubmitEditing={() => this.refs.inputPassword.focus()}
+            onChangeText={(phone) => this.setState({phone})}
+          />
+        </InputGroup>
+        <InputGroup borderType="underline"
+          style={{
+            marginBottom: 50
+          }}
+        >
+          <Icon name="ios-eye" style={{color: 'black'}} /> 
+          <Input ref="inputPassword" error={!!this.state.pwdErrorMsg}
+            placeholder={this.state.pwdErrorMsg || "Password"} secureTextEntry={true} returnKeyType="done"
+            onChangeText={(password) => this.setState({password})}
+          />
+        </InputGroup>
+
+        <Button block rounded onPress={this._loginOrRegister.bind(this)} > {btnName} </Button>
+        <View style={styles.moreOptions} >
+          <TouchableWithoutFeedback onPress={
+            () => {
+              let intent = this.state.intent == 'login' ? 'register' : 'login'
+              this.setState({intent})
+            }
+          } >
+            <View>
+              <Text style={styles.optionText} >{optionText}</Text>
             </View>
-          )
-        }}
-        renderForeground={() => null}
-        parallaxHeaderHeight={200} >
+          </TouchableWithoutFeedback>
+        </View>
 
-        <NbView theme={theme} style={[styles.content, { padding: theme.contentPadding, backgroundColor: theme.sceneBgColor }]} >
-          <InputGroup borderType="underline" error={!!this.state.phoneErrorMsg} >
-            <Icon name="ios-call" style={{color: 'black'}} /> 
-            <Input ref="inputPhone"
-              placeholder={this.state.phoneErrorMsg || 'Phone'} returnKeyType="next"
-              onSubmitEditing={() => this.refs.inputPassword.focus()}
-              onChangeText={(phone) => this.setState({phone})}
-            />
-          </InputGroup>
-          <InputGroup borderType="underline"
-            style={{
-              marginBottom: 50
-            }}
-          >
-            <Icon name="ios-eye" style={{color: 'black'}} /> 
-            <Input ref="inputPassword" error={!!this.state.pwdErrorMsg}
-              placeholder={this.state.pwdErrorMsg || "Password"} secureTextEntry={true} returnKeyType="done"
-              onChangeText={(password) => this.setState({password})}
-            />
-          </InputGroup>
+        <LoadingView visible={user.isRegistering || user.isLoggingIn} />
 
-          <Button block rounded onPress={this._loginOrRegister.bind(this)} > {btnName} </Button>
-          <View style={styles.moreOptions} >
-            <TouchableWithoutFeedback onPress={
-              () => {
-                let intent = this.state.intent == 'login' ? 'register' : 'login'
-                this.setState({intent})
-              }
-            } >
-              <View>
-                <Text style={styles.optionText} >{optionText}</Text>
-              </View>
-            </TouchableWithoutFeedback>
-          </View>
-        </NbView>
+        <Toast ref="toast" message={this.state.toastMessage} duration={DURATION.LENGTH_SHORT} />
 
-      </ParallaxScrollView>
+      </NbView>
     )
   }
 
@@ -173,23 +176,16 @@ class Login extends Component {
 }
 
 const styles = StyleSheet.create({
-  root: {
+  content: {
     flex: 1,
-    overflow: 'hidden'
+    alignItems: 'center'
   },
-  header: {
+  topImg: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     width: window.width,
-    height: 200
-  },
-  content: {
-    flex: 1,
-    paddingTop: 50,
-    paddingBottom: 20,
-    height: window.height - 200,
-    alignItems: 'center'
+    height: 150
   },
   moreOptions: {
     flex: 1,
