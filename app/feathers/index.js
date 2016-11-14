@@ -1,4 +1,4 @@
-import { AsyncStorage } from 'react'
+import { AsyncStorage } from 'react-native'
 import feathers from 'feathers/client'
 import hooks from 'feathers-hooks'
 import authentication from 'feathers-authentication/client'

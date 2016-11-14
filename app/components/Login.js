@@ -116,6 +116,7 @@ class Login extends Component {
           <Input ref="inputPassword" error={!!this.state.pwdErrorMsg}
             placeholder={this.state.pwdErrorMsg || "Password"} secureTextEntry={true} returnKeyType="done"
             onChangeText={(password) => this.setState({password})}
+            onSubmitEditing={this._loginOrRegister.bind(this)}
           />
         </InputGroup>
 

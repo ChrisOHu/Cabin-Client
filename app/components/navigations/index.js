@@ -67,13 +67,13 @@ export function renderScene(scene) {
 
   switch (route.key) {
     case 'login':
-      return <Login theme={theme} />
+      return <Login />
     case 'homes-index':
-      return <HomesMap theme={theme} />
+      return <HomesMap />
     case 'painters-index':
-      return <Painters theme={theme} />
+      return <Painters />
     case 'wall-index':
-      return <Wall theme={theme} />
+      return <Wall />
     case 'intro':
     default:
       return (

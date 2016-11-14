@@ -48,6 +48,13 @@ class Navigator extends Component {
       painters : NavigationPropTypes.navigationState.isRequired,
       wall     : NavigationPropTypes.navigationState.isRequired
     }).isRequired,
+    user: PropTypes.shape({
+      isRegistering : PropTypes.bool,
+      isLoggingIn   : PropTypes.bool,
+      isLoggingOut  : PropTypes.bool,
+      user          : PropTypes.object,
+      error         : PropTypes.string
+    }).isRequired,
     push         : PropTypes.func.isRequired,
     pop          : PropTypes.func.isRequired,
     naviToLaunch : PropTypes.func.isRequired,
@@ -120,7 +127,7 @@ class Navigator extends Component {
   _renderFab() {
     if (this.props.navi.app.index == 1) {
       return (
-        <CabinFab />
+        <CabinFab loggedIn={!!this.props.user.user} />
       )
     } else {
       return null
@@ -163,6 +170,7 @@ const styles = StyleSheet.create({ })
 
 const mapStateToProps = (state, ownProps) => {
   return {
+    user: state.user,
     navi: state.navigations,
     theme: state.theme
   }

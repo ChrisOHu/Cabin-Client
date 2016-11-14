@@ -1,12 +1,20 @@
-import React, { Component } from 'react'
+import React, {
+  PropTypes as T,
+  Component
+} from 'react'
 import {
   View,
   Text,
   StyleSheet,
   TouchableOpacity
 } from 'react-native'
+import { connect } from 'react-redux'
 
 class Painters extends Component {
+  static propTypes = {
+    theme: T.object.isRequired
+  }
+
   constructor(props) {
     super(props)
 
@@ -32,5 +40,18 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Painters
+const mapStateToProps = (state, ownProps) => {
+  return {
+    theme: state.theme
+  }
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return { }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Painters)
 

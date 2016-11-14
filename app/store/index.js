@@ -1,5 +1,53 @@
-if (process.env.NODE_ENV === 'development') {
-  module.exports = require('./configureStore.dev')
-} else {
-  module.exports = require('./configureStore.prod')
+import { AsyncStorage } from 'react-native'
+import { compose, createStore, applyMiddleware } from 'redux'
+import thunk from 'redux-thunk'
+import { persistStore, autoRehydrate } from 'redux-persist'
+import {REHYDRATE} from 'redux-persist/constants'
+import createMigration from 'redux-persist-migrate'
+import createEncryptor from 'redux-persist-transform-encrypt'
+import createActionBuffer from 'redux-action-buffer'
+import rootReducer from '../reducers'
+
+import createLogger from 'redux-logger'
+
+export default function configureStore(initialState) {
+
+  /** 1. Configure persisted store migrations */
+  const manifest = {
+    1: (state) => ({...state})
+  }
+  const reducerKey = 'app' // reducerKey => state.app.version
+  const migration = createMigration(manifest, reducerKey)
+
+  const enhancer = compose(
+
+    process.env.NODE_ENV === 'development' ? applyMiddleware(thunk, createLogger()) : applyMiddleware(thunk),
+
+    migration,
+    autoRehydrate(),
+    applyMiddleware(createActionBuffer(REHYDRATE))
+  )
+
+  /** 2. Create Store */
+  const store = createStore(
+    rootReducer,
+    initialState,
+    enhancer
+  )
+
+  /** 3. Encrypt persisted store */
+  const encryptor = createEncryptor({
+    secretKey: 'super-super-super-secret-key'
+  })
+
+  /** 4. Persist store */
+  persistStore(store, {
+    storage: AsyncStorage,
+    transforms: [
+      encryptor
+    ]
+  })
+
+  return store
 }
+

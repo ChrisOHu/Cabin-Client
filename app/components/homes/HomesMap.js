@@ -1,4 +1,7 @@
-import React, { Component } from 'react'
+import React, {
+  Component,
+  PropTypes as T
+} from 'react'
 import {
   View,
   Text,
@@ -17,12 +20,16 @@ import {
   Input,
   SearchBar
 } from 'native-base'
-
+import { connect } from 'react-redux'
 import MapView from 'react-native-maps'
 
 const window = Dimensions.get('window')
 
 class HomesMap extends Component {
+  static propTypes = {
+    theme: T.object.isRequired
+  }
+
   constructor(props) {
     super(props)
 
@@ -157,5 +164,19 @@ const styles = StyleSheet.create({
   }
 });
 
-export default HomesMap
+const mapStateToProps = (state, ownProps) => {
+  return {
+    theme: state.theme
+  }
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(HomesMap)
 
