@@ -7,6 +7,7 @@ import createMigration from 'redux-persist-migrate'
 import createEncryptor from 'redux-persist-transform-encrypt'
 import createActionBuffer from 'redux-action-buffer'
 import rootReducer from '../reducers'
+import configs from '~/configs'
 
 import createLogger from 'redux-logger'
 
@@ -37,7 +38,7 @@ export default function configureStore(initialState) {
 
   /** 3. Encrypt persisted store */
   const encryptor = createEncryptor({
-    secretKey: 'super-super-super-secret-key'
+    secretKey: configs.reduxStoreEncryptionKey
   })
 
   /** 4. Persist store */
