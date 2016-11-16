@@ -11,7 +11,9 @@ const En = {
   phoneIsEmpty: 'phone is empty',
   pwdIsEmpty: 'password is empty',
   opsError: "Ops, error :(",
-  checkPhonePwd: "Please check your phone/password"
+  checkPhonePwd: "Please check your phone/password",
+  edit: "Edit",
+  editName: "Edit name"
 }
 
 export default En

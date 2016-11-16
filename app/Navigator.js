@@ -54,7 +54,7 @@ class Navigator extends Component {
       isLoggingOut  : PropTypes.bool,
       user          : PropTypes.object,
       error         : PropTypes.string
-    }).isRequired,
+    }),
     push         : PropTypes.func.isRequired,
     pop          : PropTypes.func.isRequired,
     naviToLaunch : PropTypes.func.isRequired,
@@ -170,7 +170,7 @@ const styles = StyleSheet.create({ })
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    user: state.user,
+    user: state.user.user,
     navi: state.navigations,
     theme: state.theme
   }

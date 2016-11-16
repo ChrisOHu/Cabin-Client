@@ -25,7 +25,8 @@ import {
   Home,
   HomesMap,
   Painters,
-  Wall
+  Wall,
+  MyProfile
 } from '~/app/components'
 
 /**
@@ -33,7 +34,7 @@ import {
  */
 
 export function renderHeader(scene) {
-  const { theme } = this.props
+  const { theme, user, push, pop } = this.props
   /* here key is 'scene_{theKey}' */
   const { index, key, route } = scene
 
@@ -44,6 +45,24 @@ export function renderHeader(scene) {
       return null
     case 'homes-index':
       return null
+    case 'painters-index':
+      return null
+    case 'wall-index':
+      return null
+    case 'my-profile':
+      return (
+        <Header>
+          <Button transparent onPress={pop} >
+            <Icon name="ios-arrow-back" />
+          </Button>
+
+          <Title>{user.name}</Title>
+
+          <Button transparent>
+            Save
+          </Button>
+        </Header>
+      )
     default:
       return (
         <Header>
@@ -62,7 +81,7 @@ export function renderHeader(scene) {
 }
 
 export function renderScene(scene) {
-  const { theme } = this.props
+  const { theme, user } = this.props
   const { index, key, route } = scene
 
   switch (route.key) {
@@ -74,6 +93,8 @@ export function renderScene(scene) {
       return <Painters />
     case 'wall-index':
       return <Wall />
+    case 'my-profile':
+      return <MyProfile />
     case 'intro':
     default:
       return (

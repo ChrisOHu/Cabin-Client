@@ -5,6 +5,7 @@ import React, {
 import {
   View,
   Text,
+  Image,
   StyleSheet,
   TouchableOpacity
 } from 'react-native'
@@ -22,10 +23,36 @@ import { connect } from 'react-redux'
 
 import ParallaxScrollView from '~/app/common/ParallaxScrollView'
 import { KeyboardAwareScrollView } from '~/app/common/KeyboardAwareViews'
+import UserCard from '~/app/common/UserCard'
+import {
+  push
+} from '~/app/actions/navigations'
 
 class Wall extends Component {
   static propTypes = {
-    theme: T.object.isRequired
+    theme: T.object.isRequired,
+    user: T.shape({
+      _id: T.string,
+      phone: T.string,
+      name: T.string,
+      email: T.string,
+      avatar: T.string,
+      banner: T.string,
+      geolocation: T.string,
+      profession: T.string,
+      followers: T.arrayOf(T.string),
+      followings: T.arrayOf(T.string),
+      favoriteHomes: T.arrayOf(T.string),
+      favoriteDesigns: T.arrayOf(T.string),
+      preferences: T.object,
+      rules: T.arrayOf(T.string),
+      hostId: T.string,
+      designerId: T.string,
+
+      createdAt: T.string,
+      updatedAt: T.string
+    }).isRequired,
+    push: T.func.isRequired
   }
 
   constructor(props) {
@@ -34,30 +61,77 @@ class Wall extends Component {
     this.state = {
     }
   }
-
+  
+  /**
+   * <Header>
+   *   <Button transparent>
+   *   <Icon name="ios-boat-outline" />
+   *   </Button>
+   *
+   *   <Title>{"Chris"}</Title>
+   *
+   *   <Button transparent>
+   *     <Icon name="ios-cog" />
+   *   </Button>
+   * </Header>
+   */
   render() {
-    const { theme } = this.props
+    const { theme, user, push } = this.props
 
+    const HEADER_HEIGHT = 300
     return (
       <ParallaxScrollView
-        style={styles.root}
-        contentContainerStyle={[{flex: 1, backgroundColor: theme.sceneBgColor }]}
+        style={{ flex: 1, backgroundColor: theme.sceneBgColor, overflow: 'hidden' }}
+        contentContainerStyle={{ flex: 1, backgroundColor: theme.sceneBgColor }}
         backgroundColor="transparent"
         renderScrollComponent={ props => <KeyboardAwareScrollView {...props} /> }
+        parallaxHeaderHeight={HEADER_HEIGHT} 
         renderBackground={() => {
-          {/*return <Image source={require('./assets/logo.png')} resizeMode='contain' style={styles.logo} />*/}
           return (
-            <View style={[styles.header, { backgroundColor: theme.sceneBgColor }]} >
-              <Text style={{color: 'skyblue', lineHeight: 40, fontSize: 36, fontWeight: 'bold'}}>{`</>`}</Text>
+            <Image
+              defaultSource={require('~/app/assets/header-default.jpg')}
+              source={{ uri: user.banner }}
+              resizeMode='cover'
+              style={{ width: window.width, height: HEADER_HEIGHT }}
+            />
+          )
+        }}
+        renderForeground={() => {
+          const userCard = { avatar: user.avatar, name: user.name, meta: user.profession }
+          return (
+            <View style={{ height: HEADER_HEIGHT, flex: 1, alignItems: 'center', justifyContent: 'flex-end' }}>
+              <UserCard user={userCard} onPress={() => {
+                push({route: {key: 'my-profile'}})
+              }} />
             </View>
           )
         }}
-        renderForeground={() => null}
-        parallaxHeaderHeight={200} >
+        stickyHeaderHeight={theme.toolbarHeight}
+        renderStickyHeader={() => {
+          return (
+            <Header theme={theme} >
+              <Button transparent>
+                <Image
+                  defaultSource={require('~/app/assets/avatar-default.png')}
+                  source={{ uri: user.banner }}
+                  resizeMode='cover'
+                  style={{ width: 35, height: 35 }}
+                />
+              </Button>
+   
+              <Title>{user.name}</Title>
+   
+              <Button transparent>
+                <Icon name="ios-cog" />
+              </Button>
+            </Header>
+          )
+        }}
+      >
 
         <NbView theme={theme} style={[styles.content, { backgroundColor: theme.sceneBgColor }]} >
-          <Text>Wall</Text>
         </NbView>
+
       </ParallaxScrollView>
     );
   }
@@ -65,12 +139,6 @@ class Wall extends Component {
 }
 
 const styles = StyleSheet.create({
-  root: {
-    flex: 1
-  },
-  header: {
-    height: 200
-  },
   content: {
     flex: 1,
     alignItems: 'center',
@@ -80,12 +148,14 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    theme: state.theme
+    theme: state.theme,
+    user: state.user.user.data
   }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
+    push : ({route, ...params}) => dispatch(push({route, ...params})),
   }
 }
 

@@ -41,7 +41,7 @@ const initialState = {
   },
   wall: {
     index: 0,
-    routes: [{key: 'wall-index'}]
+    routes: [{key: 'wall-index'}, {key: 'my-profile'}]
   }
 }
 

@@ -3,7 +3,6 @@ import React, {
   PropTypes as T
 } from 'react'
 import {
-  AppRegistry,
   StyleSheet,
   Text,
   View
