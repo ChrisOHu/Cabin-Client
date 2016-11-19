@@ -1,5 +1,6 @@
 const En = {
   login: 'Login',
+  logout: 'Logout',
   register: 'Register',
   becomeHost: 'Become A Host',
   becomeDesigner: 'Become A Designer',
@@ -10,6 +11,7 @@ const En = {
   haveAnAccount: "Have an account? Login",
   phoneIsEmpty: 'phone is empty',
   pwdIsEmpty: 'password is empty',
+  nameIsEmpty: 'name is empty',
   opsError: "Ops, error :(",
   checkPhonePwd: "Please check your phone/password",
   edit: "Edit",

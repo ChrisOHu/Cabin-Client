@@ -15,7 +15,16 @@ export default function configureStore(initialState) {
 
   /** 1. Configure persisted store migrations */
   const manifest = {
-    1: (state) => ({...state})
+    1: (state) => ({...state}),
+    2: (state) => {
+      return {
+        ...state,
+        app: {
+          ...state.app,
+          toast: {}
+        }
+      }
+    }
   }
   const reducerKey = 'app' // reducerKey => state.app.version
   const migration = createMigration(manifest, reducerKey)

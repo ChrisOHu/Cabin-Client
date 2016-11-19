@@ -1,31 +1,30 @@
 
-export const CONNECT_REQUEST = 'CONNECT_REQUEST'
-export const CONNECTED       = 'CONNECTED'
-export const DISCONNECTED    = 'DISCONNECTED'
+export const SHOW_TOAST = 'SHOW_TOAST'
+export const CLEAR_TOAST = 'CLEAR_TOAST'
 
-export function connect() {
+const clearToastTimerId
+export function showToast({message, duration}) {
   return (dispatch) => {
-    dispatch(connectRequest())
+    dispatch(_showToast({message, duration}))
 
-    dispatch(connected())
+    clearToastTimerId && clearTimeout(clearToastTimerId)
+
+    clearToastTimerId = setTimeout(() => {
+      dispatch(clearToast())
+    }, 8000)
   }
 }
 
-function connectRequest() {
+function _showToast({message, duration}) {
   return {
-    type: CONNECT_REQUEST
+    type: SHOW_TOAST,
+    toast: { message, duration }
   }
 }
-
-function connected() {
+function clearToast() {
   return {
-    type: CONNECTED
-  }
-}
-
-function disconnected() {
-  return {
-    type: DISCONNECTED
+    type: CLEAR_TOAST,
+    toast: { message: '' }
   }
 }
 

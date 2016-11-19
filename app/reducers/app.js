@@ -1,22 +1,19 @@
 import {
-  CONNECT_REQUEST,
-  CONNECTED,
-  DISCONNECTED
+  SHOW_TOAST,
+  CLEAR_TOAST
 } from '../actions/app'
+import { REHYDRATE } from 'redux-persist/constants'
 
 const initialState = {
-  connecting: false,
-  connected: false
+  toast: {}
 }
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case CONNECT_REQUEST:
-      return Object.assign({}, state, {connecting: true})
-    case CONNECTED:
-      return Object.assign({}, state, {connected: true})
-    case DISCONNECTED:
-      return Object.assign({}, state, {connected: false})
+    case SHOW_TOAST:
+      return Object.assign({}, state, { toast: action.toast })
+    case CLEAR_TOAST:
+      return Object.assign({}, state, { toast: action.toast })
     default:
       return state
   }

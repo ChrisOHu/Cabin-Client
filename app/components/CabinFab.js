@@ -15,21 +15,21 @@ import ActionButton from '../common/ActionButton'
 import {
   push, pop, naviToLaunch, naviToHome, naviToTab
 } from '../actions/navigations'
+import { logout } from '../actions/users'
 
 class CabinFab extends Component {
   static propTypes = {
     rules: T.array, // of ['host', 'designer']
-    loggedIn: T.bool,
-    naviToLaunch: T.func.isRequired
+    naviToLaunch: T.func.isRequired,
+    logout: T.func.isRequired
   }
   static defaultProps = {
-    rules: [],
-    loggedIn: false
+    rules: []
   }
 
   _getActions() {
     let ret = []
-    const { rules, loggedIn } = this.props
+    const { rules } = this.props
 
     /**
      * All Actions (will only be available when rules met):
@@ -65,13 +65,11 @@ class CabinFab extends Component {
         </ActionButton.Item>
     )
 
-    if (!loggedIn) {
-      ret.push(
-          <ActionButton.Item key="cabinFabItem-login" buttonColor='#87ceeb' title={t('login')} onPress={() => this.props.naviToLaunch()}>
-            <Icon name="ios-paw" style={styles.actionButtonIcon} />
-          </ActionButton.Item>
-      )
-    }
+    ret.push(
+        <ActionButton.Item key="cabinFabItem-logout" buttonColor='#87ceeb' title={t('logout')} onPress={() => this.props.logout()}>
+          <Icon name="ios-paw" style={styles.actionButtonIcon} />
+        </ActionButton.Item>
+    )
 
     return ret
   }
@@ -79,7 +77,6 @@ class CabinFab extends Component {
   render() {
     const {
       rules,
-      loggedIn,
       ...rest
     } = this.props
 
@@ -113,7 +110,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    naviToLaunch : () => dispatch(naviToLaunch())
+    naviToLaunch : () => dispatch(naviToLaunch()),
+    logout : () => dispatch(logout())
   }
 }
 

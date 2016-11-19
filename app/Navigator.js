@@ -21,6 +21,7 @@ import {
 
 import { connect } from 'react-redux'
 
+import Toast, {DURATION} from '~/app/common/Toast'
 import CabinFab from './components/CabinFab'
 import { renderHeader, renderScene } from './components/navigations'
 
@@ -40,6 +41,12 @@ const {
 
 class Navigator extends Component {
   static propTypes = {
+    app: PropTypes.shape({
+      toast: PropTypes.shape({
+        message: PropTypes.string,
+        duration: PropTypes.number
+      })
+    }),
     navi: PropTypes.shape({
       app      : NavigationPropTypes.navigationState.isRequired,
       launch   : NavigationPropTypes.navigationState.isRequired,
@@ -52,8 +59,9 @@ class Navigator extends Component {
       isRegistering : PropTypes.bool,
       isLoggingIn   : PropTypes.bool,
       isLoggingOut  : PropTypes.bool,
+      isLoggedIn    : PropTypes.bool,
       user          : PropTypes.object,
-      error         : PropTypes.string
+      error         : PropTypes.any
     }),
     push         : PropTypes.func.isRequired,
     pop          : PropTypes.func.isRequired,
@@ -72,8 +80,16 @@ class Navigator extends Component {
     }
   }
 
+  /**
+   * " React may call this method even if the props have not changed,
+   *   so make sure to compare the current and next values if you only want to handle changes. "
+   */
+  componentWillReceiveProps(nextProps) {}
+
   render() {
-    const { navi, theme } = this.props;
+
+    const { app, navi, theme } = this.props;
+    const { toast } = app
     const routesKey = naviUtils.getCurrentRoutesStackKey(navi)
     const routes = navi[routesKey]
 
@@ -95,6 +111,8 @@ class Navigator extends Component {
         {this._renderTabBar()}
 
         {this._renderFab()}
+
+        <Toast ref="toast" message={toast.message} duration={toast.duration || DURATION.LENGTH_SHORT} />
 
       </View>
     );
@@ -127,7 +145,7 @@ class Navigator extends Component {
   _renderFab() {
     if (this.props.navi.app.index == 1) {
       return (
-        <CabinFab loggedIn={!!this.props.user.user} />
+        <CabinFab />
       )
     } else {
       return null
@@ -170,7 +188,8 @@ const styles = StyleSheet.create({ })
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    user: state.user.user,
+    app: state.app,
+    user: state.user,
     navi: state.navigations,
     theme: state.theme
   }

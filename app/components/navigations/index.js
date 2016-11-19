@@ -29,6 +29,8 @@ import {
   MyProfile
 } from '~/app/components'
 
+import Events from '~/app/Events'
+
 /**
  * launch: intro, login
  */
@@ -52,13 +54,13 @@ export function renderHeader(scene) {
     case 'my-profile':
       return (
         <Header>
-          <Button transparent onPress={pop} >
+          <Button transparent onPress={() => Events.emit("cabin/my-profile/pop")} >
             <Icon name="ios-arrow-back" />
           </Button>
 
-          <Title>{user.name}</Title>
+          <Title>{user && user.name}</Title>
 
-          <Button transparent>
+          <Button transparent onPress={() => Events.emit("cabin/my-profile/save")} >
             Save
           </Button>
         </Header>

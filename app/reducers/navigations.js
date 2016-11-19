@@ -5,6 +5,7 @@ import {
   NAVI_TO_HOME,
   NAVI_TO_TAB
 } from '../actions/navigations'
+import { REHYDRATE } from 'redux-persist/constants'
 import { NavigationExperimental } from 'react-native'
 
 const {
@@ -50,6 +51,20 @@ export default function reducer(state = initialState, action = {}) {
   const routes = state[routesKey]
 
   switch (action.type) {
+    case REHYDRATE: {
+      let savedState = action.payload
+
+      const ret = {
+        ...state,
+        ...savedState.navigations,
+        app: {
+          ...savedState.navigations.app,
+          index: (savedState.user.isLoggedIn && savedState.user.user) ? 1 : 0
+        }
+      }
+
+      return ret
+    }
     case PUSH: {
       const nextRoutes = NavigationStateUtils.push(routes, action.route)
       return {

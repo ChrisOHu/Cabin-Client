@@ -32,26 +32,68 @@ import {
   TimePickerField
 } from 'react-native-form-generator'
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { KeyboardAwareScrollView } from '~/app/common/KeyboardAwareViews'
 import t from 'counterpart'
 import { connect } from 'react-redux'
+
+import { KeyboardAwareScrollView } from '~/app/common/KeyboardAwareViews'
+import Events from '~/app/Events'
+import {
+  push, pop
+} from '~/app/actions/navigations'
+import { patchUserProfile } from '~/app/actions/users'
 
 class MyProfile extends Component {
   static propTypes = {
     theme: T.object.isRequired,
-    user: T.object.isRequired
+    user: T.object.isRequired,
+    isPatchingProfile: T.bool.isRequired,
+    error: T.any,
+
+    push: T.func.isRequired,
+    pop: T.func.isRequired,
+    patchUserProfile: T.func.isRequired
+  }
+
+  static events = {
+    pop: function () {
+      console.debug('TODO: add user confirm ')
+      this.props.pop()
+    },
+    save: function() {
+      this._updateProfile()
+    }
   }
 
   constructor(props) {
     super(props)
 
-    this.state = {}
+    this.state = {
+      profileFormData: null
+    }
+  }
+
+  componentDidMount() {
+    const eventHandlers = MyProfile.events
+    const eventNames = Object.keys(MyProfile.events)
+    eventNames.forEach((name) => {
+      Events.on(`cabin/my-profile/${name}`, (eventHandlers[name]).bind(this))
+    })
+  }
+  componentWillUnmount() {
+    const eventHandlers = MyProfile.events
+    const eventNames = Object.keys(MyProfile.events)
+    eventNames.forEach((name) => {
+      Events.removeAllListeners(`cabin/my-profile/${name}`)
+    })
   }
 
   render() {
-    const { theme } = this.props
+    const { theme, isPatchingProfile, error } = this.props
     const user = this.props.user.data
-    console.log(user)
+
+    if (!user) {
+      return null
+    }
 
     return (
       <Content style={styles.content} theme={theme} >
@@ -70,16 +112,16 @@ class MyProfile extends Component {
             source={{ uri: user.avatar }}
             resizeMode='cover'
           />
-          <Ionicons name="ios-arrow-forward" color="#696969" size={30} />
+          <Ionicons name="ios-arrow-forward" color="#696969" size={20} />
         </View>
 
         <Form
           ref='registrationForm'
           onFocus={(e, component) => {}}
-          onChange={(fromData) => { console.debug(formData) }}
+          onChange={(formData) => { this.setState({profileFormData: formData}) }}
           label="Profile" >
           <Separator />
-          <InputField ref='phone'
+          <InputField ref='phone' editable={false}
             value={user.phone}
             keyboardType='numeric' />
           <InputField ref='name'  value={user.name} placeholder={t('editName')} />
@@ -87,6 +129,17 @@ class MyProfile extends Component {
 
       </Content>
     )
+  }
+
+  _updateProfile() {
+    const user = this.props.user.data
+    const { profileFormData } = this.state
+
+    if (!profileFormData || Object.keys(profileFormData).length == 0) {
+      return
+    }
+
+    this.props.patchUserProfile(user._id, profileFormData)
   }
 }
 
@@ -103,13 +156,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     backgroundColor: 'white',
     alignItems: 'center',
-    height: 90,
+    height: 70,
     paddingLeft: 10,
     paddingRight: 10
   },
   avatar: {
-    width: 80,
-    height: 80,
+    width: 60,
+    height: 60,
     borderRadius: 8
   }
 })
@@ -117,12 +170,18 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state, ownProps) => {
   return {
     theme: state.theme,
-    user: state.user.user
+    user: state.user.user,
+    isPatchingProfile: state.user.isPatchingProfile,
+    error: state.user.error
   }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  return {}
+  return {
+    push: ({route, ...params}) => dispatch(push({route, ...params})),
+    pop : () => dispatch(pop()),
+    patchUserProfile: (userId, profileData) => dispatch(patchUserProfile(userId, profileData))
+  }
 }
 
 export default connect(
