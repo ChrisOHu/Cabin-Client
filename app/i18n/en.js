@@ -15,7 +15,9 @@ const En = {
   opsError: "Ops, error :(",
   checkPhonePwd: "Please check your phone/password",
   edit: "Edit",
-  editName: "Edit name"
+  editName: "Edit name",
+  saveSuccess: "Saved successfully",
+  change: "Change"
 }
 
 export default En

@@ -32,28 +32,25 @@ class Wall extends Component {
   static propTypes = {
     theme: T.object.isRequired,
     user: T.shape({
-      token: T.string,
-      data: T.shape({
-        _id: T.string,
-        phone: T.string,
-        name: T.string,
-        email: T.string,
-        avatar: T.string,
-        banner: T.string,
-        geolocation: T.string,
-        profession: T.string,
-        followers: T.arrayOf(T.string),
-        followings: T.arrayOf(T.string),
-        favoriteHomes: T.arrayOf(T.string),
-        favoriteDesigns: T.arrayOf(T.string),
-        preferences: T.object,
-        rules: T.arrayOf(T.string),
-        hostId: T.string,
-        designerId: T.string,
+      _id: T.string,
+      phone: T.string,
+      name: T.string,
+      email: T.string,
+      avatar: T.string,
+      banner: T.string,
+      geolocation: T.string,
+      profession: T.string,
+      followers: T.arrayOf(T.string),
+      followings: T.arrayOf(T.string),
+      favoriteHomes: T.arrayOf(T.string),
+      favoriteDesigns: T.arrayOf(T.string),
+      preferences: T.object,
+      rules: T.arrayOf(T.string),
+      hostId: T.string,
+      designerId: T.string,
 
-        createdAt: T.string,
-        updatedAt: T.string
-      })
+      createdAt: T.string,
+      updatedAt: T.string
     }).isRequired,
     push: T.func.isRequired
   }
@@ -64,10 +61,10 @@ class Wall extends Component {
     this.state = {
     }
   }
-  
+
   render() {
     const { theme, push } = this.props
-    const user = this.props.user.data
+    const user = this.props.user
 
     if (!user) {
       return null

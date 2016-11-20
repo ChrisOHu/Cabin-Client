@@ -36,7 +36,8 @@ import Events from '~/app/Events'
  */
 
 export function renderHeader(scene) {
-  const { theme, user, push, pop } = this.props
+  const { theme, push, pop } = this.props
+  const user = this.props.user.user 
   /* here key is 'scene_{theKey}' */
   const { index, key, route } = scene
 
@@ -53,7 +54,7 @@ export function renderHeader(scene) {
       return null
     case 'my-profile':
       return (
-        <Header>
+        <Header theme={theme} >
           <Button transparent onPress={() => Events.emit("cabin/my-profile/pop")} >
             <Icon name="ios-arrow-back" />
           </Button>
@@ -67,7 +68,7 @@ export function renderHeader(scene) {
       )
     default:
       return (
-        <Header>
+        <Header theme={theme} >
           <Button transparent>
             <Icon name="ios-boat-outline" />
           </Button>

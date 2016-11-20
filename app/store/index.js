@@ -24,6 +24,15 @@ export default function configureStore(initialState) {
           toast: {}
         }
       }
+    },
+    3: (state) => {
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          user: state.user.user ? state.user.user.data : null
+        }
+      }
     }
   }
   const reducerKey = 'app' // reducerKey => state.app.version

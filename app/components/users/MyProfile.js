@@ -7,6 +7,7 @@ import {
   Text,
   Image,
   StyleSheet,
+  Dimensions,
   TouchableOpacity,
   TouchableWithoutFeedback
 } from 'react-native'
@@ -20,7 +21,7 @@ import {
   InputGroup,
   Input,
   Content
-} from 'native-base' 
+} from 'native-base'
 import {
   Form,
   Separator,
@@ -31,16 +32,20 @@ import {
   DatePickerField,
   TimePickerField
 } from 'react-native-form-generator'
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import Ionicons from 'react-native-vector-icons/Ionicons'
+import Lightbox from 'react-native-lightbox'
 import t from 'counterpart'
 import { connect } from 'react-redux'
 
 import { KeyboardAwareScrollView } from '~/app/common/KeyboardAwareViews'
 import Events from '~/app/Events'
+import { renderLightbox } from '~/app/common'
 import {
   push, pop
 } from '~/app/actions/navigations'
 import { patchUserProfile } from '~/app/actions/users'
+
+const window = Dimensions.get('window')
 
 class MyProfile extends Component {
   static propTypes = {
@@ -89,7 +94,7 @@ class MyProfile extends Component {
 
   render() {
     const { theme, isPatchingProfile, error } = this.props
-    const user = this.props.user.data
+    const user = this.props.user
 
     if (!user) {
       return null
@@ -98,20 +103,43 @@ class MyProfile extends Component {
     return (
       <Content style={styles.content} theme={theme} >
 
-        <TouchableWithoutFeedback>
-          <Image style={styles.banner}
-            defaultSource={require('~/app/assets/header-default.jpg')}
-            source={{ uri: user.banner }}
-            resizeMode='cover'
-          />
-        </TouchableWithoutFeedback>
+        {renderLightbox({
+          rightBtns: (
+            <Button transparent onPress={() => { alert('TODO: change') }} textStyle={{color: 'white'}} >
+              {t('change')}
+            </Button>
+          ),
+          child: (
+            <Image style={styles.banner}
+              defaultSource={require('~/app/assets/header-default.jpg')}
+              source={{ uri: user.banner }}
+              resizeMode='cover'
+            />
+          )
+        })}
 
         <View style={styles.avatarContainer} >
-          <Image style={styles.avatar}
-            defaultSource={require('~/app/assets/avatar-default.png')}
-            source={{ uri: user.avatar }}
-            resizeMode='cover'
-          />
+          {renderLightbox({
+            rightBtns: (
+              <Button transparent onPress={() => {}} textStyle={{color: 'white'}} >
+                {t('change')}
+              </Button>
+            ),
+            child: (
+              <Image style={styles.avatar}
+                defaultSource={require('~/app/assets/avatar-default.png')}
+                source={{ uri: user.avatar }}
+                resizeMode='cover'
+              />
+            ),
+            content: (
+              <Image style={{width: window.width, height: window.width}}
+                defaultSource={require('~/app/assets/avatar-default.png')}
+                source={{ uri: user.avatar }}
+                resizeMode='center'
+              />
+            )
+          })}
           <Ionicons name="ios-arrow-forward" color="#696969" size={20} />
         </View>
 
@@ -132,7 +160,7 @@ class MyProfile extends Component {
   }
 
   _updateProfile() {
-    const user = this.props.user.data
+    const user = this.props.user
     const { profileFormData } = this.state
 
     if (!profileFormData || Object.keys(profileFormData).length == 0) {

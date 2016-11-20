@@ -20,7 +20,7 @@ import { version } from './env.js'
 import Navigator from './Navigator'
 import { init as initI18N } from './i18n'
 import configureStore from './store'
-import setupFeathers from './feathers'
+import setupFeathers, { getInstance } from './feathers'
 
 const store = configureStore()
 

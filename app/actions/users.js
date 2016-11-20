@@ -38,7 +38,8 @@ export function register({phone, name, password}) {
       })
       .then((result) => {
         // app.get('token')
-        dispatch(registerSuccess(result))
+        const { token, data } = result
+        dispatch(registerSuccess(data, token))
         dispatch(showToast({message: 'TADA~~: Register success'}))
         dispatch(naviToHome())
       })
@@ -63,7 +64,7 @@ export function register({phone, name, password}) {
   }
 }
 function registerRequest() { return { type: REGISTER_REQUEST } }
-function registerSuccess(user)  { return { type: REGISTER_SUCCESS, user } }
+function registerSuccess(user, token)  { return { type: REGISTER_SUCCESS, user, token } }
 function registerFailure(error) { return { type: REGISTER_FAILURE, error } }
 
 export function login({phone, password}) {
@@ -77,7 +78,8 @@ export function login({phone, password}) {
     })
       .then((result) => {
         // app.get('token')
-        dispatch(loginSuccess(result))
+        const { token, data } = result
+        dispatch(loginSuccess(data, token))
         dispatch(showToast({message: "TADA~: login success"}))
         dispatch(naviToHome())
       })
@@ -88,7 +90,7 @@ export function login({phone, password}) {
   }
 }
 function loginRequest() { return { type: LOGIN_REQUEST } }
-function loginSuccess(user) { return { type: LOGIN_SUCCESS, user } }
+function loginSuccess(user, token) { return { type: LOGIN_SUCCESS, user, token } }
 function loginFailure(error) { return { type: LOGIN_FAILURE, error } }
 
 export function logout() {
@@ -117,19 +119,17 @@ export function patchUserProfile(userId, profileData) {
     feathers.service('users')
       .patch(userId, profileData)
       .then((result) => {
-        console.debug('## patchUserProfileSuccess =>')
-        console.debug(result)
         dispatch(patchUserProfileSuccess(result))
+        dispatch(showToast({message: t("saveSuccess")}))
       })
       .catch((err) => {
-        console.debug('## patchUserProfileFailure =>')
-        console.debug(JSON.stringify(err))
         dispatch(patchUserProfileFailure(t("opsError")))
         dispatch(showToast({message: t("opsError")}))
       })
+
   }
 }
 function patchUserProfileRequest()      { return { type: PATCH_USER_PROFILE_REQUEST } }
-function patchUserProfileSuccess(user)      { return { type: PATCH_USER_PROFILE_SUCCESS, user } }
+function patchUserProfileSuccess(user)  { return { type: PATCH_USER_PROFILE_SUCCESS, user } }
 function patchUserProfileFailure(error) { return { type: PATCH_USER_PROFILE_FAILURE, error } } 
 
