@@ -8,6 +8,7 @@ import {
   Image,
   StyleSheet,
   Dimensions,
+  PixelRatio,
   TouchableOpacity,
   TouchableWithoutFeedback
 } from 'react-native'
@@ -34,6 +35,7 @@ import {
 } from 'react-native-form-generator'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import Lightbox from 'react-native-lightbox'
+import ImagePicker from 'react-native-image-crop-picker'
 import t from 'counterpart'
 import { connect } from 'react-redux'
 
@@ -43,7 +45,11 @@ import { renderLightbox } from '~/app/common'
 import {
   push, pop
 } from '~/app/actions/navigations'
-import { patchUserProfile } from '~/app/actions/users'
+import {
+  patchUserProfile,
+  updateUserBanner,
+  updateUserAvatar
+} from '~/app/actions/users'
 
 const window = Dimensions.get('window')
 
@@ -51,12 +57,14 @@ class MyProfile extends Component {
   static propTypes = {
     theme: T.object.isRequired,
     user: T.object.isRequired,
-    isPatchingProfile: T.bool.isRequired,
+    isUpdating: T.bool.isRequired,
     error: T.any,
 
     push: T.func.isRequired,
     pop: T.func.isRequired,
-    patchUserProfile: T.func.isRequired
+    patchUserProfile: T.func.isRequired,
+    updateUserBanner: T.func.isRequired,
+    updateUserAvatar: T.func.isRequired
   }
 
   static events = {
@@ -93,8 +101,7 @@ class MyProfile extends Component {
   }
 
   render() {
-    const { theme, isPatchingProfile, error } = this.props
-    const user = this.props.user
+    const { theme, user, isUpdating, error, updateUserBanner, updateUserAvatar } = this.props
 
     if (!user) {
       return null
@@ -105,7 +112,16 @@ class MyProfile extends Component {
 
         {renderLightbox({
           rightBtns: (
-            <Button transparent onPress={() => { alert('TODO: change') }} textStyle={{color: 'white'}} >
+            <Button transparent textStyle={{color: 'white'}}
+              onPress={() => {
+                ImagePicker.openPicker({
+                  cropping: false
+                }).then(image => {
+                  const {path, width, height, mime, size, data} = image
+                  updateUserBanner(user._id, image)
+                })
+              }}
+            >
               {t('change')}
             </Button>
           ),
@@ -118,30 +134,44 @@ class MyProfile extends Component {
           )
         })}
 
-        <View style={styles.avatarContainer} >
-          {renderLightbox({
-            rightBtns: (
-              <Button transparent onPress={() => {}} textStyle={{color: 'white'}} >
-                {t('change')}
-              </Button>
-            ),
-            child: (
+        {renderLightbox({
+          rightBtns: (
+            <Button transparent textStyle={{color: 'white'}}
+              onPress={() => {
+                ImagePicker.openPicker({
+                  width: 600,
+                  height: 600,
+                  cropping: true
+                }).then(image => {
+                  const {path, width, height, mime, size, data} = image
+                  updateUserAvatar(user._id, image)
+                })
+              }}
+            >
+              {t('change')}
+            </Button>
+          ),
+          child: (
+            <View style={styles.avatarContainer} >
               <Image style={styles.avatar}
                 defaultSource={require('~/app/assets/avatar-default.png')}
                 source={{ uri: user.avatar }}
                 resizeMode='cover'
               />
-            ),
-            content: (
-              <Image style={{width: window.width, height: window.width}}
-                defaultSource={require('~/app/assets/avatar-default.png')}
-                source={{ uri: user.avatar }}
-                resizeMode='center'
-              />
-            )
-          })}
-          <Ionicons name="ios-arrow-forward" color="#696969" size={20} />
-        </View>
+              <View style={styles.avatarRight} >
+                <Text style={{fontSize: 18, paddingRight: 8, paddingBottom: 2, color: '#4A4A4A'}} >{t('edit')}</Text>
+                <Ionicons name="ios-arrow-forward" color="#4A4A4A" size={20} />
+              </View>
+            </View>
+          ),
+          content: (
+            <Image style={{width: window.width, height: window.width}}
+              defaultSource={require('~/app/assets/avatar-default.png')}
+              source={{ uri: user.avatar }}
+              resizeMode='center'
+            />
+          )
+        })}
 
         <Form
           ref='registrationForm'
@@ -192,15 +222,21 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 8
+  },
+  avatarRight: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center'
   }
 })
 
 const mapStateToProps = (state, ownProps) => {
   return {
     theme: state.theme,
-    user: state.user.user,
-    isPatchingProfile: state.user.isPatchingProfile,
-    error: state.user.error
+    user: state.users.user,
+    isUpdating: state.users.isUpdating,
+    error: state.users.error
   }
 }
 
@@ -208,7 +244,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     push: ({route, ...params}) => dispatch(push({route, ...params})),
     pop : () => dispatch(pop()),
-    patchUserProfile: (userId, profileData) => dispatch(patchUserProfile(userId, profileData))
+    patchUserProfile: (userId, profileData) => dispatch(patchUserProfile(userId, profileData)),
+    updateUserBanner: (userId, image) => dispatch(updateUserBanner(userId, image)),
+    updateUserAvatar: (userId, image) => dispatch(updateUserAvatar(userId, image))
   }
 }
 

@@ -17,7 +17,8 @@ const En = {
   edit: "Edit",
   editName: "Edit name",
   saveSuccess: "Saved successfully",
-  change: "Change"
+  change: "Change",
+  Favorites: "Favorites"
 }
 
 export default En

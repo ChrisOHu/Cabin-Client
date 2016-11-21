@@ -4,7 +4,10 @@ import { Platform } from 'react-native'
 
 const baseTheme = {
   // Scene
-  sceneBgColor: 'transparent',
+  sceneBgColor: 'white',
+
+  // Line
+  lineColor: '#979797',
 
   // Badge
   badgeBg: '#ED1727',

@@ -20,9 +20,7 @@ import { version } from './env.js'
 import Navigator from './Navigator'
 import { init as initI18N } from './i18n'
 import configureStore from './store'
-import setupFeathers, { getInstance } from './feathers'
-
-const store = configureStore()
+import { setToken, getInstance } from './feathers'
 
 class App extends Component {
   static propTypes    = { }
@@ -31,8 +29,15 @@ class App extends Component {
   constructor(props) {
     super(props);
 
+    this.store = configureStore({
+      onRehydrated: () => {
+        console.debug('## onRehydrated =>')
+        console.debug(this.store.getState())
+        const token = this.store.getState().users.token
+        setToken(token)
+      }
+    })
     initI18N()
-    setupFeathers()
 
     this._backButtonHandlers = [];
 
@@ -86,6 +91,7 @@ class App extends Component {
   }
 
   render() {
+    const store = this.store
     return (
       <Provider store={store} >
         <Navigator />

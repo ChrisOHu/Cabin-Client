@@ -10,6 +10,7 @@ import {
   TouchableOpacity
 } from 'react-native'
 import {
+  H1, H2, H3,
   Header,
   Title,
   View as NbView,
@@ -41,6 +42,28 @@ export function renderLightbox({props, title, rightBtns, child, content}) {
     >
     {child}
     </Lightbox>
+  )
+}
+
+export function Line(props = {}) {
+  return (
+    <View
+      style={[
+        {
+          flex: 1,
+          flexDirection: 'row',
+          justifyContent: 'flex-start',
+          borderTopWidth: 1,
+          borderTopColor: '#979797',
+          paddingTop: 5,
+          paddingLeft: 5,
+          marginBottom: 5 
+        },
+        props.style
+      ]}
+    >
+      <H3 style={{flex: 1}} >{props.title}</H3>
+    </View>
   )
 }
 

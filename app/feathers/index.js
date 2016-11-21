@@ -5,17 +5,8 @@ import authentication from 'feathers-authentication/client'
 import rest from 'feathers-rest/client'
 import configs from '~/configs'
 
-let instance
-
-export default function setup() {
-  instance = feathers()
-    .configure(rest(configs.server).fetch(fetch))
-    .configure(hooks())
-    // Use AsyncStorage to store our login toke
-    .configure(authentication({
-      storage: AsyncStorage
-    }))
-}
+let JWT_TOKEN = ""
+let instance = null
 
 export function getInstance() {
   if (!instance) {
@@ -23,5 +14,24 @@ export function getInstance() {
   }
 
   return instance
+}
+
+export function setToken(token) {
+  JWT_TOKEN = token
+}
+
+function setup() {
+  const headers = JWT_TOKEN ? { 'Authorization': JWT_TOKEN } : {}
+
+  instance = feathers()
+    .configure(
+      rest(configs.server)
+        .fetch(fetch, { headers })
+    )
+    .configure(hooks())
+    // Use AsyncStorage to store our login toke
+    .configure(authentication({
+      storage: AsyncStorage
+    }))
 }
 

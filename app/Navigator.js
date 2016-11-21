@@ -55,7 +55,7 @@ class Navigator extends Component {
       painters : NavigationPropTypes.navigationState.isRequired,
       wall     : NavigationPropTypes.navigationState.isRequired
     }).isRequired,
-    user: PropTypes.shape({
+    users: PropTypes.shape({
       isRegistering : PropTypes.bool,
       isLoggingIn   : PropTypes.bool,
       isLoggingOut  : PropTypes.bool,
@@ -189,7 +189,7 @@ const styles = StyleSheet.create({ })
 const mapStateToProps = (state, ownProps) => {
   return {
     app: state.app,
-    user: state.user,
+    users: state.users,
     navi: state.navigations,
     theme: state.theme
   }

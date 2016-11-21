@@ -45,7 +45,7 @@ const window = Dimensions.get('window')
 class Login extends Component {
   static propTypes = {
     theme: T.object.isRequired,
-    user: T.shape({
+    users: T.shape({
       isRegistering: T.bool,
       isLoggingIn: T.bool,
       isLoggingOut: T.bool,
@@ -76,7 +76,7 @@ class Login extends Component {
   componentWillReceiveProps(nextProps) { }
 
   render() {
-    const { theme, user } = this.props
+    const { theme, users } = this.props
     const { intent } = this.state
 
     let btnName     = intent == 'login' ? t('login') : t('register')
@@ -130,7 +130,7 @@ class Login extends Component {
           </TouchableWithoutFeedback>
         </View>
 
-        <LoadingView visible={user.isRegistering || user.isLoggingIn} />
+        <LoadingView visible={users.isRegistering || users.isLoggingIn} />
 
       </NbView>
     )
@@ -169,7 +169,7 @@ class Login extends Component {
   _loginOrRegister() {
     if (!this._validateInputs()) return
 
-    const { register, login, logout, user } = this.props
+    const { register, login, logout } = this.props
     const { intent, phone, name, password } = this.state
 
     /** login/register success redirect will be handled in Navigator's componentWillReceiveProps */
@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state, ownProps) => {
   return {
     theme: state.theme,
-    user: state.user
+    users: state.users
   }
 }
 

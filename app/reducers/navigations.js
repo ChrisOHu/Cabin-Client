@@ -59,7 +59,7 @@ export default function reducer(state = initialState, action = {}) {
         ...savedState.navigations,
         app: {
           ...savedState.navigations.app,
-          index: (savedState.user.isLoggedIn && savedState.user.user) ? 1 : 0
+          index: (savedState.users.isLoggedIn && savedState.users.user) ? 1 : 0
         }
       }
 

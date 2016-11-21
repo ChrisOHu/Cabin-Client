@@ -11,7 +11,7 @@ import configs from '~/configs'
 
 import createLogger from 'redux-logger'
 
-export default function configureStore(initialState) {
+export default function configureStore({initialState, onRehydrated}) {
 
   /** 1. Configure persisted store migrations */
   const manifest = {
@@ -32,6 +32,14 @@ export default function configureStore(initialState) {
           ...state.user,
           user: state.user.user ? state.user.user.data : null
         }
+      }
+    },
+    4: (state) => {
+      return {
+        app         : {...state.app},
+        theme       : {...state.theme},
+        navigations : {...state.navigations},
+        users       : {...state.user}
       }
     }
   }
@@ -60,12 +68,16 @@ export default function configureStore(initialState) {
   })
 
   /** 4. Persist store */
-  persistStore(store, {
-    storage: AsyncStorage,
-    transforms: [
-      encryptor
-    ]
-  })
+  persistStore(
+    store,
+    {
+      storage: AsyncStorage,
+      transforms: [
+        encryptor
+      ]
+    },
+    onRehydrated
+  )
 
   return store
 }

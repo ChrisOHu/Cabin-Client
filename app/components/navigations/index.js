@@ -37,7 +37,7 @@ import Events from '~/app/Events'
 
 export function renderHeader(scene) {
   const { theme, push, pop } = this.props
-  const user = this.props.user.user 
+  const user = this.props.users.user 
   /* here key is 'scene_{theKey}' */
   const { index, key, route } = scene
 
@@ -84,7 +84,7 @@ export function renderHeader(scene) {
 }
 
 export function renderScene(scene) {
-  const { theme, user } = this.props
+  const { theme, users } = this.props
   const { index, key, route } = scene
 
   switch (route.key) {
