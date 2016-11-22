@@ -140,7 +140,7 @@ class Wall extends Component {
             justifyContent: 'flex-end',
             alignItems: 'center'
           }} >
-            <Button transparent style={{alignSelf: 'center', paddingRight: -3}} > <Icon name="ios-options" /> </Button>
+            <Button transparent style={{alignSelf: 'center', paddingRight: -3}} > <Icon name="ios-options-outline" /> </Button>
             <Button transparent style={{alignSelf: 'center', paddingRight: -1}}> <Icon name="ios-cog" /> </Button>
           </NbView>
         )}

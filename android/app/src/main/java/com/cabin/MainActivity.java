@@ -1,6 +1,7 @@
 package com.cabin;
 
 import com.facebook.react.ReactActivity;
+import com.beefe.picker.PickerViewPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.burlap.filetransfer.FileTransferPackage;
 import com.react.rnspinkit.RNSpinkitPackage;
