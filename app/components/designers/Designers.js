@@ -10,7 +10,7 @@ import {
 } from 'react-native'
 import { connect } from 'react-redux'
 
-class Painters extends Component {
+class Designers extends Component {
   static propTypes = {
     theme: T.object.isRequired
   }
@@ -25,7 +25,7 @@ class Painters extends Component {
   render() {
     return (
       <Text style={styles.content} >
-        Painters
+        Designers
       </Text>
     );
   }
@@ -53,5 +53,5 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Painters)
+)(Designers)
 

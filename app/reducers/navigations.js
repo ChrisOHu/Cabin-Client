@@ -22,27 +22,35 @@ const initialState = {
   },
   launch: {
     index: 0,
-    routes: [{key: 'login'}/*, {key: 'intro'}*/]
+    routes: [
+      {key: 'login'}
+    ]
   },
   home: {
     index: 0,
     routes: [
       {key: 'homes'},
-      {key: 'painters'},
+      {key: 'designers'},
       {key: 'wall'}
     ]
   },
   homes: {
     index: 0,
-    routes: [{key: 'homes-index'}, {key: 'homes-list'}, {key: 'home-details'}]
+    routes: [
+      {key: 'homes-index'}
+    ]
   },
-  painters: {
+  designers: {
     index: 0,
-    routes: [{key: 'painters-index'}, {key: 'painter-details'}]
+    routes: [
+      {key: 'designers-index'}
+    ]
   },
   wall: {
     index: 0,
-    routes: [{key: 'wall-index'}, {key: 'my-profile'}]
+    routes: [
+      {key: 'wall-index'}
+    ]
   }
 }
 
@@ -54,16 +62,17 @@ export default function reducer(state = initialState, action = {}) {
     case REHYDRATE: {
       let savedState = action.payload
 
-      const ret = {
-        ...state,
-        ...savedState.navigations,
-        app: {
-          ...savedState.navigations.app,
-          index: (savedState.users.isLoggedIn && savedState.users.user) ? 1 : 0
+      if (savedState.navigations) {
+        return {
+          ...state,
+          app: {
+            ...state.app,
+            index: (savedState.users.isLoggedIn && savedState.users.user) ? 1 : 0
+          }
         }
       }
 
-      return ret
+      return state
     }
     case PUSH: {
       const nextRoutes = NavigationStateUtils.push(routes, action.route)

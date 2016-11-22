@@ -20,58 +20,13 @@ import { logout } from '../actions/users'
 class CabinFab extends Component {
   static propTypes = {
     rules: T.array, // of ['host', 'designer']
+    push: T.func.isRequired,
+    pop: T.func.isRequired,
     naviToLaunch: T.func.isRequired,
     logout: T.func.isRequired
   }
   static defaultProps = {
     rules: []
-  }
-
-  _getActions() {
-    let ret = []
-    const { rules } = this.props
-
-    /**
-     * All Actions (will only be available when rules met):
-     * • Become A Host
-     * • Become A Designer
-     * • Post A Home
-     * • Post A Design
-     * • Login
-     */
-    if (rules.indexOf('host') < 0) {
-      ret.push(
-        <ActionButton.Item key="cabinFabItem-becomeHost" buttonColor='crimson' title={t('becomeHost')} onPress={() => {}}>
-          <Icon name="ios-ribbon" style={styles.actionButtonIcon} />
-        </ActionButton.Item>
-      )
-    }
-    if (rules.indexOf('designer') < 0) {
-      ret.push(
-        <ActionButton.Item key="cabinFabItem-becomePainter" buttonColor='royalblue' title={t('becomePainter')} onPress={() => {}}>
-          <Icon name="ios-color-palette" style={styles.actionButtonIcon} />
-        </ActionButton.Item>
-      )
-    }
-
-    ret.push(
-        <ActionButton.Item key="cabinFabItem-postHome" buttonColor='forestgreen' title={t('postHome')} onPress={() => {}}>
-          <Icon name="ios-home" style={styles.actionButtonIcon} />
-        </ActionButton.Item>
-    )
-    ret.push(
-        <ActionButton.Item key="cabinFabItem-postDesign" buttonColor='#ff00ff' title={t('postDesign')} onPress={() => {}}>
-          <Icon name="md-bulb" style={styles.actionButtonIcon} />
-        </ActionButton.Item>
-    )
-
-    ret.push(
-        <ActionButton.Item key="cabinFabItem-logout" buttonColor='#87ceeb' title={t('logout')} onPress={() => this.props.logout()}>
-          <Icon name="ios-paw" style={styles.actionButtonIcon} />
-        </ActionButton.Item>
-    )
-
-    return ret
   }
 
   render() {
@@ -92,8 +47,82 @@ class CabinFab extends Component {
         { this._getActions() }
 
       </ActionButton>
-    );
+    )
   }
+
+  _getActions() {
+    let ret = []
+    const { rules, push, pop, naviToLaunch, logout } = this.props
+
+    /**
+     * All Actions (will only be available when rules met):
+     * • Become A Host
+     * • Become A Designer
+     * • Post A Home
+     * • Post A Design
+     * • Login
+     */
+    if (rules.indexOf('host') < 0) {
+      ret.push(
+        <ActionButton.Item key="cabinFabItem-becomeHost" buttonColor='crimson' title={t('becomeHost')}
+          onPress={() => push({route: {key: "become-host"}})}
+        >
+          <Icon name="ios-ribbon" style={styles.actionButtonIcon} />
+        </ActionButton.Item>
+      )
+    } else {
+      ret.push(
+        <ActionButton.Item key="cabinFabItem-switchToHost" buttonColor='crimson' title={t('switchToHost')}
+          onPress={() => push({route: {key: "host"}})}
+        >
+          <Icon name="ios-ribbon" style={styles.actionButtonIcon} />
+        </ActionButton.Item>
+      )
+    }
+    if (rules.indexOf('designer') < 0) {
+      ret.push(
+        <ActionButton.Item key="cabinFabItem-becomeDesigner" buttonColor='royalblue' title={t('becomeDesigner')}
+          onPress={() => push({route: {key: "become-designer"}})}
+        >
+          <Icon name="ios-color-palette" style={styles.actionButtonIcon} />
+        </ActionButton.Item>
+      )
+    } else {
+      ret.push(
+        <ActionButton.Item key="cabinFabItem-switchToDesigner" buttonColor='royalblue' title={t('switchToDesigner')}
+          onPress={() => push({route: {key: "designer"}})}
+        >
+          <Icon name="ios-color-palette" style={styles.actionButtonIcon} />
+        </ActionButton.Item>
+      )
+    }
+
+    ret.push(
+      <ActionButton.Item key="cabinFabItem-postHome" buttonColor='forestgreen' title={t('postHome')}
+        onPress={() => push({route: {key: "post-home"}})}
+      >
+          <Icon name="ios-home" style={styles.actionButtonIcon} />
+        </ActionButton.Item>
+    )
+    ret.push(
+      <ActionButton.Item key="cabinFabItem-postDesign" buttonColor='#ff00ff' title={t('postDesign')}
+        onPress={() => push({route: {key: "post-design"}})}
+      >
+          <Icon name="md-bulb" style={styles.actionButtonIcon} />
+        </ActionButton.Item>
+    )
+
+    ret.push(
+      <ActionButton.Item key="cabinFabItem-logout" buttonColor='#87ceeb' title={t('logout')}
+        onPress={() => logout()}
+      >
+          <Icon name="ios-paw" style={styles.actionButtonIcon} />
+        </ActionButton.Item>
+    )
+
+    return ret
+  }
+
 }
 
 const styles = StyleSheet.create({
@@ -110,8 +139,10 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
+    push         : ({route, ...params}) => dispatch(push({route, ...params})),
+    pop          : () => dispatch(pop()),
     naviToLaunch : () => dispatch(naviToLaunch()),
-    logout : () => dispatch(logout())
+    logout       : () => dispatch(logout())
   }
 }
 

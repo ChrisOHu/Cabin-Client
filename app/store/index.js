@@ -15,33 +15,7 @@ export default function configureStore({initialState, onRehydrated}) {
 
   /** 1. Configure persisted store migrations */
   const manifest = {
-    1: (state) => ({...state}),
-    2: (state) => {
-      return {
-        ...state,
-        app: {
-          ...state.app,
-          toast: {}
-        }
-      }
-    },
-    3: (state) => {
-      return {
-        ...state,
-        user: {
-          ...state.user,
-          user: state.user.user ? state.user.user.data : null
-        }
-      }
-    },
-    4: (state) => {
-      return {
-        app         : {...state.app},
-        theme       : {...state.theme},
-        navigations : {...state.navigations},
-        users       : {...state.user}
-      }
-    }
+    1: (state) => ({...state})
   }
   const reducerKey = 'app' // reducerKey => state.app.version
   const migration = createMigration(manifest, reducerKey)

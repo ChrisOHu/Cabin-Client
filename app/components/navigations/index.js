@@ -22,18 +22,34 @@ import {
   Intro,
   Login,
   LoginModal,
-  Home,
   HomesMap,
-  Painters,
+  Designers,
   Wall,
-  MyProfile
+  MyProfile,
+  BecomeHost,
+  BecomeDesigner,
+  FiveThirty
 } from '~/app/components'
 
 import Events from '~/app/Events'
 
-/**
- * launch: intro, login
- */
+/** All the routes */
+const routes = [
+  { key: 'login'},
+  { key: 'homes-index'},
+  { key: 'designers-index'},
+  { key: 'wall-index'},
+  { key: 'homes-list'},
+  { key: 'home-details'},
+  { key: 'designer-details'},
+  { key: 'my-profile'},
+  { key: 'become-host'},
+  { key: 'become-designer'},
+  { key: 'host'},
+  { key: 'designer'},
+  { key: 'post-home'},
+  { key: 'post-design'}
+]
 
 export function renderHeader(scene) {
   const { theme, push, pop } = this.props
@@ -48,7 +64,7 @@ export function renderHeader(scene) {
       return null
     case 'homes-index':
       return null
-    case 'painters-index':
+    case 'designers-index':
       return null
     case 'wall-index':
       return null
@@ -66,11 +82,13 @@ export function renderHeader(scene) {
           </Button>
         </Header>
       )
+    case 'become-host':
+    case 'become-designer':
     default:
       return (
         <Header theme={theme} >
-          <Button transparent>
-            <Icon name="ios-boat-outline" />
+          <Button transparent onPress={() => {pop()}} >
+            <Icon name="ios-arrow-back" />
           </Button>
 
           <Title>{route.key}</Title>
@@ -92,21 +110,19 @@ export function renderScene(scene) {
       return <Login />
     case 'homes-index':
       return <HomesMap />
-    case 'painters-index':
-      return <Painters />
+    case 'designers-index':
+      return <Designers />
     case 'wall-index':
       return <Wall />
     case 'my-profile':
       return <MyProfile />
+    case 'become-host':
+      return <BecomeHost />
+    case 'become-designer':
+      return <BecomeDesigner />
     case 'intro':
     default:
-      return (
-        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-          <Text>
-            {'Scene: ' + key}
-          </Text>
-        </View>
-      )
+      return <FiveThirty />
   }
 }
 

@@ -52,7 +52,7 @@ class Navigator extends Component {
       launch   : NavigationPropTypes.navigationState.isRequired,
       home     : NavigationPropTypes.navigationState.isRequired,
       homes    : NavigationPropTypes.navigationState.isRequired,
-      painters : NavigationPropTypes.navigationState.isRequired,
+      designers: NavigationPropTypes.navigationState.isRequired,
       wall     : NavigationPropTypes.navigationState.isRequired
     }).isRequired,
     users: PropTypes.shape({
@@ -127,8 +127,8 @@ class Navigator extends Component {
               Homes
               <Icon name="ios-images-outline" />
             </Button>
-            <Button active={this.state.activeTab == 'painters'} onPress={() => this._switchToTab('painters')} >
-              Painters
+            <Button active={this.state.activeTab == 'designers'} onPress={() => this._switchToTab('designers')} >
+              Designers
               <Icon name="ios-color-palette-outline" />
             </Button>
             <Button active={this.state.activeTab == 'wall'}       onPress={() => this._switchToTab('wall')} >

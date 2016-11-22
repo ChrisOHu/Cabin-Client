@@ -4,7 +4,6 @@ const En = {
   register: 'Register',
   becomeHost: 'Become A Host',
   becomeDesigner: 'Become A Designer',
-  becomePainter: 'Become A Painter',
   postHome: 'Post A Home',
   postDesign: 'Post A Design',
   dontHaveAccount: "Don't have an account? Register",
@@ -18,7 +17,9 @@ const En = {
   editName: "Edit name",
   saveSuccess: "Saved successfully",
   change: "Change",
-  Favorites: "Favorites"
+  Favorites: "Favorites",
+  switchToHost: "Switch To Host",
+  switchToDesigner: "Switch To Designer"
 }
 
 export default En
