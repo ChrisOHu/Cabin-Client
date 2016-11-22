@@ -6,6 +6,7 @@ import {
   View,
   Text,
   Image,
+  Platform,
   StyleSheet,
   Dimensions,
   TouchableOpacity
@@ -26,11 +27,15 @@ import t from 'counterpart'
 
 import ParallaxScrollView from '~/app/common/ParallaxScrollView'
 import { KeyboardAwareScrollView } from '~/app/common/KeyboardAwareViews'
-import UserCard from '~/app/common/UserCard'
-import { Line } from '~/app/common'
+import {
+  Line,
+  UserCard,
+  ScrollableTabView
+} from '~/app/common'
 import {
   push
 } from '~/app/actions/navigations'
+import { GOLDEN_RATIO } from '~/app/elves/Math'
 
 const window = Dimensions.get('window')
 
@@ -76,7 +81,7 @@ class Wall extends Component {
       return null
     }
 
-    const HEADER_HEIGHT = 300
+    const HEADER_HEIGHT = window.width / 1.2
     return (
       <ParallaxScrollView
         style={{ flex: 1, backgroundColor: theme.sceneBgColor, overflow: 'hidden' }}
@@ -88,7 +93,7 @@ class Wall extends Component {
           return (
             <Image
               defaultSource={require('~/app/assets/header-default.jpg')}
-              source={{ uri: user.banner }}
+              source={{uri: user.banner}}
               resizeMode='cover'
               style={{ width: window.width, height: HEADER_HEIGHT }}
             />
@@ -116,15 +121,29 @@ class Wall extends Component {
                   style={{ width: 35, height: 35, borderRadius: 17.5 }}
                 />
               </Button>
-   
+
               <Title>{user.name}</Title>
-   
-              <Button transparent>
-                <Icon name="ios-cog" />
-              </Button>
             </Header>
           )
         }}
+        renderFixedHeader={() => (
+          <NbView theme={theme} style={{
+            backgroundColor: 'transparent',
+            position: 'absolute',
+            right: 0,
+            top: 0,
+            height: theme.toolbarHeight,
+            paddingTop: (Platform.OS === 'ios' ) ? 15 : 0,
+            paddingHorizontal: 0,
+            flex: 1,
+            flexDirection: 'row',
+            justifyContent: 'flex-end',
+            alignItems: 'center'
+          }} >
+            <Button transparent style={{alignSelf: 'center', paddingRight: -3}} > <Icon name="ios-options" /> </Button>
+            <Button transparent style={{alignSelf: 'center', paddingRight: -1}}> <Icon name="ios-cog" /> </Button>
+          </NbView>
+        )}
       >
 
       <NbView theme={theme} style={[styles.content, {
@@ -132,7 +151,11 @@ class Wall extends Component {
         padding: theme.contentPadding,
         paddingTop: 15
       }]} >
-          <Line title={t('Favorites')} />
+        <Line title={t('Favorites')} />
+        <ScrollableTabView>
+          <View tabLabel="Homes"   style={{height: 800, backgroundColor: 'royalblue'}} />
+          <View tabLabel="Designs" style={{height: 800, backgroundColor: 'lightgray'}} />
+        </ScrollableTabView>
       </NbView>
 
       </ParallaxScrollView>

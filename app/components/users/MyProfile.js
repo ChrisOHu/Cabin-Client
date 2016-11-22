@@ -34,14 +34,13 @@ import {
   TimePickerField
 } from 'react-native-form-generator'
 import Ionicons from 'react-native-vector-icons/Ionicons'
-import Lightbox from 'react-native-lightbox'
 import ImagePicker from 'react-native-image-crop-picker'
 import t from 'counterpart'
 import { connect } from 'react-redux'
 
 import { KeyboardAwareScrollView } from '~/app/common/KeyboardAwareViews'
 import Events from '~/app/Events'
-import { renderLightbox } from '~/app/common'
+import { Lightbox } from '~/app/common'
 import {
   push, pop
 } from '~/app/actions/navigations'
@@ -110,8 +109,8 @@ class MyProfile extends Component {
     return (
       <Content style={styles.content} theme={theme} >
 
-        {renderLightbox({
-          rightBtns: (
+        <Lightbox
+          rightBtns={(
             <Button transparent textStyle={{color: 'white'}}
               onPress={() => {
                 ImagePicker.openPicker({
@@ -124,18 +123,16 @@ class MyProfile extends Component {
             >
               {t('change')}
             </Button>
-          ),
-          child: (
-            <Image style={styles.banner}
-              defaultSource={require('~/app/assets/header-default.jpg')}
-              source={{ uri: user.banner }}
-              resizeMode='cover'
-            />
-          )
-        })}
+          )} >
+          <Image style={styles.banner}
+            defaultSource={require('~/app/assets/header-default.jpg')}
+            source={{ uri: user.banner }}
+            resizeMode='cover'
+          />
+        </Lightbox>
 
-        {renderLightbox({
-          rightBtns: (
+        <Lightbox
+          rightBtns={(
             <Button transparent textStyle={{color: 'white'}}
               onPress={() => {
                 ImagePicker.openPicker({
@@ -150,28 +147,26 @@ class MyProfile extends Component {
             >
               {t('change')}
             </Button>
-          ),
-          child: (
-            <View style={styles.avatarContainer} >
-              <Image style={styles.avatar}
-                defaultSource={require('~/app/assets/avatar-default.png')}
-                source={{ uri: user.avatar }}
-                resizeMode='cover'
-              />
-              <View style={styles.avatarRight} >
-                <Text style={{fontSize: 18, paddingRight: 8, paddingBottom: 2, color: '#4A4A4A'}} >{t('edit')}</Text>
-                <Ionicons name="ios-arrow-forward" color="#4A4A4A" size={20} />
-              </View>
-            </View>
-          ),
-          content: (
-            <Image style={{width: window.width, height: window.width}}
+          )}
+          content={(
+            <Image style={{width: window.width, height: window.width, backgroundColor: 'rgba(0,0,0,0)'}}
               defaultSource={require('~/app/assets/avatar-default.png')}
               source={{ uri: user.avatar }}
               resizeMode='center'
             />
-          )
-        })}
+          )} >
+          <View style={styles.avatarContainer} >
+            <Image style={styles.avatar}
+              defaultSource={require('~/app/assets/avatar-default.png')}
+              source={{ uri: user.avatar }}
+              resizeMode='cover'
+            />
+            <View style={styles.avatarRight} >
+              <Text style={{fontSize: 18, paddingRight: 8, paddingBottom: 2, color: '#4A4A4A'}} >{t('change')}</Text>
+              <Ionicons name="ios-arrow-forward" color="#4A4A4A" size={20} />
+            </View>
+          </View>
+        </Lightbox>
 
         <Form
           ref='registrationForm'
