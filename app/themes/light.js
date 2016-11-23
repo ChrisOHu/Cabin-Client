@@ -28,7 +28,7 @@ const baseTheme = {
   checkboxTickColor: '#fff',
 
   // Color
-  brandPrimary : '#5067FF',
+  brandPrimary : '#4169e1',
   brandInfo: '#5bc0de',
   brandSuccess: '#5cb85c',
   brandDanger: '#d9534f',

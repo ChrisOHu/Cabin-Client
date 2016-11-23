@@ -10,6 +10,7 @@ import {
 import {
   View as NbView
 } from 'native-base'
+import { connect } from 'react-redux'
 
 class BecomeDesigner extends Component {
   static propTypes = {
@@ -70,5 +71,18 @@ const styles = StyleSheet.create({
   }
 })
 
-export default BecomeDesigner
+const mapStateToProps = (state, ownProps) => {
+  return {
+    theme: state.theme
+  }
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {}
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(BecomeDesigner)
 

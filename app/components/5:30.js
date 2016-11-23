@@ -10,6 +10,8 @@ import {
 import {
   View as NbView
 } from 'native-base'
+import { connect } from 'react-redux'
+import t from 'counterpart'
 
 class FiveThirty extends Component {
   static propTypes = {
@@ -70,5 +72,16 @@ const styles = StyleSheet.create({
   }
 });
 
-export default FiveThirty
+const mapStateToProps = (state, ownProps) => {
+  return {}
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {}
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(FiveThirty)
 
