@@ -5,15 +5,15 @@ import { showToast } from './app'
 export const BECOME_HOST_REQUEST = 'BECOME_HOST_REQUEST'
 export const BECOME_HOST_SUCCESS = 'BECOME_HOST_SUCCESS'
 export const BECOME_HOST_FAILURE = 'BECOME_HOST_FAILURE'
-export function becomeHost({userId, name, avatar, banner}) {
+export function becomeHost({userId}) {
   const requestData = {userId, name, avatar, banner}
   return (dispatch) => {
     dispatch(request(BECOME_HOST_REQUEST, requestData))
 
     feathers().service('hosts')
-      .create({user: {userId, name, avatar, banner}})
+      .create({userId})
       .then((result) => {
-        const host = result.data
+        const host = result
         dispatch(success(BECOME_HOST_SUCCESS, host))
       })
       .catch((err) => {
@@ -54,7 +54,7 @@ export function fetchHost(hostId) {
     feathers().service('hosts')
       .get(hostId)
       .then((result) => {
-        const host = result.data
+        const host = result
         dispatch(success(FETCH_HOST_SUCCESS, host))
       })
       .catch((err) => {

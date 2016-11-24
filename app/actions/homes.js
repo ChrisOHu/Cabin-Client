@@ -13,7 +13,7 @@ export function postHome({userId, name, banner}) {
     feathers().service('homes')
       .create({userId, name, banner})
       .then((result) => {
-        const home = result.data
+        const home = result
         dispatch(success(POST_HOME_SUCCESS, home))
       })
       .catch((err) => {
@@ -53,7 +53,7 @@ export function fetchHome(homeId) {
     feathers().service('homes')
       .get(homeId)
       .then((result) => {
-        const home = result.data
+        const home = result
         dispatch(success(FETCH_HOME_SUCCESS, home))
       })
       .catch((err) => {

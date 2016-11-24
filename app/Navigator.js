@@ -25,6 +25,7 @@ import Toast, {DURATION} from '~/app/common/Toast'
 import CabinFab from './components/CabinFab'
 import { renderHeader, renderScene } from './components/navigations'
 
+import { logout } from './actions/users'
 import {
   push, pop, naviToLaunch, naviToHome, naviToTab
 } from './actions/navigations'
@@ -63,11 +64,16 @@ class Navigator extends Component {
       user          : PropTypes.object,
       error         : PropTypes.any
     }),
+    hosts        : PropTypes.object.isRequired,
+    designers    : PropTypes.object.isRequired,
+    homes        : PropTypes.object.isRequired,
+    designs      : PropTypes.object.isRequired,
     push         : PropTypes.func.isRequired,
     pop          : PropTypes.func.isRequired,
     naviToLaunch : PropTypes.func.isRequired,
     naviToHome   : PropTypes.func.isRequired,
     naviToTab    : PropTypes.func.isRequired,
+    logout       : PropTypes.func.isRequired,
     theme        : PropTypes.object.isRequired
   }
   static defaultProps = {}
@@ -145,7 +151,7 @@ class Navigator extends Component {
   _renderFab() {
     if (this.props.navi.app.index == 1) {
       return (
-        <CabinFab />
+        <CabinFab {...this.props} />
       )
     } else {
       return null
@@ -189,9 +195,13 @@ const styles = StyleSheet.create({ })
 const mapStateToProps = (state, ownProps) => {
   return {
     app: state.app,
-    users: state.users,
     navi: state.navigations,
-    theme: state.theme
+    theme: state.theme,
+    users: state.users,
+    hosts: state.hosts,
+    designers: state.designers,
+    homes: state.homes,
+    designs: state.designs
   }
 }
 
@@ -201,7 +211,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     pop          : () => dispatch(pop()),
     naviToLaunch : () => dispatch(naviToLaunch()),
     naviToHome   : () => dispatch(naviToHome()),
-    naviToTab    : ({route, ...params}) => dispatch(naviToTab({route, ...params}))
+    naviToTab    : ({route, ...params}) => dispatch(naviToTab({route, ...params})),
+    logout       : () => dispatch(logout())
   }
 }
 

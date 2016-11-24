@@ -33,16 +33,13 @@ class BecomeHost extends Component {
 
   render() {
     const { theme, user, becomeHost } = this.props
-    const userSnapshot = {
-      userId: user._id,
-      name: user.name,
-      avatar: user.avatar,
-      banner: user.banner
+    const host = {
+      userId: user._id
     }
 
     return (
       <NbView theme={theme} style={styles.content} >
-        <Button style={{alignSelf: 'center'}} onPress={() => becomeHost(userSnapshot)} >{t('becomeHost')}</Button>
+        <Button style={{alignSelf: 'center'}} onPress={() => becomeHost(host)} >{t('becomeHost')}</Button>
       </NbView>
     )
   }

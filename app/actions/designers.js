@@ -13,7 +13,7 @@ export function becomeDesigner({userId, name, avatar, banner}) {
     feathers().service('designers')
       .create({userId})
       .then((result) => {
-        const designer = result.data
+        const designer = result
         dispatch(success(BECOME_DESIGNER_SUCCESS, designer))
       })
       .catch((err) => {
@@ -53,7 +53,7 @@ export function fetchDesigner(designerId) {
     feathers().service('designers')
       .get(designerId)
       .then((result) => {
-        const designer = result.data
+        const designer = result
         dispatch(success(FETCH_DESIGNER_SUCCESS, designer))
       })
       .catch((err) => {

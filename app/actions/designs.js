@@ -13,7 +13,7 @@ export function postDesign({designer, title, banner, content}) {
     feathers().service('designs')
       .create({designer, title, banner, content})
       .then((result) => {
-        const design = result.data
+        const design = result
         dispatch(success(POST_DESIGN_SUCCESS, design))
       })
       .catch((err) => {
@@ -53,7 +53,7 @@ export function fetchdesign(designId) {
     feathers().service('designs')
       .get(designId)
       .then((result) => {
-        const design = result.data
+        const design = result
         dispatch(success(FETCH_DESIGN_SUCCESS, design))
       })
       .catch((err) => {
