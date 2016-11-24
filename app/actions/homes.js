@@ -5,13 +5,13 @@ import { showToast } from './app'
 export const POST_HOME_REQUEST = 'POST_HOME_REQUEST'
 export const POST_HOME_SUCCESS = 'POST_HOME_SUCCESS'
 export const POST_HOME_FAILURE = 'POST_HOME_FAILURE'
-export function postHome({userId, name, banner}) {
-  const requestData = {userId, name, banner}
+export function postHome({hostId, name, banner}) {
+  const requestData = {hostId, name, banner}
   return (dispatch) => {
     dispatch(request(POST_HOME_REQUEST, requestData))
 
     feathers().service('homes')
-      .create({userId, name, banner})
+      .create(requestData)
       .then((result) => {
         const home = result
         dispatch(success(POST_HOME_SUCCESS, home))

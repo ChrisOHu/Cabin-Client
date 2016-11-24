@@ -4,7 +4,7 @@ import { Platform } from 'react-native'
 
 const baseTheme = {
   // Scene
-  sceneBgColor: 'white',
+  sceneBgColor: '#EFEFF4',
 
   // Line
   lineColor: '#979797',

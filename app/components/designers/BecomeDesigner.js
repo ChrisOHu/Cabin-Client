@@ -8,55 +8,38 @@ import {
   StyleSheet
 } from 'react-native'
 import {
-  View as NbView
+  View as NbView,
+  Button
 } from 'native-base'
 import { connect } from 'react-redux'
+import t from 'counterpart'
+
+import { becomeDesigner } from '~/app/actions/designers'
 
 class BecomeDesigner extends Component {
   static propTypes = {
-    theme: T.object
+    theme: T.object.isRequired,
+    user: T.object.isRequired,
+    designers: T.object.isRequired,
+    becomeDesigner: T.func.isRequired
   }
 
   constructor(props) {
     super(props)
 
     this.state = {
-      hours: 5,
-      minutes: 30,
-      seconds: 0
     }
-  }
-  componentDidMount() {
-    this.__intervalId = setInterval(() => {
-      let { hours, minutes, seconds } = this.state
-      seconds++
-
-      minutes = seconds >= 60 ? minutes + 1 : minutes
-      hours   = minutes >= 60 ? hours + 1   : hours
-
-      seconds = seconds >= 60 ? seconds-60  : seconds
-      minutes = minutes >= 60 ? minutes-60  : minutes
-      hours   = hours   >= 24 ? hours-24    : hours
-
-      this.setState({hours, minutes, seconds})
-    }, 1000)
-  }
-  componentWillUnmount() {
-    clearInterval(this.__intervalId)
   }
 
   render() {
-    const { theme } = this.props
-    const { hours, minutes, seconds } = this.state
-    const hoursStr   = '' + hours
-    const minutesStr = minutes > 9 ? '' + minutes : '0' + minutes
-    const secondsStr = seconds > 9 ? '' + seconds : '0' + seconds
+    const { theme, user, becomeDesigner } = this.props
+    const designer = {
+      userId: user._id
+    }
 
     return (
       <NbView theme={theme} style={styles.content} >
-        <Text style={{color: 'royalblue', fontSize: 40, marginBottom: 60}} >
-          {`${hoursStr}:${minutesStr}:${secondsStr}`}
-        </Text>
+        <Button style={{alignSelf: 'center'}} onPress={() => becomeDesigner(designer)} >{t('becomeDesigner')}</Button>
       </NbView>
     )
   }
@@ -73,16 +56,21 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    theme: state.theme
+    theme: state.theme,
+    user: state.users.user,
+    designers: state.designers
   }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  return {}
+  return {
+    becomeDesigner: (designer) => dispatch(becomeDesigner(designer))
+  }
 }
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(BecomeDesigner)
+
 

@@ -21,8 +21,8 @@ import {
 import {
   Intro,
   Login,
-  LoginModal,
   HomesMap,
+  PostHome,
   Designers,
   Wall,
   MyProfile,
@@ -30,6 +30,8 @@ import {
   BecomeDesigner,
   FiveThirty
 } from '~/app/components'
+
+import t from 'counterpart'
 
 import Events from '~/app/Events'
 
@@ -78,12 +80,52 @@ export function renderHeader(scene) {
           <Title>{user && user.name}</Title>
 
           <Button transparent onPress={() => Events.emit("cabin/my-profile/save")} >
-            Save
+            {t("save")}
           </Button>
         </Header>
       )
     case 'become-host':
+      return (
+        <Header theme={theme} >
+          <Button transparent onPress={() => {pop()}} >
+            <Icon name="ios-arrow-back" />
+          </Button>
+
+          <Title>{t('becomeHost')}</Title>
+
+          <Button transparent onPress={() => Events.emit("cabin/become-host/post")} >
+            {t('post')}
+          </Button>
+        </Header>
+      )
     case 'become-designer':
+      return (
+        <Header theme={theme} >
+          <Button transparent onPress={() => {pop()}} >
+            <Icon name="ios-arrow-back" />
+          </Button>
+
+          <Title>{t('becomeDesigner')}</Title>
+
+          <Button transparent onPress={() => Events.emit("cabin/become-designer/post")} >
+            {t('post')}
+          </Button>
+        </Header>
+      )
+    case 'post-home':
+      return (
+        <Header theme={theme} >
+          <Button transparent onPress={() => {pop()}} >
+            <Icon name="ios-arrow-back" />
+          </Button>
+
+          <Title>{t('newHome')}</Title>
+
+          <Button transparent onPress={() => Events.emit("cabin/post-home/post")} >
+            {t('post')}
+          </Button>
+        </Header>
+      )
     default:
       return (
         <Header theme={theme} >
@@ -120,6 +162,8 @@ export function renderScene(scene) {
       return <BecomeHost />
     case 'become-designer':
       return <BecomeDesigner />
+    case 'post-home':
+      return <PostHome />
     case 'intro':
     default:
       return <FiveThirty />

@@ -5,13 +5,13 @@ import { showToast } from './app'
 export const POST_DESIGN_REQUEST = 'POST_DESIGN_REQUEST'
 export const POST_DESIGN_SUCCESS = 'POST_DESIGN_SUCCESS'
 export const POST_DESIGN_FAILURE = 'POST_DESIGN_FAILURE'
-export function postDesign({designer, title, banner, content}) {
-  const requestData = {designer, title, banner, content}
+export function postDesign({designerId, title, banner, content}) {
+  const requestData = {designerId, title, banner, content}
   return (dispatch) => {
     dispatch(request(POST_DESIGN_REQUEST, requestData))
 
     feathers().service('designs')
-      .create({designer, title, banner, content})
+      .create(requestData)
       .then((result) => {
         const design = result
         dispatch(success(POST_DESIGN_SUCCESS, design))

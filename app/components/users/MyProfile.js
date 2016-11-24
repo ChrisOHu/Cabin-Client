@@ -107,7 +107,8 @@ class MyProfile extends Component {
     }
 
     return (
-      <Content style={styles.content} theme={theme} >
+      <Content style={styles.content} theme={theme}
+        contentContainerStyle={styles.contentContainerStyle} >
 
         <Lightbox
           rightBtns={(
@@ -198,6 +199,9 @@ class MyProfile extends Component {
 
 const styles = StyleSheet.create({
   content: {},
+  contentContainerStyle: {
+    padding: 0
+  },
   banner: {
     width: window.width,
     height: 200,
