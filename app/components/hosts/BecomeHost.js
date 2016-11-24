@@ -14,10 +14,13 @@ import {
 import { connect } from 'react-redux'
 import t from 'counterpart'
 
+import { becomeHost } from '~/app/actions/hosts'
+
 class BecomeHost extends Component {
   static propTypes = {
     theme: T.object.isRequired,
     user: T.object.isRequired,
+    hosts: T.object.isRequired,
     becomeHost: T.func.isRequired
   }
 
@@ -27,8 +30,6 @@ class BecomeHost extends Component {
     this.state = {
     }
   }
-  componentDidMount() { }
-  componentWillUnmount() { }
 
   render() {
     const { theme, user, becomeHost } = this.props
@@ -41,7 +42,7 @@ class BecomeHost extends Component {
 
     return (
       <NbView theme={theme} style={styles.content} >
-        <Button style={{alignSelf: 'center'}} onPress={becomeHost(userSnapshot)} >{t('becomeHost')}</Button>
+        <Button style={{alignSelf: 'center'}} onPress={() => becomeHost(userSnapshot)} >{t('becomeHost')}</Button>
       </NbView>
     )
   }
@@ -59,7 +60,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state, ownProps) => {
   return {
     theme: state.theme,
-    user: state.users.user
+    user: state.users.user,
+    hosts: state.hosts
   }
 }
 

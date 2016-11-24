@@ -54,14 +54,6 @@ class CabinFab extends Component {
     let ret = []
     const { rules, push, pop, naviToLaunch, logout } = this.props
 
-    /**
-     * All Actions (will only be available when rules met):
-     * • Become A Host
-     * • Become A Designer
-     * • Post A Home
-     * • Post A Design
-     * • Login
-     */
     if (rules.indexOf('host') < 0) {
       ret.push(
         <ActionButton.Item key="cabinFabItem-becomeHost" buttonColor='crimson' title={t('becomeHost')}

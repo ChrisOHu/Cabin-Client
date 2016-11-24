@@ -2,18 +2,17 @@ import t from 'counterpart'
 import { getInstance as feathers } from '../feathers'
 import { showToast } from './app'
 
-
 export const BECOME_HOST_REQUEST = 'BECOME_HOST_REQUEST'
 export const BECOME_HOST_SUCCESS = 'BECOME_HOST_SUCCESS'
 export const BECOME_HOST_FAILURE = 'BECOME_HOST_FAILURE'
 export function becomeHost({userId, name, avatar, banner}) {
-  return (dispatch) {
+  return (dispatch) => {
     dispatch(request(BECOME_HOST_REQUEST))
 
     feathers().service('hosts')
       .create({user: {userId, name, avatar, banner}})
       .then((result) => {
-        const host = result
+        const host = result.data
         dispatch(success(BECOME_HOST_SUCCESS, host))
       })
       .catch((err) => {
@@ -33,7 +32,7 @@ export function fetchHosts() {
     feathers().service('hosts')
       .find(/*Query: see feathers's query*/)
       .then((result) => {
-        const hosts = result
+        const hosts = result.data
         dispatch(success(FETCH_HOSTS_SUCCESS, hosts))
       })
       .catch((err) => {
@@ -53,8 +52,8 @@ export function fetchHost(hostId) {
     feathers().service('hosts')
       .get(hostId)
       .then((result) => {
-        const host = result
-        dispatch(success(FETCH_HOSTS_SUCCESS, host))
+        const host = result.data
+        dispatch(success(FETCH_HOST_SUCCESS, host))
       })
       .catch((err) => {
         dispatch(failure(FETCH_HOST_FAILURE, err))
