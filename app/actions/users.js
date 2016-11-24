@@ -25,8 +25,9 @@ export const UPDATE_USER_AVATAR_SUCCESS = "UPDATE_USER_AVATAR_SUCCESS"
 export const UPDATE_USER_AVATAR_FAILURE = "UPDATE_USER_AVATAR_FAILURE"
 
 export function register({phone, name, password}) {
+  const requestData = {phone, name, password}
   return (dispatch) => {
-    dispatch(registerRequest())
+    dispatch(request(REGISTER_REQUEST, requestData))
 
     feathers().service('users')
       .create({phone, name, password})
@@ -40,7 +41,7 @@ export function register({phone, name, password}) {
       .then((result) => {
         // app.get('token')
         const { token, data } = result
-        dispatch(registerSuccess(data, token))
+        dispatch(success(REGISTER_SUCCESS, {data, token}))
         dispatch(showToast({message: 'TADA~~: Register success'}))
         dispatch(naviToHome())
       })
@@ -59,18 +60,16 @@ export function register({phone, name, password}) {
          * see feathers docs' errors section
          */
         // TODO: handle error cases: network, user doesn't exist, password incorrect, .etc
-        dispatch(registerFailure(t("opsError")))
+        dispatch(failure(REGISTER_FAILURE, err))
         dispatch(showToast({message: t("opsError")}))
       })
   }
 }
-function registerRequest() { return { type: REGISTER_REQUEST } }
-function registerSuccess(user, token)  { return { type: REGISTER_SUCCESS, user, token } }
-function registerFailure(error) { return { type: REGISTER_FAILURE, error } }
 
 export function login({phone, password}) {
+  const requestData = {phone, password}
   return (dispatch) => {
-    dispatch(loginRequest())
+    dispatch(request(LOGIN_REQUEST, requestData))
 
     feathers().authenticate({
       type: 'local',
@@ -80,118 +79,105 @@ export function login({phone, password}) {
       .then((result) => {
         // app.get('token')
         const { token, data } = result
-        dispatch(loginSuccess(data, token))
+        dispatch(success(LOGIN_SUCCESS, {data, token}))
         dispatch(showToast({message: "TADA~: login success"}))
         dispatch(naviToHome())
       })
       .catch((err) => {
-        dispatch(loginFailure(t("checkPhonePwd")))
+        dispatch(failure(LOGIN_FAILURE, err))
         dispatch(showToast({message: t("checkPhonePwd")}))
       })
   }
 }
-function loginRequest() { return { type: LOGIN_REQUEST } }
-function loginSuccess(user, token) { return { type: LOGIN_SUCCESS, user, token } }
-function loginFailure(error) { return { type: LOGIN_FAILURE, error } }
 
 export function logout() {
   return (dispatch) => {
-    dispatch(logoutRequest())
+    dispatch(request(LOGOUT_REQUEST))
 
     feathers().logout()
       .then((result) => {
-        dispatch(logoutSuccess())
+        dispatch(success(LOGOUT_SUCCESS, result))
         dispatch(naviToLaunch())
       })
       .catch((err) => {
-        dispatch(logoutFailure(t("opsError")))
+        dispatch(failure(LOGOUT_FAILURE, err))
         dispatch(showToast({message: t("opsError")}))
       })
   }
 }
-function logoutRequest() { return { type: LOGOUT_REQUEST } }
-function logoutSuccess() { return { type: LOGOUT_SUCCESS } }
-function logoutFailure(error) { return { type: LOGOUT_FAILURE, error } }
 
 export function patchUserProfile(userId, profileData) {
+  const requestData = {userId, profileData}
   return (dispatch) => {
-    dispatch(patchUserProfileRequest())
+    dispatch(request(PATCH_USER_PROFILE_REQUEST, requestData))
 
     feathers().service('users')
       .patch(userId, profileData)
       .then((result) => {
-        dispatch(patchUserProfileSuccess(result))
+        const latestUser = result
+        dispatch(success(PATCH_USER_PROFILE_SUCCESS, latestUser))
         dispatch(showToast({message: t("saveSuccess")}))
       })
       .catch((err) => {
-        dispatch(patchUserProfileFailure(t("opsError")))
+        dispatch(failure(PATCH_USER_PROFILE_FAILURE, err))
         dispatch(showToast({message: t("opsError")}))
       })
 
   }
 }
-function patchUserProfileRequest()      { return { type: PATCH_USER_PROFILE_REQUEST } }
-function patchUserProfileSuccess(user)  { return { type: PATCH_USER_PROFILE_SUCCESS, user } }
-function patchUserProfileFailure(error) { return { type: PATCH_USER_PROFILE_FAILURE, error } }
 
 export function updateUserBanner(userId, image) {
+  const requestData = {userId, image}
   const { path, width, height, mime, size, data } = image
 
   return (dispatch) => {
-    dispatch(updateUserBannerRequest())
+    dispatch(request(UPDATE_USER_BANNER_REQUEST, requestData))
 
     /** TODO: uploadImage().then(patch user profile) */
     feathers().service('users')
       .patch(userId, {banner: path})
       .then((result) => {
-        /**
-         * Result is the latest user object:
-         *  {
-         *    "_id": "#$%^&*",
-         *    "phone": "!@#$%^&",
-         *    "__v": 0,
-         *    ...
-         *  }
-         */
-        console.debug('## updateUserBannerSuccess =>')
-        console.debug(JSON.stringify(result))
-        dispatch(updateUserBannerSuccess(path))
+        const latestUser = result
+        dispatch(success(UPDATE_USER_BANNER_SUCCESS, latestUser))
+        dispatch(showToast({message: t("saveSuccess")}))
       })
       .catch((err) => {
-        console.debug('## updateUserBannerFailure =>')
-        console.debug(JSON.stringify(err))
-        dispatch(updateUserBannerFailure(t("opsError")))
+        dispatch(failure(UPDATE_USER_BANNER_FAILURE, err))
         dispatch(showToast({message: t("opsError")}))
       })
   }
 }
-function updateUserBannerRequest() { return { type: UPDATE_USER_BANNER_REQUEST } }
-function updateUserBannerSuccess(url) { return { type: UPDATE_USER_BANNER_SUCCESS, url } }
-function updateUserBannerFailure(error) { return { type: UPDATE_USER_BANNER_FAILURE, error } }
 
 export function updateUserAvatar(userId, image) {
+  const requestData = {userId, image}
   const { path, width, height, mime, size, data } = image
 
   return (dispatch) => {
-    dispatch(updateUserAvatarRequest())
+    dispatch(request(UPDATE_USER_AVATAR_REQUEST, requestData))
 
     /** TODO: uploadImage().then(patch user profile) */
     feathers().service('users')
       .patch(userId, {avatar: path})
       .then((result) => {
-        console.debug('## updateUserAvatarSuccess =>')
-        console.debug(JSON.stringify(result))
-        dispatch(updateUserAvatarSuccess(path))
+        const latestUser = result
+        dispatch(success(UPDATE_USER_AVATAR_SUCCESS, latestUser))
+        dispatch(showToast({message: t("saveSuccess")}))
       })
       .catch((err) => {
-        console.debug('## updateUserAvatarFailure =>')
-        console.debug(JSON.stringify(err))
-        dispatch(updateUserAvatarFailure(t("opsError")))
+        dispatch(failure(UPDATE_USER_AVATAR_FAILURE, err))
         dispatch(showToast({message: t("opsError")}))
       })
   }
 }
-function updateUserAvatarRequest(userId, image) { return { type: UPDATE_USER_AVATAR_REQUEST } }
-function updateUserAvatarSuccess(url) { return { type: UPDATE_USER_AVATAR_SUCCESS, url } }
-function updateUserAvatarFailure(error) { return { type: UPDATE_USER_AVATAR_FAILURE, error } }
+
+/** ======= */
+function request(type, data) {
+  return {type, data}
+}
+function success(type, data) {
+  return {type, data}
+}
+function failure(type, error) {
+  return {type, error}
+}
 

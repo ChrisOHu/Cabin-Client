@@ -6,8 +6,9 @@ export const BECOME_HOST_REQUEST = 'BECOME_HOST_REQUEST'
 export const BECOME_HOST_SUCCESS = 'BECOME_HOST_SUCCESS'
 export const BECOME_HOST_FAILURE = 'BECOME_HOST_FAILURE'
 export function becomeHost({userId, name, avatar, banner}) {
+  const requestData = {userId, name, avatar, banner}
   return (dispatch) => {
-    dispatch(request(BECOME_HOST_REQUEST))
+    dispatch(request(BECOME_HOST_REQUEST, requestData))
 
     feathers().service('hosts')
       .create({user: {userId, name, avatar, banner}})
@@ -46,8 +47,9 @@ export const FETCH_HOST_REQUEST      = 'FETCH_HOST_REQUEST'
 export const FETCH_HOST_SUCCESS      = 'FETCH_HOST_SUCCESS'
 export const FETCH_HOST_FAILURE      = 'FETCH_HOST_FAILURE'
 export function fetchHost(hostId) {
+  const requestData = hostId
   return (dispatch) => {
-    dispatch(request(FETCH_HOST_REQUEST))
+    dispatch(request(FETCH_HOST_REQUEST, requestData))
 
     feathers().service('hosts')
       .get(hostId)
@@ -62,8 +64,8 @@ export function fetchHost(hostId) {
   }
 }
 
-function request(type) {
-  return {type}
+function request(type, data) {
+  return {type, data}
 }
 function success(type, data) {
   return {type, data}

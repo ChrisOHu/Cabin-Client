@@ -6,8 +6,9 @@ export const POST_HOME_REQUEST = 'POST_HOME_REQUEST'
 export const POST_HOME_SUCCESS = 'POST_HOME_SUCCESS'
 export const POST_HOME_FAILURE = 'POST_HOME_FAILURE'
 export function postHome({userId, name, banner}) {
+  const requestData = {userId, name, banner}
   return (dispatch) => {
-    dispatch(request(POST_HOME_REQUEST))
+    dispatch(request(POST_HOME_REQUEST, requestData))
 
     feathers().service('homes')
       .create({userId, name, banner})
@@ -47,7 +48,7 @@ export const FETCH_HOME_SUCCESS = 'FETCH_HOME_SUCCESS'
 export const FETCH_HOME_FAILURE = 'FETCH_HOME_FAILURE'
 export function fetchHome(homeId) {
   return (dispatch) => {
-    dispatch(request(FETCH_HOME_REQUEST))
+    dispatch(request(FETCH_HOME_REQUEST, homeId))
 
     feathers().service('homes')
       .get(homeId)

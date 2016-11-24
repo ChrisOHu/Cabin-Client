@@ -6,8 +6,9 @@ export const BECOME_DESIGNER_REQUEST = 'BECOME_DESIGNER_REQUEST'
 export const BECOME_DESIGNER_SUCCESS = 'BECOME_DESIGNER_SUCCESS'
 export const BECOME_DESIGNER_FAILURE = 'BECOME_DESIGNER_FAILURE'
 export function becomeDesigner({userId, name, avatar, banner}) {
+  const requestData = {userId, name, avatar, banner}
   return (dispatch) => {
-    dispatch(request(BECOME_DESIGNER_REQUEST))
+    dispatch(request(BECOME_DESIGNER_REQUEST, requestData))
 
     feathers().service('designers')
       .create({userId})
@@ -47,7 +48,7 @@ export const FETCH_DESIGNER_SUCCESS      = 'FETCH_DESIGNER_SUCCESS'
 export const FETCH_DESIGNER_FAILURE      = 'FETCH_DESIGNER_FAILURE'
 export function fetchDesigner(designerId) {
   return (dispatch) => {
-    dispatch(request(FETCH_DESIGNER_REQUEST))
+    dispatch(request(FETCH_DESIGNER_REQUEST, designerId))
 
     feathers().service('designers')
       .get(designerId)

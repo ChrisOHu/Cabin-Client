@@ -6,8 +6,9 @@ export const POST_DESIGN_REQUEST = 'POST_DESIGN_REQUEST'
 export const POST_DESIGN_SUCCESS = 'POST_DESIGN_SUCCESS'
 export const POST_DESIGN_FAILURE = 'POST_DESIGN_FAILURE'
 export function postDesign({designer, title, banner, content}) {
+  const requestData = {designer, title, banner, content}
   return (dispatch) => {
-    dispatch(request(POST_DESIGN_REQUEST))
+    dispatch(request(POST_DESIGN_REQUEST, requestData))
 
     feathers().service('designs')
       .create({designer, title, banner, content})
@@ -47,7 +48,7 @@ export const FETCH_DESIGN_SUCCESS      = 'FETCH_DESIGN_SUCCESS'
 export const FETCH_DESIGN_FAILURE      = 'FETCH_DESIGN_FAILURE'
 export function fetchdesign(designId) {
   return (dispatch) => {
-    dispatch(request(FETCH_DESIGN_REQUEST))
+    dispatch(request(FETCH_DESIGN_REQUEST, designId))
 
     feathers().service('designs')
       .get(designId)
