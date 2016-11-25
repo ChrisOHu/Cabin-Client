@@ -31,7 +31,8 @@ const En = {
   postDesign: 'Post A Design',
   switchToHost: "Switch To Host",
   switchToDesigner: "Switch To Designer",
-  homeName: 'home name'
+  homeName: 'Home Name',
+  tellUsAboutYourHome: 'Tell us about your home'
 }
 
 export default En

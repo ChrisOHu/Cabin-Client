@@ -1,160 +1,178 @@
-'use strict';
-
 import React, { Component, PropTypes } from 'react';
 import {
-  ListView,
-  StyleSheet,
-  Text,
   TextInput,
   View,
+  ActivityIndicator,
+  TouchableOpacity,
+  StyleSheet,
 } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
-class AutoComplete extends Component {
-  static propTypes = {
-    ...TextInput.propTypes,
-    /**
-     * These styles will be applied to the container which
-     * surrounds the autocomplete component.
-     */
-    containerStyle: View.propTypes.style,
-    /**
-     * Assign an array of data objects which should be
-     * rendered in respect to the entered text.
-     */
-    data: PropTypes.array,
-    /*
-     * These styles will be applied to the container which surrounds
-     * the textInput component.
-     */
-    inputContainerStyle: View.propTypes.style,
-    /**
-     * These style will be applied to the result list view.
-     */
-    listStyle: ListView.propTypes.style,
-    /**
-     * `renderItem` will be called to render the data objects
-     * which will be displayed in the result view below the
-     * text input.
-     */
-    renderItem: PropTypes.func,
-    /**
-     * `onShowResults` will be called when list is going to
-     * show/hide results.
-     */
-     onShowResults: PropTypes.func
-  };
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: 'lightgrey',
+  },
+  clearIcon: {
+    marginLeft: 5
+  },
+  textInput: {
+    flex: 1,
+    height: 40,
+    marginLeft: 10
+  },
+  activityIndicator: {
+    marginLeft: 5,
+    marginRight: 5
+  }
+});
 
-  static defaultProps = {
-    data: [],
-    defaultValue: '',
-    renderItem: rowData => <Text>{rowData}</Text>
-  };
-
+class ProgressiveInput extends Component {
   constructor(props) {
     super(props);
-    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+
     this.state = {
-      dataSource: ds.cloneWithRows(props.data),
-      showResults: false
+      showClearButton: false,
+      value: this.props.value,
     };
   }
 
-  /**
-   * Proxy `blur()` to autocomplete's text input.
-   */
-  blur() {
-    const { textInput } = this.refs;
-    textInput && textInput.blur();
-  }
-
-  /**
-   * Proxy `focus()` to autocomplete's text input.
-   */
-  focus() {
-    const { textInput } = this.refs;
-    textInput && textInput.focus();
-  }
-
   componentWillReceiveProps(nextProps) {
-    const dataSource = this.state.dataSource.cloneWithRows(nextProps.data);
-    this._showResults(dataSource.getRowCount() > 0);
-    this.setState({dataSource});
+    this.setState({value: nextProps.value});
   }
 
-  _renderItems() {
-    const { listStyle, renderItem } = this.props;
-    const { dataSource } = this.state;
+  clearInput() {
+    this.setState({value: '', focus: false});
+    if (this.props.onInputCleared) {
+      this.props.onInputCleared();
+    }
+  }
+
+  isFocused() {
+    return this.input.isFocused();
+  }
+
+  render() {
     return (
-      <ListView
-        dataSource={dataSource}
-        keyboardShouldPersistTaps={true}
-        renderRow={renderItem}
-        style={[styles.list, listStyle]}
+      <View style={[styles.container, this.props.style]}>
+        {this._renderClearButton()}
+        <TextInput
+          ref={(input) => this.input = input}
+          style={[styles.textInput, this.props.textInputStyle]}
+          focus={this.state.focus}
+          value={this.state.value}
+          editable={this.props.editable}
+          onFocus={this._onFocus.bind(this)}
+          placeholder={this.props.placeholder}
+          onChangeText={this._onChangeText.bind(this)}
+          selectTextOnFocus={this.props.selectTextOnFocus}
+          onBlur={this._onBlur.bind(this)}
+          autoCorrect={this.props.autoCorrect}
+          keyboardType={this.props.keyboardType}
+          multiline={this.props.multiline}
+          placeholderTextColor={this.props.placeholderTextColor}
+          returnKeyType={this.props.returnKeyType}
+          selectTextOnFocus={this.props.selectTextOnFocus}
+          autoCapitalize={this.props.autoCapitalize}
+          maxLength={this.props.maxLength}
+          multiline={this.props.multiline}
+          onEndEditing={this.props.onEndEditing}
+          onChange={this.props.onChange}
+        />
+        {this._renderActivityIndicator()}
+      </View>
+    );
+  }
+
+  _renderActivityIndicator() {
+    var size = {};
+    if (!this.props.isLoading) {
+      size = {width: 0, height: 0};
+    }
+
+    return (
+      <ActivityIndicator
+        animating={this.props.isLoading}
+        style={[styles.activityIndicator, this.props.activityIndicatorStyle, size]}
       />
     );
   }
 
-  _showResults(show) {
-    const { showResults } = this.state;
-    const { onShowResults } = this.props;
-
-    if (!showResults && show) {
-      this.setState({showResults: true});
-      onShowResults && onShowResults(true);
-    } else if (showResults && !show) {
-      this.setState({showResults: false});
-      onShowResults && onShowResults(false);
+  _renderClearButton() {
+    if (this.state.showClearButton) {
+      return (
+        <TouchableOpacity onPress={() => this.clearInput()}>
+          <Icon name={this.props.clearButtonIcon} size={this.props.clearButtonSize} style={[ styles.clearIcon, this.props.clearButtonStyle ]} color={this.props.clearButtonColor} />
+        </TouchableOpacity>
+      );
     }
   }
 
-  render() {
-    const { showResults } = this.state;
-    const { containerStyle, inputContainerStyle, onEndEditing, style, ...props } = this.props;
-    return (
-      <View style={[styles.container, containerStyle]}>
-        <View style={[styles.inputContainer, inputContainerStyle]}>
-          <TextInput
-            style={[styles.input, style]}
-            ref="textInput"
-            onEndEditing={e =>
-              this._showResults(false) || (onEndEditing && onEndEditing(e))
-            }
-            {...props}
-          />
-        </View>
-        {showResults && this._renderItems()}
-      </View>
-    );
+  _onFocus() {
+    this._shouldShowClearButton();
+    if (this.props.onFocus) {
+      this.props.onFocus();
+    }
+  }
+
+  _onChangeText(text) {
+    this.setState({value: text});
+    this._shouldShowClearButton(text);
+    if (this.props.onChangeText) {
+      this.props.onChangeText(text);
+    }
+  }
+
+  _shouldShowClearButton(value) {
+    let v = value || this.state.value;
+    let showClearButton = v ? true : false;
+    this.setState({showClearButton});
+  }
+
+  _onBlur() {
+    this.setState({showClearButton: false});
   }
 }
 
-const border = {
-  borderColor: '#b9b9b9',
-  borderRadius: 1,
-  borderWidth: 1
+let textInputProps = {
+  autoCorrect,
+  keyboardType,
+  multiline,
+  placeholderTextColor,
+  returnKeyType,
+  selectTextOnFocus,
+  placeholder,
+  editable,
+  autoCapitalize,
+  maxLength,
+  multiline,
+  onEndEditing,
+  onChange,
+} = TextInput.propTypes;
+
+ProgressiveInput.propTypes = {
+  ...textInputProps,
+  value: PropTypes.string,
+  isLoading: PropTypes.bool,
+  textInputStyle: TextInput.propTypes.style,
+  clearButtonIcon: PropTypes.string,
+  clearButtonColor: PropTypes.string,
+  clearButtonSize: PropTypes.number,
+  clearButtonStyle: PropTypes.object,
+  activityIndicatorStyle: ActivityIndicator.propTypes.style,
+  onBlur: PropTypes.func,
+  onChangeText: PropTypes.func,
+  onFocus: PropTypes.func,
+  onInputCleared: PropTypes.func
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
-  inputContainer: {
-    ...border,
-    margin: 10,
-    marginBottom: 0,
-  },
-  input: {
-    backgroundColor: 'white',
-    height: 40,
-    paddingLeft: 3,
-  },
-  list: {
-    ...border,
-    backgroundColor: 'white',
-    borderTopWidth: 0,
-    margin: 10,
-    marginTop: 0,
-  }
-});
+ProgressiveInput.defaultProps = {
+  editable: true,
+  clearButtonIcon: 'times-circle',
+  clearButtonColor: 'lightgrey',
+  clearButtonSize: 20,
+};
 
-export default AutoComplete;
+export default ProgressiveInput;

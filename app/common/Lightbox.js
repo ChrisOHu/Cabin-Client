@@ -22,7 +22,7 @@ export default class Lightbox extends NbComponent {
     theme: T.object,
     title: T.string,
     rightBtns: T.oneOfType([
-      T.arrayOf(T.node), T.node
+      T.arrayOf(T.node), T.node, T.func
     ]),
     content: T.node
   }
@@ -36,23 +36,29 @@ export default class Lightbox extends NbComponent {
 
     return (
       <_Lightbox
+        ref="_lightbox"
         renderHeader={(close) => (
-          <Header theme={theme} style={{backgroundColor: 'transparent'}}>
+          <Header theme={theme} style={{backgroundColor: 'transparent'}} >
             <Button transparent onPress={close} >
               <NbIcon name="ios-close" style={{fontSize: 30, color: 'white'}} />
             </Button>
             <Title style={{color: 'white'}} >{title}</Title>
-            {rightBtns}
+            {this._renderRightBtns(rightBtns, close)}
           </Header>
         )}
         renderContent={() => {
           return content || children
         }}
+        underlayColor="transparent"
         {...rest}
       >
         {children}
       </_Lightbox>
     )
+  }
+
+  _renderRightBtns(rightBtns, close) {
+    return (rightBtns instanceof Function) ? rightBtns(close) : rightBtns
   }
 }
 
