@@ -11,36 +11,30 @@ import {
 } from '../actions/designers'
 
 const initialState = {
-  isRegistering: false,
-  isFetching: false,
-  isUpdating: false,
-  error: null,
-
   designer: {}, // The 'designer' object of current user
-  designers: [],
-  tmp: null // whatever tmp data needed
+  designers: []
 }
 
 export default function(state = initialState, action) {
   switch (action.type) {
     case BECOME_DESIGNER_REQUEST:
-      return {...state, isRegistering: true}
+      return {...state}
     case BECOME_DESIGNER_SUCCESS:
-      return {...state, isRegistering: false, designer: action.data}
+      return {...state, designer: action.data}
     case BECOME_DESIGNER_FAILURE:
-      return {...state, isRegistering: false, error: action.error}
+      return {...state}
     case FETCH_DESIGNERS_REQUEST:
-      return {...state, isFetching: true}
+      return {...state}
     case FETCH_DESIGNERS_SUCCESS:
-      return {...state, isFetching: false, designers: action.data}
+      return {...state, designers: action.data}
     case FETCH_DESIGNERS_FAILURE:
-      return {...state, isFetching: false, error: action.error}
+      return {...state}
     case FETCH_DESIGNER_REQUEST:
-      return {...state, isFetching: true, tmp: null}
+      return {...state}
     case FETCH_DESIGNER_SUCCESS:
-      return {...state, isFetching: false, tmp: action.data}
+      return {...state}
     case FETCH_DESIGNER_FAILURE:
-      return {...state, isFetching: false}
+      return {...state}
     default:
       return state
   }

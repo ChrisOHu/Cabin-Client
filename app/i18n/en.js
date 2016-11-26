@@ -32,7 +32,8 @@ const En = {
   switchToHost: "Switch To Host",
   switchToDesigner: "Switch To Designer",
   homeName: 'Home Name',
-  tellUsAboutYourHome: 'Tell us about your home'
+  tellUsAboutYourHome: 'Tell us about your home',
+  missingFields: 'Hey, you missed something ~'
 }
 
 export default En

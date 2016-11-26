@@ -35,7 +35,6 @@ import {
 import {
   push
 } from '~/app/actions/navigations'
-import { GOLDEN_RATIO } from '~/app/elves/Math'
 
 const window = Dimensions.get('window')
 

@@ -32,21 +32,36 @@ import ImagePicker from 'react-native-image-crop-picker'
 import {
   PicturesGrid,
   Lightbox,
-  PlusButton
+  PlusButton,
+  AutogrowInput
 } from '~/app/common'
+import Events from '~/app/Events'
 
 import { connect } from 'react-redux'
 import t from 'counterpart'
 
+import { push, pop } from '~/app/actions/navigations'
 import { postHome } from '~/app/actions/homes'
+import { showToast } from '~/app/actions/app'
 
 const window = Dimensions.get('window')
 class PostHome extends Component {
   static propTypes = {
     theme: T.object.isRequired,
     user: T.object.isRequired,
-    host: T.object.isRequired,
-    postHome: T.func.isRequired
+    homes: T.object.isRequired,
+    pop: T.func.isRequired,
+    postHome: T.func.isRequired,
+    showToast: T.func.isRequired
+  }
+  static events = {
+    pop: function () {
+      console.debug('TODO: add user confirm ')
+      this.props.pop()
+    },
+    post: function() {
+      this._postNewHome()
+    }
   }
 
   constructor(props) {
@@ -55,12 +70,33 @@ class PostHome extends Component {
     this.state = {
       homeFormData: null,
       pictures: [],
-      bannerPicture: null
+      bannerPicture: null,
+      descriptions: ""
     }
   }
 
+  componentDidMount() {
+    const eventHandlers = PostHome.events
+    const eventNames = Object.keys(PostHome.events)
+    eventNames.forEach((name) => {
+      Events.on(`cabin/post-home/${name}`, (eventHandlers[name]).bind(this))
+    })
+  }
+  componentWillUnmount() {
+    const eventHandlers = PostHome.events
+    const eventNames = Object.keys(PostHome.events)
+    eventNames.forEach((name) => {
+      Events.removeAllListeners(`cabin/post-home/${name}`)
+    })
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { isPosting, error } = this.props.homes
+  }
+
   render() {
-    const { theme, user, host, postHome } = this.props
+    const { theme, user, homes, postHome } = this.props
+    const { isPosting, error } = homes
 
     return (
       <Content theme={theme} style={styles.content}
@@ -82,9 +118,9 @@ class PostHome extends Component {
         <H3 style={styles.title}>{t('bannerPicture')}</H3>
         {this._renderBannerPicture()}
         <H3 style={styles.title}>{t('tellUsAboutYourHome')}</H3>
-        <InputGroup borderType='underline' >
-          <Input multiline={true} />
-        </InputGroup>
+        <AutogrowInput style={styles.aboutHome} returnKeyType="done"
+          onSubmitEditing={ (event) => this.setState({descriptions: event.nativeEvent.text}) }
+        />
       </Content>
     )
   }
@@ -131,6 +167,36 @@ class PostHome extends Component {
       )
   }
 
+  _postNewHome() {
+    const { user } = this.props
+    const { homeFormData, pictures, bannerPicture, descriptions } = this.state
+    const { name, location, price, rooms } = homeFormData
+
+    if (!name || !location || !price || !rooms) {
+      showToast({message: t('missingFields')})
+    }
+
+    const newHome = {
+      userId: user._id,
+      name: name,
+      geolocation: { // TODO: geolocation
+        latlng: { latitude: 12.25, longitude: 12.25 },
+        location: { country: 'China', city: 'Shanghai', address: location }
+      },
+      price,
+      rooms,
+      pictures,
+      banner: bannerPicture,
+      descriptions
+    }
+
+    this.props.postHome(
+      newHome,
+      (data) => {},
+      (error) => {}
+    )
+  }
+
 }
 
 const styles = StyleSheet.create({
@@ -145,6 +211,11 @@ const styles = StyleSheet.create({
     width: window.width - 20,
     marginHorizontal: 10,
     height: (window.width - 20) * 0.618
+  },
+  aboutHome: {
+    borderBottomWidth: 1,
+    borderBottomColor: 'lightgray',
+    margin: 10
   }
 });
 
@@ -152,13 +223,15 @@ const mapStateToProps = (state, ownProps) => {
   return {
     theme: state.theme,
     user: state.users.user,
-    host: state.hosts.host
+    homes: state.homes
   }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    postHome: (newHome) => dispatch(postHome(newHome))
+    postHome: (newHome) => dispatch(postHome(newHome)),
+    showToast: ({message}) => dispatch(showToast({message})),
+    pop : () => dispatch(pop())
   }
 }
 

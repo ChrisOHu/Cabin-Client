@@ -5,7 +5,7 @@ import { showToast } from './app'
 export const BECOME_DESIGNER_REQUEST = 'BECOME_DESIGNER_REQUEST'
 export const BECOME_DESIGNER_SUCCESS = 'BECOME_DESIGNER_SUCCESS'
 export const BECOME_DESIGNER_FAILURE = 'BECOME_DESIGNER_FAILURE'
-export function becomeDesigner({userId, name, avatar, banner}) {
+export function becomeDesigner({userId, name, avatar, banner}, onSuccess, onError) {
   const requestData = {userId, name, avatar, banner}
   return (dispatch) => {
     dispatch(request(BECOME_DESIGNER_REQUEST, requestData))
@@ -15,10 +15,14 @@ export function becomeDesigner({userId, name, avatar, banner}) {
       .then((result) => {
         const designer = result
         dispatch(success(BECOME_DESIGNER_SUCCESS, designer))
+
+        onSuccess && onSuccess(designer)
       })
       .catch((err) => {
         dispatch(failure(BECOME_DESIGNER_FAILURE, err))
         dispatch(showToast({message: t("opsError")}))
+
+        onError && onError(err)
       })
   }
 }
@@ -26,7 +30,7 @@ export function becomeDesigner({userId, name, avatar, banner}) {
 export const FETCH_DESIGNERS_REQUEST     = 'FETCH_DESIGNERS_REQUEST'
 export const FETCH_DESIGNERS_SUCCESS     = 'FETCH_DESIGNERS_SUCCESS'
 export const FETCH_DESIGNERS_FAILURE     = 'FETCH_DESIGNERS_FAILURE'
-export function fetchDesigners() {
+export function fetchDesigners({}, onSuccess, onError) {
   return (dispatch) => {
     dispatch(request(FETCH_DESIGNERS_REQUEST))
 
@@ -35,10 +39,14 @@ export function fetchDesigners() {
       .then((result) => {
         const designers = result.data
         dispatch(success(FETCH_DESIGNERS_SUCCESS, designers))
+
+        onSuccess && onSuccess(designers)
       })
       .catch((err) => {
         dispatch(failure(FETCH_DESIGNERS_FAILURE, err))
         dispatch(showToast({message: t('opsError')}))
+
+        onError && onError(err)
       })
   }
 }
@@ -55,10 +63,14 @@ export function fetchDesigner(designerId) {
       .then((result) => {
         const designer = result
         dispatch(success(FETCH_DESIGNER_SUCCESS, designer))
+
+        onSuccess && onSuccess(designer)
       })
       .catch((err) => {
         dispatch(failure(FETCH_DESIGNER_FAILURE, err))
         dispatch(showToast({message: t('opsError')}))
+
+        onError && onError(err)
       })
   }
 }

@@ -11,36 +11,30 @@ import {
 } from '../actions/hosts'
 
 const initialState = {
-  isRegistering: false,
-  isFetching: false,
-  isUpdating: false,
-  error: null,
-
   host: {}, // The 'host' object of current user
-  hosts: [],
-  tmp: null // whatever tmp data needed
+  hosts: []
 }
 
 export default function(state = initialState, action) {
   switch (action.type) {
     case BECOME_HOST_REQUEST:
-      return {...state, isRegistering: true}
+      return {...state}
     case BECOME_HOST_SUCCESS:
-      return {...state, isRegistering: false, host: action.data}
+      return {...state, host: action.data}
     case BECOME_HOST_FAILURE:
-      return {...state, isRegistering: false, error: action.error}
+      return {...state}
     case FETCH_HOSTS_REQUEST:
-      return {...state, isFetching: true}
+      return {...state}
     case FETCH_HOSTS_SUCCESS:
-      return {...state, isFetching: false, hosts: action.data}
+      return {...state, hosts: action.data}
     case FETCH_HOSTS_FAILURE:
-      return {...state, isFetching: false, error: action.error}
+      return {...state}
     case FETCH_HOST_REQUEST:
-      return {...state, isFetching: true, tmp: null}
+      return {...state}
     case FETCH_HOST_SUCCESS:
-      return {...state, isFetching: false, tmp: action.data}
+      return {...state}
     case FETCH_HOST_FAILURE:
-      return {...state, isFetching: false}
+      return {...state}
     default:
       return state
   }

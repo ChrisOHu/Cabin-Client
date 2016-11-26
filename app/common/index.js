@@ -5,6 +5,7 @@ import Toast from './Toast'
 import UserCard from './UserCard'
 import PlusButton from './PlusButton'
 import PicturesGrid from './PicturesGrid'
+import AutogrowInput from './AutogrowInput'
 import ScrollableTabView from './ScrollableTabView/ScrollableTabView'
 
 module.exports = {
@@ -15,6 +16,7 @@ module.exports = {
   UserCard,
   PlusButton,
   PicturesGrid,
+  AutogrowInput,
   ScrollableTabView
 }
 

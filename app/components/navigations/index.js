@@ -87,7 +87,7 @@ export function renderHeader(scene) {
     case 'become-host':
       return (
         <Header theme={theme} >
-          <Button transparent onPress={() => {pop()}} >
+          <Button transparent onPress={() => Events.emit("cabin/become-host/pop")} >
             <Icon name="ios-arrow-back" />
           </Button>
 

@@ -5,8 +5,10 @@ import { showToast } from './app'
 export const POST_HOME_REQUEST = 'POST_HOME_REQUEST'
 export const POST_HOME_SUCCESS = 'POST_HOME_SUCCESS'
 export const POST_HOME_FAILURE = 'POST_HOME_FAILURE'
-export function postHome({hostId, name, banner}) {
-  const requestData = {hostId, name, banner}
+export function postHome({ userId, name, banner, geolocation, price, descriptions, rooms, pictures },
+  onSuccess, onError) {
+
+  const requestData = { userId, name, banner, geolocation, price, descriptions, rooms, pictures }
   return (dispatch) => {
     dispatch(request(POST_HOME_REQUEST, requestData))
 
@@ -15,10 +17,14 @@ export function postHome({hostId, name, banner}) {
       .then((result) => {
         const home = result
         dispatch(success(POST_HOME_SUCCESS, home))
+
+        onSuccess && onSuccess(home)
       })
       .catch((err) => {
         dispatch(failure(POST_HOME_FAILURE, err))
         dispatch(showToast({message: t("opsError")}))
+
+        onError(err)
       })
   }
 }
@@ -26,7 +32,7 @@ export function postHome({hostId, name, banner}) {
 export const FETCH_HOMES_REQUEST = 'FETCH_HOMES_REQUEST'
 export const FETCH_HOMES_SUCCESS = 'FETCH_HOMES_SUCCESS'
 export const FETCH_HOMES_FAILURE = 'FETCH_HOMES_FAILURE'
-export function fetchHomes() {
+export function fetchHomes({}, onSuccess, onError) {
   return (dispatch) => {
     dispatch(request(FETCH_HOMES_REQUEST))
 
@@ -35,10 +41,14 @@ export function fetchHomes() {
       .then((result) => {
         const homes = result.data
         dispatch(success(FETCH_HOMES_SUCCESS, homes))
+
+        onSuccess && onSuccess(homes)
       })
       .catch((err) => {
         dispatch(failure(FETCH_HOMES_FAILURE, err))
         dispatch(showToast({message: t('opsError')}))
+
+        onError && onError(err)
       })
   }
 }
@@ -46,7 +56,7 @@ export function fetchHomes() {
 export const FETCH_HOME_REQUEST = 'FETCH_HOME_REQUEST'
 export const FETCH_HOME_SUCCESS = 'FETCH_HOME_SUCCESS'
 export const FETCH_HOME_FAILURE = 'FETCH_HOME_FAILURE'
-export function fetchHome(homeId) {
+export function fetchHome(homeId, onSuccess, onError) {
   return (dispatch) => {
     dispatch(request(FETCH_HOME_REQUEST, homeId))
 
@@ -55,10 +65,14 @@ export function fetchHome(homeId) {
       .then((result) => {
         const home = result
         dispatch(success(FETCH_HOME_SUCCESS, home))
+
+        onSuccess && onSuccess(home)
       })
       .catch((err) => {
         dispatch(failure(FETCH_HOME_FAILURE, err))
         dispatch(showToast({message: t('opsError')}))
+
+        onError && onError(err)
       })
   }
 }

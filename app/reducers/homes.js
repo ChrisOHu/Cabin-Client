@@ -11,35 +11,29 @@ import {
 } from '../actions/homes'
 
 const initialState = {
-  isPosting: false,
-  isFetching: false,
-  isUpdating: false,
-  error: null,
-
-  homes: [],
-  tmp: null
+  homes: []
 }
 
 export default function(state = initialState, action) {
   switch (action.type) {
     case POST_HOME_REQUEST:
-      return {...state, isPosting: true}
+      return {...state}
     case POST_HOME_SUCCESS:
-      return {...state, isPosting: false, tmp: action.data}
+      return {...state}
     case POST_HOME_FAILURE:
-      return {...state, isPosting: false, error: action.error}
+      return {...state}
     case FETCH_HOMES_REQUEST:
-      return {...state, isFetching: true}
+      return {...state}
     case FETCH_HOMES_SUCCESS:
-      return {...state, isFetching: false, homes: action.data}
+      return {...state, homes: action.data}
     case FETCH_HOMES_FAILURE:
-      return {...state, isFetching: false, error: action.error}
+      return {...state}
     case FETCH_HOME_REQUEST:
-      return {...state, isFetching: true}
+      return {...state}
     case FETCH_HOME_SUCCESS:
-      return {...state, isFetching: false, tmp: action.data}
+      return {...state}
     case FETCH_HOME_FAILURE:
-      return {...state, isFetching: false, error: action.error}
+      return {...state}
     default:
       return state
   }
