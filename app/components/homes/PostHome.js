@@ -49,7 +49,6 @@ class PostHome extends Component {
   static propTypes = {
     theme: T.object.isRequired,
     user: T.object.isRequired,
-    homes: T.object.isRequired,
     pop: T.func.isRequired,
     postHome: T.func.isRequired,
     showToast: T.func.isRequired
@@ -90,13 +89,8 @@ class PostHome extends Component {
     })
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { isPosting, error } = this.props.homes
-  }
-
   render() {
-    const { theme, user, homes, postHome } = this.props
-    const { isPosting, error } = homes
+    const { theme, user, postHome } = this.props
 
     return (
       <Content theme={theme} style={styles.content}
@@ -168,7 +162,7 @@ class PostHome extends Component {
   }
 
   _postNewHome() {
-    const { user } = this.props
+    const { user, pop, postHome, showToast } = this.props
     const { homeFormData, pictures, bannerPicture, descriptions } = this.state
     const { name, location, price, rooms } = homeFormData
 
@@ -192,8 +186,8 @@ class PostHome extends Component {
 
     this.props.postHome(
       newHome,
-      (data) => {},
-      (error) => {}
+      (data)  => { showToast({message: t('success')}); pop() },
+      (error) => { showToast({message: t('opsError')}) }
     )
   }
 
@@ -222,14 +216,13 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state, ownProps) => {
   return {
     theme: state.theme,
-    user: state.users.user,
-    homes: state.homes
+    user: state.users.user
   }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    postHome: (newHome) => dispatch(postHome(newHome)),
+    postHome: (newHome, onSuccess, onError) => dispatch(postHome(newHome, onSuccess, onError)),
     showToast: ({message}) => dispatch(showToast({message})),
     pop : () => dispatch(pop())
   }
