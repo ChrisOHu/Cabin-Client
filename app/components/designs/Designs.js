@@ -5,7 +5,6 @@ import React, {
 import {
   Text,
   View,
-  Image,
   Dimensions,
   StyleSheet
 } from 'react-native'
@@ -17,7 +16,7 @@ import t from 'counterpart'
 
 const window = Dimensions.get('window')
 
-class Designers extends Component {
+class Designs extends Component {
   static propTypes = {
     theme: T.object
   }
@@ -26,7 +25,7 @@ class Designers extends Component {
     super(props)
 
     this.state = {
-      designers: __MOCK.designers
+      designs: __MOCK.designs
     }
   }
   componentDidMount()     { }
@@ -34,17 +33,17 @@ class Designers extends Component {
 
   render() {
     const { theme } = this.props
-    const { designers } = this.state
+    const { designs } = this.state
     return (
-      <Content theme={theme} contentContainerStyle={styles.content} >
-        {designers.map((designer) => (
-          <Image style={{width: window.width, height: 200, flex: 1, justifyContent: 'center', alignItems: 'center', padding: 20}}
-            resizeMode="cover" source={designer.banner} >
-            <Image style={{width: 60, height: 60, marginBottom: 6}} source={designer.avatar} />
-            <Text style={{fontSize: 20, fontWeight: 'bold', backgroundColor: 'transparent', color: 'white', marginBottom: 10}} >{designer.name}</Text>
-            <View style={{paddingHorizontal: 10, flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}} >
-              <Text style={{fontSize: 16, backgroundColor: 'transparent', color: 'white'}}>{`${designer.reviews} Reviews`}</Text>
-              <Text style={{fontSize: 16, backgroundColor: 'transparent', color: 'white'}}>{`${designer.designs} designers`}</Text>
+      <Content theme={theme} style={styles.content} >
+        {designs.map((design) => (
+          <Image style={{width: window.width, height: 300, flex: 1, justifyContent: 'center', alignItems: 'center'}}
+            resizeMode="cover" source={design.banner} >
+            <Image style={{width: 60, height: 60, marginBottom: 6}} source={design.avatar} />
+            <Text style={{fontSize: 20, fontWeight: 'bold', color: 'white', marginBottom: 10}} >{design.name}</Text>
+            <View style={{paddingHorizontal: 20, flex: 1, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center'}} >
+              <Text style={{fontSize: 16, color: 'white'}}>{`${design.reviews} Reviews`}</Text>
+              <Text style={{fontSize: 16, color: 'white'}}>{`${design.designs} Designs`}</Text>
             </View>
           </Image>
         ))}
@@ -58,8 +57,7 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
-    paddingTop: 90
+    alignItems: 'center'
   }
 });
 
@@ -76,30 +74,30 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Designers)
+)(Designs)
 
 const __MOCK = {
-  designers: [
+  designs: [
     {
       avatar: require('~/app/assets/avatar-default.png'),
       name: 'Lily•Lee',
       reviews: '100+',
       designs: '100+',
-      banner: require('~/app/assets/mock-pic-1.jpg')
+      banner: require('~/app/assets/mock-pick-1.jpg')
     },
     {
       avatar: require('~/app/assets/avatar-default.png'),
       name: 'Lily•Lee',
       reviews: '100+',
       designs: '100+',
-      banner: require('~/app/assets/mock-pic-2.jpg')
+      banner: require('~/app/assets/mock-pick-2.jpg')
     },
     {
       avatar: require('~/app/assets/avatar-default.png'),
       name: 'Lily•Lee',
       reviews: '100+',
       designs: '100+',
-      banner: require('~/app/assets/mock-pic-3.jpg')
+      banner: require('~/app/assets/mock-pick-3.jpg')
     }
   ]
 }

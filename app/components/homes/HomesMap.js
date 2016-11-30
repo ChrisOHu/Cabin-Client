@@ -38,32 +38,6 @@ class HomesMap extends Component {
 
     this.state = {
       searching: false,
-      homes: [
-        {
-          title: "Cozy Home",
-          description: "cozy and comfortable home",
-          latlng: {
-            latitude: 31.2304,
-            longitude: 121.4737
-          }
-        },
-        {
-          title: "Sunshine Home",
-          description: "Big window, great sunshine",
-          latlng: {
-            latitude: 31.2404,
-            longitude: 121.4737
-          }
-        },
-        {
-          title: "Near by shore",
-          description: "Near by shore, embrace the ocean...",
-          latlng: {
-            latitude: 31.2304,
-            longitude: 121.4837
-          }
-        }
-      ],
       currentRegion: {
         latitude: 31.2304,
         longitude: 121.4737,
@@ -75,7 +49,8 @@ class HomesMap extends Component {
         longitude: 121.4737,
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421
-      }
+      },
+      homes: []
     }
   }
 
@@ -166,6 +141,8 @@ class HomesMap extends Component {
             console.debug(data);
             console.debug('## location details =>')
             console.debug(details);
+
+            this.setState({homes: __MOCK.homes})
           }}
           getDefaultValue={() => {
             return ''
@@ -253,4 +230,57 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(HomesMap)
+
+const __MOCK = {
+  homes: [
+    {
+      title: "Cozy Home",
+      description: "cozy and comfortable home",
+      latlng: {
+        latitude: 31.2304,
+        longitude: 121.4737
+      }
+    },
+    {
+      title: "Sunshine Home",
+      description: "Big window, great sunshine",
+      latlng: {
+        latitude: 31.2404,
+        longitude: 121.4737
+      }
+    },
+    {
+      title: "Near by shore",
+      description: "Near by shore, embrace the ocean...",
+      latlng: {
+        latitude: 31.2304,
+        longitude: 121.4837
+      }
+    },
+    {
+      title: "2层复式•世纪公园",
+      description: "阳光很好哦...",
+      latlng: {
+        latitude: 31.2304   + 0.09 * Math.random(),
+        longitude: 121.4837 + 0.09 * Math.random()
+      }
+    },
+    {
+      title: "Dupupupupu..",
+      description: "blah...",
+      latlng: {
+        latitude: 31.2304   + 0.09 * Math.random(),
+        longitude: 121.4837 + 0.09 * Math.random()
+      }
+    },
+    {
+      title: "Blahblahblah...",
+      description: "Blah...",
+      latlng: {
+        latitude: 31.2304   + 0.09 * Math.random(),
+        longitude: 121.4837 + 0.09 * Math.random()
+      }
+    }
+  ] 
+}
 

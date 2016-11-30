@@ -150,7 +150,7 @@ class Wall extends Component {
         padding: theme.contentPadding,
         paddingTop: 15
       }]} >
-        <Line title={t('Favorites')} />
+        <Line title={t('favorites')} />
         <ScrollableTabView>
           <View tabLabel="Homes"   style={{height: 800, backgroundColor: 'royalblue'}} />
           <View tabLabel="Designs" style={{height: 800, backgroundColor: 'lightgray'}} />
