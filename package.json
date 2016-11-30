@@ -26,6 +26,7 @@
     "react-native-form-generator": "^0.9.9",
     "react-native-fs": "^1.5.1",
     "react-native-gesture-recognizers": "^0.2.3",
+    "react-native-google-places-autocomplete": "^1.2.6",
     "react-native-image-crop-picker": "file:../../../Projects/Node/react-native-image-crop-picker",
     "react-native-image-progress": "^0.6.0",
     "react-native-invertible-scroll-view": "^1.0.0",

@@ -22,6 +22,9 @@ import {
 } from 'native-base'
 import { connect } from 'react-redux'
 import MapView from 'react-native-maps'
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
+
+import t from 'counterpart'
 
 const window = Dimensions.get('window')
 
@@ -40,36 +43,36 @@ class HomesMap extends Component {
           title: "Cozy Home",
           description: "cozy and comfortable home",
           latlng: {
-            latitude: 37.78825,
-            longitude: -122.4324
+            latitude: 31.2304,
+            longitude: 121.4737
           }
         },
         {
           title: "Sunshine Home",
           description: "Big window, great sunshine",
           latlng: {
-            latitude: 37.78625,
-            longitude: -122.4324
+            latitude: 31.2404,
+            longitude: 121.4737
           }
         },
         {
           title: "Near by shore",
           description: "Near by shore, embrace the ocean...",
           latlng: {
-            latitude: 37.78425,
-            longitude: -122.4324
+            latitude: 31.2304,
+            longitude: 121.4837
           }
         }
       ],
       currentRegion: {
-        latitude: 37.78825,
-        longitude: -122.4324,
+        latitude: 31.2304,
+        longitude: 121.4737,
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421
       },
       initialRegion: {
-        latitude: 37.78825,
-        longitude: -122.4324,
+        latitude: 31.2304,
+        longitude: 121.4737,
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421
       }
@@ -102,8 +105,8 @@ class HomesMap extends Component {
           longitudeDelta: 0.0421
         }
 
-        this.refs.mapView.animateToRegion({ region, duration: 600 })
-        this.setState({ region })
+        // this.refs.mapView.animateToRegion({ region, duration: 600 })
+        // this.setState({ region })
       },
       (error) => alert(JSON.stringify(error)),
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
@@ -114,9 +117,78 @@ class HomesMap extends Component {
     return (
       <NbView style={styles.content} >
 
-        <SearchBar transparent lightTheme round placeholder="Search for homes..."
-          containerStyle={styles.searchBar}
-          onSubmitEditing={() => alert('Searching...')}
+        <GooglePlacesAutocomplete
+          styles={{
+            container: {
+              alignSelf: 'center',
+              position: 'absolute',
+              left: 0,
+              top: 20,
+              width: window.width,
+              backgroundColor: 'transparent',
+              zIndex: 2
+            },
+            textInputContainer: {
+              backgroundColor: 'transparent',
+              borderTopWidth: 0,
+              borderBottomWidth: 0
+            },
+            textInput: {
+              backgroundColor: 'rgba(0,0,0, 0.5)',
+              color: 'white'
+            },
+            listView: {
+              backgroundColor: 'rgba(255,255,255, 1)'
+            },
+            description: {
+              fontWeight: 'bold'
+            },
+            predefinedPlacesDescription: {
+              color: 'royalblue'
+            },
+            poweredContainer: {
+              width: 0, height: 0, backgroundColor: 'transparent'
+            },
+            powered: {
+              width: 0, height: 0, backgroundColor: 'transparent'
+            }
+          }}
+          placeholder={t('search')}
+          minLength={2}
+          autoFocus={false}
+          fetchDetails={true}
+          onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
+            /** details:
+             *    address_components[]
+             *    geometry.location.{lat, lng}
+             */
+            console.debug('## location =>')
+            console.debug(data);
+            console.debug('## location details =>')
+            console.debug(details);
+          }}
+          getDefaultValue={() => {
+            return ''
+          }}
+          query={{
+            // available options: https://developers.google.com/places/web-service/autocomplete
+            key: 'AIzaSyDeV-LbESXb8E0otu9yUwaNYROEj68L61g',
+            language: 'zh-CN', /* t.getLocale(), */
+            types: 'address' // default: 'geocode'
+          }}
+          currentLocation={true} // Will add a 'Current location' button at the top of the predefined places list
+          currentLocationLabel={t("currentLocation")}
+          nearbyPlacesAPI='GooglePlacesSearch' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
+          GoogleReverseGeocodingQuery={{
+            // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro
+          }}
+          GooglePlacesSearchQuery={{
+            // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
+            rankby: 'distance'
+          }}
+          filterReverseGeocodingByTypes={[/*'locality', 'administrative_area_level_3'*/]}// filter reverse geocoding results by types
+          predefinedPlaces={[]}
+          predefinedPlacesAlwaysVisible={true}
         />
 
         <MapView
@@ -124,6 +196,7 @@ class HomesMap extends Component {
           style={styles.map}
           initialRegion={this.state.initialRegion}
           region={this.state.currentRegion}
+          showsUserLocation={true}
         >
           {this.state.homes.map((marker, index) => (
             <MapView.Marker
@@ -134,6 +207,10 @@ class HomesMap extends Component {
             />
           ))}
         </MapView>
+
+        <Button transparent style={styles.locateBtn} onPress={() => this.refs.mapView.animateToRegion(this.state.currentRegion)} >
+          <Icon name="ios-locate-outline" style={{color: "#3a3a3a"}} />
+        </Button>
 
       </NbView>
     );
@@ -147,20 +224,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
-  searchBar: {
-    alignSelf: 'center',
-    position: 'absolute',
-    top: 20,
-    left: 0,
-    width: window.width,
-    zIndex: 1
-  },
   map: {
     position: 'absolute',
     top: 0,
     left: 0,
     width: window.width,
     height: window.height
+  },
+  locateBtn: {
+    position: 'absolute',
+    left: 70,
+    bottom: 20
   }
 });
 

@@ -12,6 +12,8 @@ export function postHome({ userId, name, banner, geolocation, price, description
   return (dispatch) => {
     dispatch(request(POST_HOME_REQUEST, requestData))
 
+    //TODO: upload pictures
+
     feathers().service('homes')
       .create(requestData)
       .then((result) => {
@@ -75,6 +77,12 @@ export function fetchHome(homeId, onSuccess, onError) {
         onError && onError(err)
       })
   }
+}
+
+export const SEARCH_HOMES_REQUEST = 'SEARCH_HOMES_REQUEST'
+export const SEARCH_HOMES_SUCCESS = 'SEARCH_HOMES_SUCCESS'
+export const SEARCH_HOMES_FAILURE = 'SEARCH_HOMES_FAILURE'
+export function searchHomes(geolocation) {
 }
 
 function request(type) {

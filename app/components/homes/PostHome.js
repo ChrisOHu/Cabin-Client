@@ -67,7 +67,7 @@ class PostHome extends Component {
     super(props)
 
     this.state = {
-      homeFormData: null,
+      homeFormData: {},
       pictures: [],
       bannerPicture: null,
       descriptions: ""
@@ -101,19 +101,21 @@ class PostHome extends Component {
           onChange={(formData) => { this.setState({homeFormData: formData}) }}
         >
           <Separator />
-          <InputField ref='name'     label={t('name')} value={null} editable={true} />
-          <InputField ref='location' label={t('location')} />
+          <InputField ref='name' label={t('name')} value={null} editable={true} returnKeyType="next" />
+          <InputField ref='location' label={t('location')} returnKeyType="next" />
           <Separator />
-          <InputField ref='price'    label={t('price')} />
-          <InputField ref='rooms'    label={t('rooms')} />
+          <InputField ref='price' label={t('price')} keyboardType="decimal-pad" returnKeyType="next" />
+          <InputField ref='rooms' label={t('rooms')} keyboardType="number-pad" returnKeyType="done" />
         </Form>
         <H3 style={styles.title}>{t('pictures')}</H3>
-        <PicturesGrid editable theme={theme} />
+        <PicturesGrid editable theme={theme} onUpdate={(pictures) => this.setState({pictures})} />
         <H3 style={styles.title}>{t('bannerPicture')}</H3>
         {this._renderBannerPicture()}
         <H3 style={styles.title}>{t('tellUsAboutYourHome')}</H3>
-        <AutogrowInput style={styles.aboutHome} returnKeyType="done"
-          onSubmitEditing={ (event) => this.setState({descriptions: event.nativeEvent.text}) }
+        <AutogrowInput style={styles.aboutHome}
+          onChangeText={(text) => {
+            this.setState({descriptions: text})
+          }}
         />
       </Content>
     )
@@ -164,17 +166,20 @@ class PostHome extends Component {
   _postNewHome() {
     const { user, pop, postHome, showToast } = this.props
     const { homeFormData, pictures, bannerPicture, descriptions } = this.state
+
     const { name, location, price, rooms } = homeFormData
 
-    if (!name || !location || !price || !rooms) {
+    if (!name || !location || !price || !rooms || !pictures || !bannerPicture || !descriptions) {
       showToast({message: t('missingFields')})
+
+      return
     }
 
     const newHome = {
       userId: user._id,
       name: name,
       geolocation: { // TODO: geolocation
-        latlng: { latitude: 12.25, longitude: 12.25 },
+        latlng:   { latitude: -31.28 + 0.14 * Math.random(), longitude: -121.58 + 0.22 * Math.random() },
         location: { country: 'China', city: 'Shanghai', address: location }
       },
       price,

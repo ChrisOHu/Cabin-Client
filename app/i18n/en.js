@@ -14,9 +14,11 @@ const En = {
   editName: "Edit name",
   save: "Save",
   saveSuccess: "Saved successfully",
+  success: "Success",
   change: "Change",
   post: "Post",
-  Favorites: "Favorites",
+  search: 'Search',
+  favorites: "Favorites",
   name: 'Name',
   price: 'Price',
   location: 'Loation',
@@ -33,7 +35,9 @@ const En = {
   switchToDesigner: "Switch To Designer",
   homeName: 'Home Name',
   tellUsAboutYourHome: 'Tell us about your home',
-  missingFields: 'Hey, you missed something ~'
+  searchForHomes: 'Search for homes...',
+  missingFields: 'Hey, you missed something ~',
+  currentLocation: 'Current Location'
 }
 
 export default En

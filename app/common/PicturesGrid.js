@@ -26,7 +26,8 @@ class PicturesGrid extends Component {
     theme: T.object.isRequired,
     pictures: T.arrayOf(T.string),
     editable: T.bool,
-    maxPictures: T.number
+    maxPictures: T.number,
+    onUpdate: T.func.isRequired
   }
   static defaultProps = {
     pictures: [],
@@ -41,19 +42,9 @@ class PicturesGrid extends Component {
       pictures: this.props.pictures || []
     }
   }
-  /**
-   * returns an array of objects:
-   * [
-   *   {path, size, width, height, mime}
-   *   ...
-   * ]
-   */
-  getPictures() {
-    return this.state.pictures
-  }
 
   render() {
-    const { theme } = this.props
+    const { theme, onUpdate } = this.props
 
     const pictures = [...this.state.pictures, ':CALL_ELF:']
     const lastIndex = pictures.length - 1
@@ -72,6 +63,7 @@ class PicturesGrid extends Component {
                       const pictures = [...this.state.pictures]
                       pictures.splice(index, 1)
                       this.setState({pictures})
+                      this.props.onUpdate(pictures)
                       close()
                     }}
                   >
@@ -110,6 +102,7 @@ class PicturesGrid extends Component {
             }).then(images => {
               const pictures = [...this.state.pictures, ...images.map((o) => o.path)]
               this.setState({pictures})
+              this.props.onUpdate(pictures)
             })
           }}
         />
