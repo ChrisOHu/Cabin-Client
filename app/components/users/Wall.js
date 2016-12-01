@@ -69,6 +69,7 @@ class Wall extends Component {
     super(props)
 
     this.state = {
+      homes: __MOCK.homes
     }
   }
 
@@ -92,7 +93,7 @@ class Wall extends Component {
           return (
             <Image
               defaultSource={require('~/app/assets/header-default.jpg')}
-              source={{uri: user.banner}}
+              source={{/*uri: user.banner*/}}
               resizeMode='cover'
               style={{ width: window.width, height: HEADER_HEIGHT }}
             />
@@ -147,12 +148,24 @@ class Wall extends Component {
 
       <NbView theme={theme} style={[styles.content, {
         backgroundColor: theme.sceneBgColor,
-        padding: theme.contentPadding,
+        // padding: theme.contentPadding,
         paddingTop: 15
       }]} >
         <Line title={t('favorites')} />
         <ScrollableTabView>
-          <View tabLabel="Homes"   style={{height: 800, backgroundColor: 'royalblue'}} />
+          <View tabLabel="Homes"   style={{}} >
+            {this.state.homes.map((home, i) => (
+              <Image key={`home-${i}`} style={{width: window.width, height: 200, flex: 1, justifyContent: 'center', alignItems: 'center', padding: 20, marginBottom: 1}}
+                resizeMode="cover" source={home.banner} >
+                <Image style={{width: 60, height: 60, marginBottom: 6}} source={home.avatar} />
+                <Text style={{fontSize: 20, fontWeight: 'bold', backgroundColor: 'transparent', color: 'white', marginBottom: 10}} >{home.name}</Text>
+                <View style={{paddingHorizontal: 10, flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}} >
+                  <Text style={{fontSize: 16, backgroundColor: 'transparent', color: 'white'}}>{`${home.reviews} Reviews`}</Text>
+                  <Text style={{fontSize: 16, backgroundColor: 'transparent', color: 'white'}}>{`${home.designs} designers`}</Text>
+                </View>
+              </Image>
+            ))}
+          </View>
           <View tabLabel="Designs" style={{height: 800, backgroundColor: 'lightgray'}} />
         </ScrollableTabView>
       </NbView>
@@ -190,4 +203,32 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(Wall)
+
+
+const __MOCK = {
+  homes: [
+    {
+      avatar: require('~/app/assets/avatar-default.png'),
+      name: '🏠',
+      reviews: '100+',
+      designs: '100+',
+      banner: require('~/app/assets/mock-pic-1.jpg')
+    },
+    {
+      avatar: require('~/app/assets/avatar-default.png'),
+      name: '🏠',
+      reviews: '100+',
+      designs: '100+',
+      banner: require('~/app/assets/mock-pic-2.jpg')
+    },
+    {
+      avatar: require('~/app/assets/avatar-default.png'),
+      name: '🏠',
+      reviews: '100+',
+      designs: '100+',
+      banner: require('~/app/assets/mock-pic-3.jpg')
+    }
+  ]
+}
+
 

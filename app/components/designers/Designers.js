@@ -37,8 +37,8 @@ class Designers extends Component {
     const { designers } = this.state
     return (
       <Content theme={theme} contentContainerStyle={styles.content} >
-        {designers.map((designer) => (
-          <Image style={{width: window.width, height: 200, flex: 1, justifyContent: 'center', alignItems: 'center', padding: 20}}
+        {designers.map((designer, i) => (
+          <Image key={`designer-${i}`} style={{width: window.width, height: 200, flex: 1, justifyContent: 'center', alignItems: 'center', padding: 20, marginBottom: 1}}
             resizeMode="cover" source={designer.banner} >
             <Image style={{width: 60, height: 60, marginBottom: 6}} source={designer.avatar} />
             <Text style={{fontSize: 20, fontWeight: 'bold', backgroundColor: 'transparent', color: 'white', marginBottom: 10}} >{designer.name}</Text>
