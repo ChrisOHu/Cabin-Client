@@ -4,6 +4,8 @@ import { showToast } from './app'
 import {
   naviToLaunch, naviToHome
 } from './navigations'
+import { upload } from '../elves/file-transfers'
+import configs from '~/configs'
 
 export const REGISTER_REQUEST = "REGISTER_REQUEST"
 export const REGISTER_SUCCESS = "REGISTER_SUCCESS"
@@ -149,9 +151,16 @@ export function updateUserBanner(userId, image, onSuccess, onError) {
   return (dispatch) => {
     dispatch(request(UPDATE_USER_BANNER_REQUEST, requestData))
 
-    /** TODO: uploadImage().then(patch user profile) */
-    feathers().service('users')
-      .patch(userId, {banner: path})
+    const files = [
+      { uri: path, type: mime, name: path.substr(path.lastIndexOf('/') + 1) }
+    ]
+
+    upload({url: configs.uploadUrl, files})
+      .then((data) => {
+        const { urls } = reposonse
+        return feathers().service('users')
+          .patch(userId, {banner: urls[0]})
+      })
       .then((result) => {
         const latestUser = result
         dispatch(success(UPDATE_USER_BANNER_SUCCESS, latestUser))

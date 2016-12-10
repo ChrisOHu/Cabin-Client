@@ -16,8 +16,7 @@ class UserCard extends Component {
   static propTypes = {
     user: T.shape({
       avatar: T.string,
-      name: T.string,
-      meta: T.string
+      name: T.string
     }).isRequired,
     onPress: T.func
   }

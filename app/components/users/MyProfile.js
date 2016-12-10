@@ -115,7 +115,8 @@ class MyProfile extends Component {
             <Button transparent textStyle={{color: 'white'}}
               onPress={() => {
                 ImagePicker.openPicker({
-                  cropping: false
+                  width: 800, height: 600,
+                  cropping: true
                 }).then(image => {
                   const {path, width, height, mime, size, data} = image
                   updateUserBanner(user._id, image)
