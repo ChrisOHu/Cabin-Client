@@ -47,24 +47,33 @@ class CabinFab extends Component {
     const host = hosts.host
     const designer = designers.designer
 
-    if (!(host && host.userId == user._id)) {
-      ret.push(
-        <ActionButton.Item key="cabinFabItem-becomeHost" buttonColor='crimson' title={t('becomeHost')}
-          onPress={() => push({route: {key: "become-host"}})}
-        >
-          <Icon name="ios-ribbon" style={styles.actionButtonIcon} />
-        </ActionButton.Item>
-      )
-    } else {
-      ret.push(
-        <ActionButton.Item key="cabinFabItem-switchToHost" buttonColor='crimson' title={t('switchToHost')}
-          onPress={() => push({route: {key: "host"}})}
-        >
-          <Icon name="ios-ribbon" style={styles.actionButtonIcon} />
-        </ActionButton.Item>
-      )
-    }
-    if (!(designer && designer.userId == user._id)) {
+    // if (!(host && user && host.userId == user._id)) {
+    //   ret.push(
+    //     <ActionButton.Item key="cabinFabItem-becomeHost" buttonColor='crimson' title={t('becomeHost')}
+    //       onPress={() => push({route: {key: "become-host"}})}
+    //     >
+    //       <Icon name="ios-ribbon" style={styles.actionButtonIcon} />
+    //     </ActionButton.Item>
+    //   )
+    // } else {
+    //   ret.push(
+    //     <ActionButton.Item key="cabinFabItem-switchToHost" buttonColor='crimson' title={t('switchToHost')}
+    //       onPress={() => push({route: {key: "host"}})}
+    //     >
+    //       <Icon name="ios-ribbon" style={styles.actionButtonIcon} />
+    //     </ActionButton.Item>
+    //   )
+    // }
+    //
+    // ret.push(
+    //   <ActionButton.Item key="cabinFabItem-postHome" buttonColor='forestgreen' title={t('postHome')}
+    //     onPress={() => push({route: {key: "post-home"}})}
+    //   >
+    //       <Icon name="ios-home" style={styles.actionButtonIcon} />
+    //     </ActionButton.Item>
+    // )
+
+    if (!(designer && user && designer.userId == user._id)) {
       ret.push(
         <ActionButton.Item key="cabinFabItem-becomeDesigner" buttonColor='royalblue' title={t('becomeDesigner')}
           onPress={() => push({route: {key: "become-designer"}})}
@@ -82,13 +91,6 @@ class CabinFab extends Component {
       )
     }
 
-    ret.push(
-      <ActionButton.Item key="cabinFabItem-postHome" buttonColor='forestgreen' title={t('postHome')}
-        onPress={() => push({route: {key: "post-home"}})}
-      >
-          <Icon name="ios-home" style={styles.actionButtonIcon} />
-        </ActionButton.Item>
-    )
     ret.push(
       <ActionButton.Item key="cabinFabItem-postDesign" buttonColor='#ff00ff' title={t('postDesign')}
         onPress={() => push({route: {key: "post-design"}})}

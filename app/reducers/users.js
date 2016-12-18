@@ -36,6 +36,8 @@ const initialState = {
 }
 
 export default function (state = initialState, action) {
+  if (action.error) console.error(action.error)
+
   switch (action.type) {
     case REGISTER_REQUEST:
       return Object.assign({}, state, { isRegistering: true })

@@ -20,6 +20,7 @@ import {
 } from 'native-base'
 
 import { connect } from 'react-redux'
+import t from 'counterpart'
 
 import Toast, {DURATION} from '~/app/common/Toast'
 import CabinFab from './components/CabinFab'
@@ -48,22 +49,8 @@ class Navigator extends Component {
         duration: PropTypes.number
       })
     }),
-    navi: PropTypes.shape({
-      app      : NavigationPropTypes.navigationState.isRequired,
-      launch   : NavigationPropTypes.navigationState.isRequired,
-      home     : NavigationPropTypes.navigationState.isRequired,
-      homes    : NavigationPropTypes.navigationState.isRequired,
-      designers: NavigationPropTypes.navigationState.isRequired,
-      wall     : NavigationPropTypes.navigationState.isRequired
-    }).isRequired,
-    users: PropTypes.shape({
-      isRegistering : PropTypes.bool,
-      isLoggingIn   : PropTypes.bool,
-      isLoggingOut  : PropTypes.bool,
-      isLoggedIn    : PropTypes.bool,
-      user          : PropTypes.object,
-      error         : PropTypes.any
-    }),
+    navi         : PropTypes.object.isRequired,
+    users        : PropTypes.object,
     hosts        : PropTypes.object.isRequired,
     designers    : PropTypes.object.isRequired,
     homes        : PropTypes.object.isRequired,
@@ -82,7 +69,7 @@ class Navigator extends Component {
     super(props)
 
     this.state = {
-      activeTab: 'homes'
+      activeTab: 'design'
     }
   }
 
@@ -129,15 +116,19 @@ class Navigator extends Component {
       return (
         <Footer>
           <FooterTab>
-            <Button active={this.state.activeTab == 'homes'}    onPress={() => this._switchToTab('homes')} >
-              Homes
-              <Icon name="ios-images-outline" />
-            </Button>
-            <Button active={this.state.activeTab == 'designers'} onPress={() => this._switchToTab('designers')} >
-              Designers
+            <Button active={this.state.activeTab == 'design'}  onPress={() => this._switchToTab('design')} >
+              Design
               <Icon name="ios-color-palette-outline" />
             </Button>
-            <Button active={this.state.activeTab == 'wall'}       onPress={() => this._switchToTab('wall')} >
+            <Button active={this.state.activeTab == 'explore'} onPress={() => this._switchToTab('explore')} >
+              Explore
+              <Icon name="ios-compass" />
+            </Button>
+            <Button active={this.state.activeTab == 'store'}   onPress={() => this._switchToTab('store')} >
+              Store
+              <Icon name="ios-cart" />
+            </Button>
+            <Button active={this.state.activeTab == 'wall'}    onPress={() => this._switchToTab('wall')} >
               Wall
               <Icon name="ios-paw-outline" />
             </Button>

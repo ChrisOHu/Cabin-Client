@@ -52,6 +52,7 @@ export default function configureStore({initialState, onRehydrated}) {
     },
     onRehydrated
   )
+  //.purge()
 
   return store
 }

@@ -5,8 +5,7 @@ import React, {
 import {
   View,
   Text,
-  StyleSheet,
-  NavigationExperimental
+  StyleSheet
 } from 'react-native'
 
 import {
@@ -19,154 +18,93 @@ import {
 } from 'native-base'
 
 import {
-  Intro,
-  Login,
-  HomesMap,
-  PostHome,
-  Designers,
-  Wall,
-  MyProfile,
-  BecomeHost,
-  BecomeDesigner,
   FiveThirty
 } from '~/app/components'
+import Launch from './launch'
+import Design from './design'
+import Explore from './explore'
+import Home from './home'
+import Store from './store'
+import Wall from './wall'
 
 import t from 'counterpart'
-
 import Events from '~/app/Events'
 
 /** All the routes */
 const routes = [
+  /** Launch */
+  { key: 'intro' },
   { key: 'login'},
-  { key: 'homes-index'},
-  { key: 'designers-index'},
+
+  /** Design */
+  { key: 'design-index'},
+  { key: 'designers' },
+  { key: 'designer-details'},
+  { key: 'become-designer'},
+  { key: 'designer'},
+  { key: 'post-design'},
+
+  /** Explore */
+  { key: 'explore-index' },
+
+  /** Store */
+  { key: 'store-index' },
+
+  /** Wall (Users) */
   { key: 'wall-index'},
+  { key: 'my-profile'},
+
+  /** Home */
+  { key: 'homes-index'},
   { key: 'homes-list'},
   { key: 'home-details'},
-  { key: 'designer-details'},
-  { key: 'my-profile'},
-  { key: 'become-host'},
-  { key: 'become-designer'},
-  { key: 'host'},
-  { key: 'designer'},
   { key: 'post-home'},
-  { key: 'post-design'}
+  { key: 'become-host'},
+  { key: 'host'}
+
 ]
 
+/**
+ * `this` : Navigator's context
+ * `scene`: is of SceneRendererProps.scene
+ */
 export function renderHeader(scene) {
-  const { theme, push, pop } = this.props
-  const user = this.props.users.user 
-  /* here key is 'scene_{theKey}' */
+  const { theme, push, pop, users } = this.props
   const { index, key, route } = scene
 
-  switch (route.key) {
-    case 'intro':
-      return null
-    case 'login':
-      return null
-    case 'homes-index':
-      return null
-    case 'designers-index':
-      return null
-    case 'wall-index':
-      return null
-    case 'my-profile':
-      return (
-        <Header theme={theme} >
-          <Button transparent onPress={() => Events.emit("cabin/my-profile/pop")} >
-            <Icon name="ios-arrow-back" />
-          </Button>
+  let ret = undefined
 
-          <Title>{user && user.name}</Title>
+  ret ? ret :
+    (ret = Launch.renderHeader.call(this, scene))  !== undefined ? ret :
+    (ret = Design.renderHeader.call(this, scene))  !== undefined ? ret :
+    (ret = Explore.renderHeader.call(this, scene)) !== undefined ? ret :
+    (ret = Store.renderHeader.call(this, scene))   !== undefined ? ret :
+    (ret = Wall.renderHeader.call(this, scene))    !== undefined ? ret :
+    (ret = Home.renderHeader.call(this, scene))    !== undefined ? ret :
+    null
 
-          <Button transparent onPress={() => Events.emit("cabin/my-profile/save")} >
-            {t("save")}
-          </Button>
-        </Header>
-      )
-    case 'become-host':
-      return (
-        <Header theme={theme} >
-          <Button transparent onPress={() => Events.emit("cabin/become-host/pop")} >
-            <Icon name="ios-arrow-back" />
-          </Button>
-
-          <Title>{t('becomeHost')}</Title>
-
-          <Button transparent onPress={() => Events.emit("cabin/become-host/post")} >
-            {t('post')}
-          </Button>
-        </Header>
-      )
-    case 'become-designer':
-      return (
-        <Header theme={theme} >
-          <Button transparent onPress={() => {pop()}} >
-            <Icon name="ios-arrow-back" />
-          </Button>
-
-          <Title>{t('becomeDesigner')}</Title>
-
-          <Button transparent onPress={() => Events.emit("cabin/become-designer/post")} >
-            {t('post')}
-          </Button>
-        </Header>
-      )
-    case 'post-home':
-      return (
-        <Header theme={theme} >
-          <Button transparent onPress={() => {pop()}} >
-            <Icon name="ios-arrow-back" />
-          </Button>
-
-          <Title>{t('newHome')}</Title>
-
-          <Button transparent onPress={() => Events.emit("cabin/post-home/post")} >
-            {t('post')}
-          </Button>
-        </Header>
-      )
-    default:
-      return (
-        <Header theme={theme} >
-          <Button transparent onPress={() => {pop()}} >
-            <Icon name="ios-arrow-back" />
-          </Button>
-
-          <Title>{route.key}</Title>
-
-          <Button transparent>
-            <Icon name="ios-menu" />
-          </Button>
-        </Header>
-      )
-  }
+  return ret
 }
 
+/**
+ * `this` : Navigator's context
+ * `scene`: is of SceneRendererProps.scene
+ */
 export function renderScene(scene) {
   const { theme, users } = this.props
   const { index, key, route } = scene
 
-  switch (route.key) {
-    case 'login':
-      return <Login />
-    case 'homes-index':
-      return <HomesMap />
-    case 'designers-index':
-      return <Designers />
-    case 'wall-index':
-      return <Wall />
-    case 'my-profile':
-      return <MyProfile />
-    case 'become-host':
-      return <BecomeHost />
-    case 'become-designer':
-      return <BecomeDesigner />
-    case 'post-home':
-      return <PostHome />
-    case 'intro':
-    default:
-      return <FiveThirty />
-  }
+  let ret = undefined
+
+  ret ? ret :
+    (ret = Launch.renderScene.call(this, scene))  !== undefined ? ret :
+    (ret = Design.renderScene.call(this, scene))  !== undefined ? ret :
+    (ret = Explore.renderScene.call(this, scene)) !== undefined ? ret :
+    (ret = Store.renderScene.call(this, scene))   !== undefined ? ret :
+    (ret = Wall.renderScene.call(this, scene))    !== undefined ? ret :
+    (ret = Home.renderScene.call(this, scene))    !== undefined ? ret :
+    <FiveThirty />
+
+  return ret
 }
 

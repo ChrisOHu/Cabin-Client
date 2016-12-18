@@ -4,7 +4,7 @@ import { showToast } from './app'
 import {
   naviToLaunch, naviToHome
 } from './navigations'
-import { upload } from '../elves/file-transfers'
+import { uploadFile, uploadFiles } from '../elves/file-transfers'
 import configs from '~/configs'
 
 export const REGISTER_REQUEST = "REGISTER_REQUEST"
@@ -42,8 +42,8 @@ export function register({phone, name, password}, onSuccess, onError) {
       })
       .then((result) => {
         // app.get('token')
-        const { token, data } = result
-        dispatch(success(REGISTER_SUCCESS, {data, token}))
+        const { token, user: data } = result
+        dispatch(success(REGISTER_SUCCESS, {user, token}))
         dispatch(showToast({message: 'TADA~~: Register success'}))
         dispatch(naviToHome())
 
@@ -84,8 +84,8 @@ export function login({phone, password}, onSuccess, onError) {
     })
       .then((result) => {
         // app.get('token')
-        const { token, data } = result
-        dispatch(success(LOGIN_SUCCESS, {data, token}))
+        const { token, data: user } = result
+        dispatch(success(LOGIN_SUCCESS, {user, token}))
         dispatch(showToast({message: "TADA~: login success"}))
         dispatch(naviToHome())
 
@@ -100,7 +100,7 @@ export function login({phone, password}, onSuccess, onError) {
   }
 }
 
-export function logout({}, onSuccess, onError) {
+export function logout(args = {}, onSuccess, onError) {
   return (dispatch) => {
     dispatch(request(LOGOUT_REQUEST))
 
@@ -151,15 +151,12 @@ export function updateUserBanner(userId, image, onSuccess, onError) {
   return (dispatch) => {
     dispatch(request(UPDATE_USER_BANNER_REQUEST, requestData))
 
-    const files = [
-      { uri: path, type: mime, name: path.substr(path.lastIndexOf('/') + 1) }
-    ]
-
-    upload({url: configs.uploadUrl, files})
+    const file = { uri: path, type: mime, name: path.substr(path.lastIndexOf('/') + 1) }
+    uploadFile({ url: configs.uploadUrl + '/file', file })
       .then((data) => {
-        const { urls } = reposonse
+        const { url } = data
         return feathers().service('users')
-          .patch(userId, {banner: urls[0]})
+          .patch(userId, {banner: url})
       })
       .then((result) => {
         const latestUser = result
@@ -184,9 +181,13 @@ export function updateUserAvatar(userId, image, onSuccess, onError) {
   return (dispatch) => {
     dispatch(request(UPDATE_USER_AVATAR_REQUEST, requestData))
 
-    /** TODO: uploadImage().then(patch user profile) */
-    feathers().service('users')
-      .patch(userId, {avatar: path})
+    const file = { uri: path, type: mime, name: path.substr(path.lastIndexOf('/') + 1)}
+    uploadFile({ url: configs.uploadUrl + '/file', file })
+      .then((data) => {
+        const { url } = data
+        return feathers().service('users')
+          .patch(userId, {avatar: url})
+      })
       .then((result) => {
         const latestUser = result
         dispatch(success(UPDATE_USER_AVATAR_SUCCESS, latestUser))

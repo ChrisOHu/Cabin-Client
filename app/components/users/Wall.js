@@ -33,6 +33,9 @@ import {
   ScrollableTabView
 } from '~/app/common'
 import {
+  DesignerCard
+} from '~/app/components'
+import {
   push
 } from '~/app/actions/navigations'
 
@@ -49,7 +52,7 @@ class Wall extends Component {
       avatar: T.string,
       banner: T.string,
       geolocation: T.string,
-      profession: T.string,
+      profession: T.any,
       followers: T.arrayOf(T.string),
       followings: T.arrayOf(T.string),
       favoriteHomes: T.arrayOf(T.string),
@@ -93,7 +96,7 @@ class Wall extends Component {
           return (
             <Image
               defaultSource={require('~/app/assets/header-default.jpg')}
-              source={{/*uri: user.banner*/}}
+              source={{uri: user.banner}}
               resizeMode='cover'
               style={{ width: window.width, height: HEADER_HEIGHT }}
             />

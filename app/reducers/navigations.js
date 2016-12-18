@@ -29,21 +29,35 @@ const initialState = {
   home: {
     index: 0,
     routes: [
-      {key: 'homes'},
-      {key: 'designers'},
+      {key: 'design'},
+      {key: 'explore'},
+      {key: 'store'},
       {key: 'wall'}
+      // {key: 'homes'}
     ]
   },
-  homes: {
+  // homes: {
+  //   index: 0,
+  //   routes: [
+  //     {key: 'homes-index'}
+  //   ]
+  // },
+  design: {
     index: 0,
     routes: [
-      {key: 'homes-index'}
+      {key: 'design-index'}
     ]
   },
-  designers: {
+  explore: {
     index: 0,
     routes: [
-      {key: 'designers-index'}
+      {key: 'explore-index'}
+    ]
+  },
+  store: {
+    index: 0,
+    routes: [
+      {key: 'store-index'}
     ]
   },
   wall: {
